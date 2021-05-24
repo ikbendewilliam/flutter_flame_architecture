@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:example/helper.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -62,9 +63,15 @@ class PongManager {
     }
     if (ballPosition.dx <= 10) {
       pcScore += 1;
+      if (pcScore > 9) {
+        init(bounds);
+      }
       resetBall();
     } else if (ballPosition.dx >= bounds.x - 10) {
       playerScore += 1;
+      if (playerScore > 9) {
+        init(bounds);
+      }
       resetBall();
     }
     if (ballPosition.dy <= 15) {
@@ -117,6 +124,7 @@ class Pong extends FlameWidget {
           Ball(manager: manager),
           Paddle(manager: manager, isPlayer: true),
           Paddle(manager: manager, isPlayer: false),
+          Score(manager: manager),
         ],
       ),
     );
@@ -217,6 +225,30 @@ class Ball extends FlameWidget {
           ),
           paint,
         );
+      },
+    );
+  }
+}
+
+class Score extends FlameWidget {
+  PongManager manager;
+
+  Score({
+    required this.manager,
+  });
+
+  @override
+  FlameWidget build(BuildContext context) {
+    return FlameCanvas(
+      draw: (canvas, bounds, context) {
+        canvas.save();
+        canvas.translate(bounds.x / 2 - HelperExample.SCORE_HEIGHT, HelperExample.SCORE_HEIGHT / 2);
+        HelperExample.drawScore(canvas, manager.playerScore);
+        canvas.restore();
+        canvas.save();
+        canvas.translate(bounds.x / 2 + HelperExample.SCORE_HEIGHT / 2, HelperExample.SCORE_HEIGHT / 2);
+        HelperExample.drawScore(canvas, manager.pcScore);
+        canvas.restore();
       },
     );
   }
