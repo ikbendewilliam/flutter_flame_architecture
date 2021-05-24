@@ -17,8 +17,11 @@ class FlameCanvas extends SingleChildFlameWidget {
 
   @override
   void render(canvas, context) {
+    canvas.save();
+    canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x, bounds.y));
     draw(canvas, bounds, context);
     childBuild?.render(canvas, context);
+    canvas.restore();
   }
 
   @override
@@ -26,11 +29,5 @@ class FlameCanvas extends SingleChildFlameWidget {
     super.update(delta);
     onUpdate?.call(delta);
     childBuild?.update(delta);
-  }
-
-  @override
-  void updateBounds(newBounds) {
-    super.updateBounds(newBounds);
-    childBuild?.updateBounds(newBounds);
   }
 }

@@ -23,8 +23,7 @@ class GameManager extends Game with MultiTouchDragDetector, MultiTouchTapDetecto
   void build({BuildContext? testContext}) {
     final context = testContext ?? buildContext;
     if (context == null) return;
-    currentScreen.updateBounds(size);
-    currentScreen.reBuildChild(context);
+    currentScreen.reBuildChild(context, size);
   }
 
   @override
@@ -43,6 +42,5 @@ class GameManager extends Game with MultiTouchDragDetector, MultiTouchTapDetecto
   void onResize(Vector2 size) {
     super.onResize(size);
     build();
-    currentScreen.updateBounds(size);
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter_flame_architecture/src/core/flame_child_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
+import 'package:flutter_flame_architecture/src/core/mixins/multiple_children_mixins.dart';
 
-class FlameStack extends MultipleChildrenFlameWidget {
+class FlameStack extends MultipleChildrenFlameWidget with MultipleChildrenUpdateMixin {
   FlameStack({
     required List<FlameWidget> children,
   }) : super(children);
@@ -12,14 +13,11 @@ class FlameStack extends MultipleChildrenFlameWidget {
   }
 
   @override
-  void updateBounds(newBounds) {
-    super.updateBounds(newBounds);
-    childrenBuild.forEach((child) => child.updateBounds(newBounds));
-  }
-
-  @override
-  void update(double delta) {
-    super.update(delta);
-    childrenBuild.forEach((child) => child.update(delta));
+  void reBuildChild(context, bounds) {
+    updateBounds(bounds);
+    childrenBuild.clear();
+    childrenPreBuild.forEach((child) => child.updateBounds(bounds));
+    childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
+    childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
   }
 }

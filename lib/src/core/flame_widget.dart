@@ -11,12 +11,12 @@ abstract class FlameWidget {
   @protected
   Vector2 bounds = Vector2.all(1);
 
-  // Update the bounds of this widget, note that if you have any children, you should call their updateBounds
+  // Update the bounds of this widget
   // Must call super first when overriding this
+  // Note that your child(ren) should be updated during build
   @mustCallSuper
   void updateBounds(Vector2 newBounds) {
-    this.bounds = newBounds;
-    childBuild?.updateBounds(newBounds);
+    bounds = newBounds;
   }
 
   // You must call super if you override this *and* override build
@@ -35,9 +35,10 @@ abstract class FlameWidget {
   // You should also update the child(ren) and call the render of the child(ren)
   FlameWidget build(BuildContext context);
 
-  // Used to build this child, override to disable if you don't require build
-  void reBuildChild(BuildContext context) {
+  // Used to build this child, override to disable if you don't require (re)build
+  void reBuildChild(BuildContext context, Vector2 bounds) {
+    updateBounds(bounds);
     childBuild = build(context);
-    childBuild?.reBuildChild(context);
+    childBuild?.reBuildChild(context, bounds);
   }
 }

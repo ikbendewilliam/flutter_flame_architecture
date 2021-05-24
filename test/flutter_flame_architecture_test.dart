@@ -14,7 +14,7 @@ void main() {
       children: [customChild],
     );
     final container = FlameContainer(
-      backgroundColor: Colors.black,
+      color: Colors.black,
       child: stack,
     );
     final gameManager = GameManager(home: container);

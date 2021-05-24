@@ -12,7 +12,4 @@ abstract class FlameRenderWidget extends FlameWidget {
   void update(double delta) {}
 
   FlameWidget build(BuildContext context) => this;
-
-  @override
-  void reBuildChild(BuildContext context) {}
 }
