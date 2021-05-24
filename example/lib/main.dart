@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 void main() {
@@ -15,17 +18,105 @@ void main() {
   );
 }
 
+class PongManager {
+  static const BALL_SPEED = 120.0;
+  static const PADDLE_HEIGHT = 100.0;
+  Offset ballPosition = Offset.zero;
+  Offset playerPaddlePosition = Offset.zero;
+  Offset pcPaddlePosition = Offset.zero;
+  Offset ballVelocity = Offset.zero;
+  Vector2 bounds = Vector2.all(0);
+  int playerScore = 0;
+  int pcScore = 0;
+
+  void init(Vector2 bounds) {
+    this.bounds = bounds;
+    resetBall();
+    playerPaddlePosition = Offset(15, bounds.y / 2);
+    pcPaddlePosition = Offset(bounds.x - 15, bounds.y / 2);
+    playerScore = 0;
+    pcScore = 0;
+  }
+
+  void resetBall() {
+    final random = Random();
+    ballPosition = (bounds / 2).toOffset();
+    ballVelocity = Offset(random.nextInt(2) * 2 - 1, random.nextInt(2) * 2 - 1);
+  }
+
+  void update(double delta) {
+    if (delta > 1) delta = 1; // This prevents jumping if the game is offscreen or hanging for some unforseen reason
+    updateBallPosition(delta);
+    updatePaddlePosition(delta);
+    updatePlayerPaddlePosition(delta);
+  }
+
+  void updateBallPosition(double delta) {
+    ballPosition = ballPosition + ballVelocity * delta * BALL_SPEED;
+    if (ballPosition.dx <= 20 && ballPosition.dy <= playerPaddlePosition.dy + PADDLE_HEIGHT / 2 && ballPosition.dy >= playerPaddlePosition.dy - PADDLE_HEIGHT / 2) {
+      final y = (ballPosition.dy - playerPaddlePosition.dy) / (PADDLE_HEIGHT / 4);
+      ballVelocity = Vector2(1, y).normalized().toOffset() * sqrt2;
+    } else if (ballPosition.dx >= bounds.x - 20 && ballPosition.dy <= pcPaddlePosition.dy + PADDLE_HEIGHT / 2 && ballPosition.dy >= pcPaddlePosition.dy - PADDLE_HEIGHT / 2) {
+      final y = (ballPosition.dy - pcPaddlePosition.dy) / (PADDLE_HEIGHT / 4);
+      ballVelocity = Vector2(-1, y).normalized().toOffset() * sqrt2;
+    }
+    if (ballPosition.dx <= 10) {
+      pcScore += 1;
+      resetBall();
+    } else if (ballPosition.dx >= bounds.x - 10) {
+      playerScore += 1;
+      resetBall();
+    }
+    if (ballPosition.dy <= 15) {
+      ballVelocity = Offset(ballVelocity.dx, 1);
+    } else if (ballPosition.dy >= bounds.y - 15) {
+      ballVelocity = Offset(ballVelocity.dx, -1);
+    }
+  }
+
+  void updatePaddlePosition(double delta) {
+    final goal = ballPosition.dy;
+    var velocity = 0.0;
+    if (pcPaddlePosition.dy > goal + PADDLE_HEIGHT / 3) {
+      velocity = -1;
+    } else if (pcPaddlePosition.dy < goal - PADDLE_HEIGHT / 3) {
+      velocity = 1;
+    }
+    pcPaddlePosition = pcPaddlePosition + Offset(0, velocity) * delta * BALL_SPEED * 0.9;
+  }
+
+  void updatePlayerPaddlePosition(double delta) {
+    final goal = ballPosition.dy;
+    var velocity = 0.0;
+    if (playerPaddlePosition.dy > goal + 1) {
+      velocity = -1;
+    } else if (playerPaddlePosition.dy < goal - 1) {
+      velocity = 1;
+    }
+    playerPaddlePosition = playerPaddlePosition + Offset(0, velocity) * delta * BALL_SPEED * 0.9;
+  }
+}
+
 class Pong extends FlameWidget {
+  final manager = PongManager();
+
+  @override
+  void update(double delta) {
+    super.update(delta);
+    manager.update(delta);
+  }
+
   @override
   FlameWidget build(BuildContext context) {
+    manager.init(bounds);
     return FlameContainer(
       color: Colors.black,
       child: FlameStack(
         children: [
           Borders(),
-          Ball(),
-          Paddle(x: 15),
-          Paddle(x: bounds.x - 15),
+          Ball(manager: manager),
+          Paddle(manager: manager, isPlayer: true),
+          Paddle(manager: manager, isPlayer: false),
         ],
       ),
     );
@@ -63,17 +154,21 @@ class Borders extends FlameWidget {
 }
 
 class Paddle extends FlameWidget {
-  final double x;
+  final PongManager manager;
+  final bool isPlayer;
 
-  Paddle({required this.x});
+  Paddle({
+    required this.manager,
+    required this.isPlayer,
+  });
 
   @override
   FlameWidget build(BuildContext context) {
     return FlamePositioned.center(
-      x: x,
-      y: bounds.y / 2,
+      xFunction: () => isPlayer ? manager.playerPaddlePosition.dx : manager.pcPaddlePosition.dx,
+      yFunction: () => isPlayer ? manager.playerPaddlePosition.dy : manager.pcPaddlePosition.dy,
       width: 10,
-      height: 100,
+      height: PongManager.PADDLE_HEIGHT,
       child: FlameContainer(
         color: Colors.white,
       ),
@@ -101,13 +196,11 @@ class DottedLine extends FlameWidget {
 }
 
 class Ball extends FlameWidget {
-  double x = 0;
+  final PongManager manager;
 
-  @override
-  void update(double delta) {
-    super.update(delta);
-    x = (x + 1) % bounds.x;
-  }
+  Ball({
+    required this.manager,
+  });
 
   @override
   FlameWidget build(BuildContext context) {
@@ -118,7 +211,7 @@ class Ball extends FlameWidget {
           ..color = Colors.white;
         canvas.drawRect(
           Rect.fromCenter(
-            center: Offset(x, bounds.y / 2),
+            center: manager.ballPosition,
             width: 10,
             height: 10,
           ),

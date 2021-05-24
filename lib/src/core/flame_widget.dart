@@ -25,7 +25,9 @@ abstract class FlameWidget {
     childBuild?.render(canvas, context);
   }
 
-  // You must call super if you override this *and* override build
+  // Only used in [FlameRenderWidgets] for now, FlameWidgets are not
+  // being updated correctly. If you want to update your state, use
+  // a [FlameCanvas] with onUpdate
   // Don't call super if you use this widget as a renderingWidget
   void update(double delta) {
     childBuild?.update(delta);

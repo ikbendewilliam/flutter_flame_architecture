@@ -1,56 +1,94 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
-class FlamePositioned extends FlameWidget {
-  final double x;
-  final double y;
-  // The width, if not set, child must have a width
+class FlamePositioned extends SingleChildFlameWidget {
+  final double? x;
+  final double? y;
   final double? width;
-  // The height, if not set, child must have a height
   final double? height;
+  final double Function()? xFunction;
+  final double Function()? yFunction;
+  final double? Function()? widthFunction;
+  final double? Function()? heightFunction;
   // Wheter the given x and y are at the center of the child
   final bool isCentered;
-  final FlameWidget child;
+  EdgeInsets padding = EdgeInsets.all(0);
 
   FlamePositioned({
-    required this.child,
-    this.x = 0,
-    this.y = 0,
+    required FlameWidget child,
+    this.x,
+    this.y,
     this.width,
     this.height,
-  }) : isCentered = false;
+    this.xFunction,
+    this.yFunction,
+    this.widthFunction,
+    this.heightFunction,
+  })  : isCentered = false,
+        super(child) {
+    calculatePadding();
+  }
 
   FlamePositioned.center({
-    required this.child,
-    this.x = 0,
-    this.y = 0,
+    required FlameWidget child,
+    this.x,
+    this.y,
     this.width,
     this.height,
-  }) : isCentered = true;
+    this.xFunction,
+    this.yFunction,
+    this.widthFunction,
+    this.heightFunction,
+  })  : isCentered = true,
+        super(child) {
+    calculatePadding();
+  }
 
   @override
-  FlameWidget build(BuildContext context) {
-    final actualWidth = width ?? child.bounds.x;
-    final actualHeight = height ?? child.bounds.y;
-    EdgeInsets padding;
+  void update(double delta) {
+    super.update(delta);
+    calculatePadding();
+    childBuild?.update(delta);
+  }
+
+  void calculatePadding() {
+    final actualX = x ?? xFunction?.call() ?? 0;
+    final actualY = y ?? yFunction?.call() ?? 0;
+    final actualWidth = width ?? widthFunction?.call() ?? childBuild?.bounds.x ?? 0;
+    final actualHeight = height ?? heightFunction?.call() ?? childBuild?.bounds.y ?? 0;
     if (isCentered) {
       padding = EdgeInsets.fromLTRB(
-        x - actualWidth / 2,
-        y - actualHeight / 2,
-        bounds.x - (x + actualWidth / 2),
-        bounds.y - (y + actualHeight / 2),
+        actualX - actualWidth / 2,
+        actualY - actualHeight / 2,
+        bounds.x - (actualX + actualWidth / 2),
+        bounds.y - (actualY + actualHeight / 2),
       );
     } else {
       padding = EdgeInsets.fromLTRB(
-        x,
-        y,
-        bounds.x - (x + actualWidth),
-        bounds.y - (y + actualHeight),
+        actualX,
+        actualY,
+        bounds.x - (actualX + actualWidth),
+        bounds.y - (actualY + actualHeight),
       );
     }
-    return FlamePadding(
-      child: child,
-      padding: padding,
-    );
+  }
+
+  @override
+  void render(canvas, context) {
+    canvas.save();
+    canvas.translate(padding.left, padding.top);
+    canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x - padding.horizontal, bounds.y - padding.vertical));
+    childBuild!.render(canvas, context);
+    canvas.restore();
+  }
+
+  @override
+  void reBuildChild(BuildContext context, Vector2 bounds) {
+    updateBounds(bounds);
+    final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
+    childPreBuild?.updateBounds(childBounds);
+    childBuild = childPreBuild?.build(context);
+    childBuild?.reBuildChild(context, childBounds);
   }
 }
