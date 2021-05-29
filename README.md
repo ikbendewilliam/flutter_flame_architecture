@@ -12,6 +12,7 @@ Redeveloping default flutter widgets (with basic functionality) like:
 - Row
 - Column
 - Text
+- TouchFeedback
 
 Extend flame functionality with quality of life improvements
 - Support translations

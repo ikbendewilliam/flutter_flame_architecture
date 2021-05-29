@@ -21,12 +21,11 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
           ),
           textDirection: TextDirection.ltr,
           textAlign: textAlign,
-        ) {
-    textPainter.layout();
-  }
+        );
 
   @override
   void render(Canvas canvas, BuildContext context) {
-    textPainter.paint(canvas, Offset(5.0, 5.0));
+    textPainter.layout(minWidth: bounds.x, maxWidth: bounds.x);
+    textPainter.paint(canvas, Offset(0, 0));
   }
 }
