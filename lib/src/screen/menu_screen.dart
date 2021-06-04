@@ -33,15 +33,16 @@ class FlameMenuScreen extends FlameWidget {
             title!,
             FlameSpacer(),
           ] else if (titleText != null) ...[
-            FlameText(titleText!),
+            FlameSizedBox(
+              height: 40,
+              child: FlameText(titleText!),
+            ),
+            FlameSpacer(),
+          ] else ...[
             FlameSpacer(),
           ],
-          ...buttons.map(
-            (button) => FlamePadding(
-              child: button,
-              padding: const EdgeInsets.all(4),
-            ),
-          ),
+          ...buttons,
+          FlameSpacer(),
           FlameSizedBox(height: paddingBottom),
         ],
       ),

@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_child_widget.dart';
+import 'package:flutter_flame_architecture/src/core/flame_empty.dart';
 import 'package:flutter_flame_architecture/src/core/flame_flex_child.dart';
+import 'package:flutter_flame_architecture/src/core/flame_render_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/multiple_children_mixins.dart';
 
@@ -34,9 +36,25 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     childrenBuild.clear();
-    childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
+    childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateBounds(bounds);
     childrenBuild.forEach((child) => child.reBuildChild(context, child.bounds));
+  }
+
+  FlameWidget _buildFlameWidget(FlameWidget prebuildWidget, BuildContext context) {
+    var buildWidget = prebuildWidget;
+    var c = 0;
+    while (c++ < 1000) {
+      if (buildWidget is FlameRenderWidget) {
+        return buildWidget.build(context);
+      } else if (buildWidget is FlameEmpty) {
+        return buildWidget;
+      } else {
+        buildWidget = buildWidget.build(context);
+      }
+    }
+    throw Exception(
+        'Max widget limit reached of 1000. Did you build recursive? If this is an issue please open an issue with a sample of your code on GitHub https://github.com/ikbendewilliam/flutter_flame_architecture');
   }
 
   @override

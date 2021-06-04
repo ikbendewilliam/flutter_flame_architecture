@@ -6,6 +6,7 @@ export './src/game/game_manager.dart';
 export './src/screen/menu_screen.dart';
 export './src/screen/scrollable_screen.dart';
 export './src/widgets/flame_canvas.dart';
+export './src/widgets/flame_center.dart';
 export './src/widgets/flame_column.dart';
 export './src/widgets/flame_container.dart';
 export './src/widgets/flame_expanded.dart';
