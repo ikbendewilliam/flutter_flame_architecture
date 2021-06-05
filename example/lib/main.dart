@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 void main() {
-  final gameManager = GameManager(
+  final gameManager = SimpleGameManager(
     home: Pong(),
   );
   runApp(

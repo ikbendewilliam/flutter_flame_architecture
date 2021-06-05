@@ -17,7 +17,7 @@ void main() {
       color: Colors.black,
       child: stack,
     );
-    final gameManager = GameManager(home: container);
+    final gameManager = SimpleGameManager(home: container);
     gameManager.build(testContext: MockBuildContext());
     print(gameManager.currentScreen);
   });

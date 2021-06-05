@@ -21,16 +21,16 @@ Redeveloping default flutter widgets (with basic functionality) like:
 - [x] Spacer
 - [x] Stack
 - [x] Text
-- [ ] Image
+- [x] Image (FlameSprite)
 - [ ] Button
 
 Extend flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
+- [x] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [ ] Support translations
 - [ ] Navigation
 - [ ] Scrollable screen
 - [ ] Dialogs
-- [ ] Automate SpriteManager (Use the Image or Sprite Widget)
 - [ ] Sound
 
 ## Basics
