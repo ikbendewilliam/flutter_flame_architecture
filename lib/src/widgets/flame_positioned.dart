@@ -79,7 +79,7 @@ class FlamePositioned extends SingleChildFlameWidget {
     canvas.save();
     canvas.translate(padding.left, padding.top);
     canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x - padding.horizontal, bounds.y - padding.vertical));
-    childBuild!.render(canvas, context);
+    childBuild?.render(canvas, context);
     canvas.restore();
   }
 
@@ -91,4 +91,10 @@ class FlamePositioned extends SingleChildFlameWidget {
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }
+
+  @override
+  Vector2 transformPoint(Vector2 point) => point + Vector2(padding.left, padding.top);
+
+  @override
+  bool isInsideBounds(Vector2 point) => point >= 0 && point < bounds - Vector2(padding.horizontal, padding.vertical);
 }

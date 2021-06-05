@@ -2,6 +2,7 @@ library flutter_flame_architecture;
 
 export './src/core/flame_child_widget.dart';
 export './src/core/flame_widget.dart';
+export './src/extensions/vector2_extension.dart';
 export './src/game/game_manager.dart';
 export './src/screen/menu_screen.dart';
 export './src/screen/scrollable_screen.dart';
@@ -10,6 +11,7 @@ export './src/widgets/flame_center.dart';
 export './src/widgets/flame_column.dart';
 export './src/widgets/flame_container.dart';
 export './src/widgets/flame_expanded.dart';
+export './src/widgets/flame_gesture_detector.dart';
 export './src/widgets/flame_padding.dart';
 export './src/widgets/flame_positioned.dart';
 export './src/widgets/flame_row.dart';

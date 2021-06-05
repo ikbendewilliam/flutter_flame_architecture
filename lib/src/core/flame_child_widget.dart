@@ -15,6 +15,41 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, bounds);
   }
+
+  void onTapDown(Vector2 tapPosition) {
+    final transformedPoint = transformPoint(tapPosition);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onTapDown(transformedPoint);
+    }
+  }
+
+  void onTapUp(Vector2 tapPosition) {
+    final transformedPoint = transformPoint(tapPosition);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onTapUp(transformedPoint);
+    }
+  }
+
+  void onDragStart(int pointerId, Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onDragStart(pointerId, transformedPoint);
+    }
+  }
+
+  void onDragUpdate(int pointerId, Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onDragUpdate(pointerId, transformedPoint);
+    }
+  }
+
+  void onDragEnd(int pointerId, Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onDragEnd(pointerId, transformedPoint);
+    }
+  }
 }
 
 abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
@@ -30,5 +65,40 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     childrenPreBuild.forEach((child) => child.updateBounds(bounds));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
+  }
+
+  void onTapDown(Vector2 tapPosition) {
+    final transformedPoint = transformPoint(tapPosition);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild.forEach((child) => child.onTapDown(transformedPoint));
+    }
+  }
+
+  void onTapUp(Vector2 tapPosition) {
+    final transformedPoint = transformPoint(tapPosition);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild.forEach((child) => child.onTapUp(transformedPoint));
+    }
+  }
+
+  void onDragStart(int pointerId, Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild.forEach((child) => child.onDragStart(pointerId, transformedPoint));
+    }
+  }
+
+  void onDragUpdate(int pointerId, Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild.forEach((child) => child.onDragUpdate(pointerId, transformedPoint));
+    }
+  }
+
+  void onDragEnd(int pointerId, Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild.forEach((child) => child.onDragEnd(pointerId, transformedPoint));
+    }
   }
 }

@@ -9,17 +9,29 @@ Flame gives you the platform to develop games with flutter, but it doesn't feel 
 This package should provide a way to fix this.
 
 Redeveloping default flutter widgets (with basic functionality) like:
-- Row
-- Column
-- Text
-- TouchFeedback
+- [x] Center
+- [x] Column
+- [x] Container
+- [x] Expanded
+- [x] GestureDetector
+- [x] Padding
+- [x] Positioned
+- [x] Row
+- [x] SizedBox
+- [x] Spacer
+- [x] Stack
+- [x] Text
+- [ ] Image
+- [ ] Button
 
 Extend flame functionality with quality of life improvements
-- Support translations
-- Navigation
-- Scrollable screen
-- Dialogs
-- SpriteManager (Tocheck if not already in flame?)
+- [x] Canvas widget (draw on the canvas)
+- [ ] Support translations
+- [ ] Navigation
+- [ ] Scrollable screen
+- [ ] Dialogs
+- [ ] Automate SpriteManager (Use the Image or Sprite Widget)
+- [ ] Sound
 
 ## Basics
 

@@ -8,9 +8,11 @@ import 'package:flutter_flame_architecture/src/core/flame_flex_child.dart';
 import 'package:flutter_flame_architecture/src/core/flame_render_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/multiple_children_mixins.dart';
+import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart';
 
 abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildrenUpdateMixin {
-  Axis direction;
+  final Axis direction;
+  final childrenBounds = <FlameWidget, Vector2>{};
 
   bool get isHorizontal => direction == Axis.horizontal;
 
@@ -62,6 +64,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     super.updateBounds(newBounds);
     var totalChildSize = 0.0;
     var totalFlex = 0;
+    childrenBounds.clear();
     childrenBuild.forEach((child) {
       if (child is FlameFlexibleChild) {
         totalFlex += child.flex;
@@ -80,27 +83,30 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     final flexibleSize = max(totalSize - totalChildSize, 0.0);
     final flexSize = flexibleSize / totalFlex;
     childrenBuild.forEach((child) {
+      Vector2 childNewBounds;
       if (child is FlameFlexibleChild) {
-        child.updateBounds(childBounds(child.flex * flexSize));
+        childNewBounds = childBounds(child.flex * flexSize);
       } else if (child is FlameSizedChild) {
         if (child.width == null && child.height == null) {
-          child.updateBounds(childBounds(flexSize));
+          childNewBounds = childBounds(flexSize);
         } else if (child.width == null) {
           if (isHorizontal) {
-            child.updateBounds(Vector2(flexSize, child.height!));
+            childNewBounds = Vector2(flexSize, child.height!);
           } else {
-            child.updateBounds(childBounds(child.height!));
+            childNewBounds = childBounds(child.height!);
           }
         } else {
           if (isHorizontal) {
-            child.updateBounds(childBounds(child.width!));
+            childNewBounds = childBounds(child.width!);
           } else {
-            child.updateBounds(Vector2(child.width!, flexSize));
+            childNewBounds = Vector2(child.width!, flexSize);
           }
         }
       } else {
-        child.updateBounds(childBounds(flexSize));
+        childNewBounds = childBounds(flexSize);
       }
+      child.updateBounds(childNewBounds);
+      childrenBounds[child] = childNewBounds;
     });
   }
 
@@ -112,4 +118,34 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
         return Vector2(bounds.x, size);
     }
   }
+
+  void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
+    if (!isInsideBounds(position)) return;
+    var transformedPosition = position;
+    childrenBuild.forEach((child) {
+      final childToBounds = childrenBounds[child];
+      if (childToBounds == null || transformedPosition < 0) return; // Skip
+      if (transformedPosition << childToBounds) {
+        childMethod(child, transformedPosition);
+      }
+      switch (direction) {
+        case Axis.horizontal:
+          transformedPosition -= Vector2(childToBounds.x, 0);
+          break;
+        case Axis.vertical:
+          transformedPosition -= Vector2(0, childToBounds.y);
+          break;
+      }
+    });
+  }
+
+  void onTapDown(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapDown(transformedPosition));
+
+  void onTapUp(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapUp(transformedPosition));
+
+  void onDragStart(int pointerId, Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragStart(pointerId, transformedPosition));
+
+  void onDragUpdate(int pointerId, Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragUpdate(pointerId, transformedPosition));
+
+  void onDragEnd(int pointerId, Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragEnd(pointerId, transformedPosition));
 }
