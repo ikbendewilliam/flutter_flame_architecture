@@ -7,6 +7,7 @@ export './src/core/flame_child_widget.dart';
 export './src/core/flame_empty.dart';
 export './src/core/flame_flex_child.dart';
 export './src/core/flame_flex.dart';
+export './src/core/flame_navigator.dart';
 export './src/core/flame_render_widget.dart';
 export './src/core/flame_sprite_collector.dart';
 export './src/core/flame_widget.dart';

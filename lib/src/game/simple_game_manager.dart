@@ -8,13 +8,24 @@ import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/game/game_manager.dart';
 
 class SimpleGameManager extends GameManager {
-  FlameWidget home;
-  FlameWidget currentScreen;
   var lastDragPosition = Vector2.all(0);
+  final FlameWidget? Function(RouteSettings settings)? _onGenerateRoute;
 
+  /// Creates a basic game manager, should be enough for most use cases
+  /// Home or initialroute must be set
+  /// if routing is used, you must set onGenerateRoute
   SimpleGameManager({
-    required this.home,
-  }) : currentScreen = home;
+    FlameWidget? Function(RouteSettings settings)? onGenerateRoute,
+    FlameWidget? home,
+    String? initialRoute,
+  })  : _onGenerateRoute = onGenerateRoute,
+        super(
+          home: home,
+          initialRoute: initialRoute,
+        );
+
+  @override
+  FlameWidget? onGenerateRoute(RouteSettings settings) => _onGenerateRoute?.call(settings);
 
   @override
   void build({BuildContext? testContext}) {

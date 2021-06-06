@@ -27,7 +27,37 @@ Redeveloping default flutter widgets (with basic functionality) like:
 Extend flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
 - [x] Automate SpriteManager (Use the FlameSprite Widget with fileName)
-- [ ] Support translations
+- [x] Navigation
+- [ ] Scrollable screen
+- [ ] Dialogs
+- [ ] Sound
+
+Documentation
+- [ ] Center
+- [ ] Column
+- [ ] Container
+- [ ] Expanded
+- [ ] GestureDetector
+- [ ] Padding
+- [ ] Positioned
+- [ ] Row
+- [ ] SizedBox
+- [ ] Spacer
+- [ ] Stack
+- [ ] Text
+- [ ] Image (FlameSprite)
+- [ ] Button
+- [ ] Canvas widget (draw on the canvas)
+- [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
+- [ ] Navigation
+- [ ] Scrollable screen
+- [ ] Dialogs
+- [ ] Sound
+
+Example
+- [x] Basic example (pong)
+- [ ] Canvas widget (draw on the canvas)
+- [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [ ] Navigation
 - [ ] Scrollable screen
 - [ ] Dialogs
