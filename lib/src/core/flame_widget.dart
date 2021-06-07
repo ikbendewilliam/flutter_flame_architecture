@@ -25,6 +25,11 @@ abstract class FlameWidget {
     childBuild?.render(canvas, context);
   }
 
+  /// Determine how large this widget wants to be, based on constraints
+  /// like child, width, height, fontSize, ...
+  /// use parentBounds for unpreffered sizes
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => parentBounds;
+
   void onTapDown(Vector2 tapPosition) => childBuild?.onTapDown(tapPosition);
 
   void onTapUp(Vector2 tapPosition) => childBuild?.onTapUp(tapPosition);

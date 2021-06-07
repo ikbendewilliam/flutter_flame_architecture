@@ -13,6 +13,8 @@ import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart
 abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildrenUpdateMixin {
   final Axis direction;
   final childrenBounds = <FlameWidget, Vector2>{};
+  var _totalSize = 0.0;
+  var _flexSize = 0.0;
 
   bool get isHorizontal => direction == Axis.horizontal;
 
@@ -76,22 +78,28 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
           totalChildSize += size;
         }
       } else {
-        totalFlex += 1;
+        final childSize = child.determinePrefferedSize(bounds);
+        final size = (isHorizontal) ? childSize.x : childSize.y;
+        if ((isHorizontal && size < bounds.x) || (!isHorizontal && size < bounds.y)) {
+          totalChildSize += size;
+        } else {
+          totalFlex += 1;
+        }
       }
     });
-    final totalSize = (isHorizontal) ? bounds.x : bounds.y;
-    final flexibleSize = max(totalSize - totalChildSize, 0.0);
-    final flexSize = flexibleSize / totalFlex;
+    _totalSize = (isHorizontal) ? bounds.x : bounds.y;
+    final flexibleSize = max(_totalSize - totalChildSize, 0.0);
+    _flexSize = totalFlex > 0 ? flexibleSize / totalFlex : 0.0;
     childrenBuild.forEach((child) {
       Vector2 childNewBounds;
       if (child is FlameFlexibleChild) {
-        childNewBounds = childBounds(child.flex * flexSize);
+        childNewBounds = childBounds(child.flex * _flexSize);
       } else if (child is FlameSizedChild) {
         if (child.width == null && child.height == null) {
-          childNewBounds = childBounds(flexSize);
+          childNewBounds = childBounds(_flexSize);
         } else if (child.width == null) {
           if (isHorizontal) {
-            childNewBounds = Vector2(flexSize, child.height!);
+            childNewBounds = Vector2(_flexSize, child.height!);
           } else {
             childNewBounds = childBounds(child.height!);
           }
@@ -99,15 +107,29 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
           if (isHorizontal) {
             childNewBounds = childBounds(child.width!);
           } else {
-            childNewBounds = Vector2(child.width!, flexSize);
+            childNewBounds = Vector2(child.width!, _flexSize);
           }
         }
       } else {
-        childNewBounds = childBounds(flexSize);
+        childNewBounds = childBounds(_flexSize);
       }
       child.updateBounds(childNewBounds);
       childrenBounds[child] = childNewBounds;
     });
+  }
+
+  @override
+  Vector2 determinePrefferedSize(Vector2 parentBounds) {
+    if (_flexSize > 0) {
+      // use of flexible children is currently not supported in scrollable widgets
+      return parentBounds;
+    }
+    switch (direction) {
+      case Axis.horizontal:
+        return Vector2(_totalSize, parentBounds.y);
+      case Axis.vertical:
+        return Vector2(parentBounds.x, _totalSize);
+    }
   }
 
   Vector2 childBounds(double size) {

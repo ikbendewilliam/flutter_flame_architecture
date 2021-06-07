@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_render_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/no_child_mixins.dart';
@@ -22,6 +23,11 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
           textDirection: TextDirection.ltr,
           textAlign: textAlign,
         );
+
+  @override
+  Vector2 determinePrefferedSize(Vector2 parentBounds) {
+    return Vector2(parentBounds.x, textPainter.height);
+  }
 
   @override
   void render(Canvas canvas, BuildContext context) {

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:example/helper.dart';
+import 'package:example/single_child_scroll_view/single_child_scroll_view_example.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,15 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 void main() {
   final gameManager = SimpleGameManager(
-    home: Pong(),
+    initialRoute: Pong.routeName,
+    onGenerateRoute: (settings) {
+      switch (settings.name) {
+        case Pong.routeName:
+          return Pong();
+        case SingleChildScrollViewExample.routeName:
+          return SingleChildScrollViewExample();
+      }
+    },
   );
   runApp(
     MaterialApp(
@@ -105,6 +114,7 @@ class PongManager {
 }
 
 class Pong extends FlameWidget {
+  static const routeName = 'pong';
   final manager = PongManager();
 
   @override

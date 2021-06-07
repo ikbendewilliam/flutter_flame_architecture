@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_render_widget.dart';
@@ -15,6 +17,9 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, bounds);
   }
+
+  @override
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => childPreBuild?.determinePrefferedSize(parentBounds) ?? parentBounds;
 
   void onTapDown(Vector2 tapPosition) {
     final transformedPoint = transformPoint(tapPosition);
@@ -66,6 +71,11 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
   }
+
+  @override
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => childrenPreBuild.map((e) => e.determinePrefferedSize(parentBounds)).reduce(
+        (value, element) => Vector2(max(value.x, element.x), max(value.y, element.y)),
+      );
 
   void onTapDown(Vector2 tapPosition) {
     final transformedPoint = transformPoint(tapPosition);
