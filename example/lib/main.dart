@@ -9,7 +9,7 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 void main() {
   final gameManager = SimpleGameManager(
-    initialRoute: Pong.routeName,
+    initialRoute: SingleChildScrollViewExample.routeName,
     onGenerateRoute: (settings) {
       switch (settings.name) {
         case Pong.routeName:

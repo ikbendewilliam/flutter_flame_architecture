@@ -22,7 +22,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] Stack
 - [x] Text
 - [x] Image (FlameSprite)
-- [ ] SingleChildScrollView (**note** Both horizontal and vertical are supported at the same time!)
+- [x] SingleChildScrollView (**note** Both horizontal and vertical are supported at the same time!)
 - [ ] Button
 
 Extend Flame functionality with quality of life improvements

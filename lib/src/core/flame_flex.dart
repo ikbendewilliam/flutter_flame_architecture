@@ -13,10 +13,14 @@ import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart
 abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildrenUpdateMixin {
   final Axis direction;
   final childrenBounds = <FlameWidget, Vector2>{};
-  var _totalSize = 0.0;
+  var _totalChildSize = 0.0;
   var _flexSize = 0.0;
 
   bool get isHorizontal => direction == Axis.horizontal;
+
+  double get _maxChildSize => childrenBounds.values.isEmpty
+      ? 0
+      : childrenBounds.values.map((element) => isHorizontal ? element.y : element.x).reduce((value, element) => value > element ? value : element);
 
   FlameFlex({
     required List<FlameWidget> children,
@@ -42,7 +46,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     childrenBuild.clear();
     childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateBounds(bounds);
-    childrenBuild.forEach((child) => child.reBuildChild(context, child.bounds));
+    childrenBuild.forEach((child) => child.reBuildChild(context, childrenBounds[child]!));
   }
 
   FlameWidget _buildFlameWidget(FlameWidget prebuildWidget, BuildContext context) {
@@ -64,7 +68,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   @override
   void updateBounds(newBounds) {
     super.updateBounds(newBounds);
-    var totalChildSize = 0.0;
+    _totalChildSize = 0.0;
     var totalFlex = 0;
     childrenBounds.clear();
     childrenBuild.forEach((child) {
@@ -75,20 +79,16 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
         if (size == null) {
           totalFlex += 1;
         } else {
-          totalChildSize += size;
+          _totalChildSize += size;
         }
       } else {
         final childSize = child.determinePrefferedSize(bounds);
         final size = (isHorizontal) ? childSize.x : childSize.y;
-        if ((isHorizontal && size < bounds.x) || (!isHorizontal && size < bounds.y)) {
-          totalChildSize += size;
-        } else {
-          totalFlex += 1;
-        }
+        _totalChildSize += size;
       }
     });
-    _totalSize = (isHorizontal) ? bounds.x : bounds.y;
-    final flexibleSize = max(_totalSize - totalChildSize, 0.0);
+    final availableSize = (isHorizontal) ? bounds.x : bounds.y;
+    final flexibleSize = max(availableSize - _totalChildSize, 0.0);
     _flexSize = totalFlex > 0 ? flexibleSize / totalFlex : 0.0;
     childrenBuild.forEach((child) {
       Vector2 childNewBounds;
@@ -103,15 +103,18 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
           } else {
             childNewBounds = childBounds(child.height!);
           }
-        } else {
+        } else if (child.height == null) {
           if (isHorizontal) {
             childNewBounds = childBounds(child.width!);
           } else {
             childNewBounds = Vector2(child.width!, _flexSize);
           }
+        } else {
+          childNewBounds = Vector2(child.width!, child.height!);
         }
       } else {
-        childNewBounds = childBounds(_flexSize);
+        final childSize = child.determinePrefferedSize(bounds);
+        childNewBounds = childSize;
       }
       child.updateBounds(childNewBounds);
       childrenBounds[child] = childNewBounds;
@@ -126,9 +129,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     }
     switch (direction) {
       case Axis.horizontal:
-        return Vector2(_totalSize, parentBounds.y);
+        return Vector2(_totalChildSize, max(_maxChildSize, parentBounds.y));
       case Axis.vertical:
-        return Vector2(parentBounds.x, _totalSize);
+        return Vector2(max(_maxChildSize, parentBounds.x), _totalChildSize);
     }
   }
 

@@ -63,9 +63,4 @@ extension Vector2Extension on Vector2 {
     }
     throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
-
-  void clampMax(Vector2 max) {
-    x.clamp(0, max.x);
-    y.clamp(0, max.y);
-  }
 }
