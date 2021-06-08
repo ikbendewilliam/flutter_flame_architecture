@@ -129,9 +129,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     }
     switch (direction) {
       case Axis.horizontal:
-        return Vector2(_totalChildSize, max(_maxChildSize, parentBounds.y));
+        return Vector2(max(_totalChildSize, parentBounds.x), _maxChildSize);
       case Axis.vertical:
-        return Vector2(max(_maxChildSize, parentBounds.x), _totalChildSize);
+        return Vector2(_maxChildSize, max(_totalChildSize, parentBounds.y));
     }
   }
 
