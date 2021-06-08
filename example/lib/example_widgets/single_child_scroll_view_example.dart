@@ -27,6 +27,10 @@ class SingleChildScrollViewExample extends FlameWidget {
     var i = 0;
     return FlameColumn(
       children: [
+        FlameButton(
+          text: 'back',
+          onTap: FlameNavigator.pop,
+        ),
         FlameSizedBox(
           width: 100,
           height: 100,

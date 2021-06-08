@@ -23,7 +23,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] Text
 - [x] Image (FlameSprite)
 - [x] SingleChildScrollView (**note** Both horizontal and vertical are supported at the same time!)
-- [ ] Button
+- [x] Button (For now a simplistic implementation is added)
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
@@ -50,7 +50,7 @@ Documentation
 - [ ] Canvas widget (draw on the canvas)
 - [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [ ] Navigation
-- [ ] Scrollable screen
+- [ ] SingleChildScrollView
 - [ ] Dialogs
 - [ ] Sound
 
@@ -58,8 +58,8 @@ Examples
 - [x] Basic example (pong)
 - [ ] Canvas widget (draw on the canvas)
 - [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
-- [ ] Navigation
-- [ ] Scrollable screen
+- [x] Navigation
+- [x] SingleChildScrollView
 - [ ] Dialogs
 - [ ] Sound
 

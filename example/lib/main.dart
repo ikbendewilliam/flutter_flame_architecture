@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:example/helper.dart';
-import 'package:example/single_child_scroll_view/single_child_scroll_view_example.dart';
+import 'package:example/menu.dart';
+import 'package:example/navigator_helper.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -9,15 +10,8 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 void main() {
   final gameManager = SimpleGameManager(
-    initialRoute: SingleChildScrollViewExample.routeName,
-    onGenerateRoute: (settings) {
-      switch (settings.name) {
-        case Pong.routeName:
-          return Pong();
-        case SingleChildScrollViewExample.routeName:
-          return SingleChildScrollViewExample();
-      }
-    },
+    initialRoute: Menu.routeName,
+    onGenerateRoute: NavigatorHelper.onGenerateRoute,
   );
   runApp(
     MaterialApp(
@@ -128,13 +122,23 @@ class Pong extends FlameWidget {
     manager.init(bounds);
     return FlameContainer(
       color: Colors.black,
-      child: FlameStack(
+      child: FlameColumn(
         children: [
-          Borders(),
-          Ball(manager: manager),
-          Paddle(manager: manager, isPlayer: true),
-          Paddle(manager: manager, isPlayer: false),
-          Score(manager: manager),
+          FlameButton(
+            text: 'back',
+            onTap: FlameNavigator.pop,
+          ),
+          FlameExpanded(
+            child: FlameStack(
+              children: [
+                Borders(),
+                Ball(manager: manager),
+                Paddle(manager: manager, isPlayer: true),
+                Paddle(manager: manager, isPlayer: false),
+                Score(manager: manager),
+              ],
+            ),
+          ),
         ],
       ),
     );

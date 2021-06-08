@@ -26,7 +26,7 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    return Vector2(parentBounds.x, textPainter.height);
+    return Vector2(parentBounds.x, textPainter.preferredLineHeight);
   }
 
   @override
