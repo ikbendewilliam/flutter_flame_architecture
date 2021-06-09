@@ -24,7 +24,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] Image (FlameSprite)
 - [x] SingleChildScrollView (**note** Both horizontal and vertical are supported at the same time!)
 - [x] Button (For now a simplistic implementation is added)
-- [ ] GridView
+- [x] GridView
 - [ ] IsometricGridView
 
 Extend Flame functionality with quality of life improvements
@@ -63,6 +63,7 @@ Examples
 - [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [x] Navigation
 - [x] SingleChildScrollView
+- [x] GridView
 - [ ] Dialogs
 - [ ] Sound
 
