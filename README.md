@@ -1,5 +1,7 @@
 # flutter_flame_architecture
 
+[Examples](https://ikbendewilliam.github.io/flutter_flame_architecture/example/build/web/#/)
+
 ## Goal of the package
 
 To support in the development of games using Flutter and Flame
