@@ -55,6 +55,7 @@ Documentation
 - [ ] Sound
 
 Examples
+- [ ] Build and put on GitHub pages?
 - [x] Basic example (pong)
 - [ ] Canvas widget (draw on the canvas)
 - [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
