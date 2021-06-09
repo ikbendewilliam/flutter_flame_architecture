@@ -24,6 +24,7 @@ export './src/widgets/flame_container.dart';
 export './src/widgets/flame_expanded.dart';
 export './src/widgets/flame_gesture_detector.dart';
 export './src/widgets/flame_grid_view.dart';
+export './src/widgets/flame_isometric_grid_view.dart';
 export './src/widgets/flame_padding.dart';
 export './src/widgets/flame_positioned.dart';
 export './src/widgets/flame_row.dart';

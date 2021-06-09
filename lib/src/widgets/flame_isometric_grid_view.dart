@@ -1,14 +1,16 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
-class FlameGridView extends FlameRenderWidget {
+class FlameIsometricGridView extends FlameRenderWidget {
   final List<List<FlameWidget>> children;
   final List<List<FlameWidget>> childrenBuild = [];
   final Vector2 childSize;
   final bool clipChildBorder;
 
-  FlameGridView({
+  FlameIsometricGridView({
     required this.children,
     required this.childSize,
     this.clipChildBorder = true,
@@ -16,22 +18,26 @@ class FlameGridView extends FlameRenderWidget {
 
   @override
   void render(Canvas canvas, BuildContext context) {
-    var dy = 0.0;
-    final clipRect = Rect.fromLTWH(0, 0, childSize.x, childSize.y);
-    childrenBuild.forEach((row) {
+    final clipPath = Path()
+      ..moveTo(childSize.x / sqrt2, 0)
+      ..lineTo(childSize.x * sqrt2, childSize.y / sqrt2)
+      ..lineTo(childSize.x / sqrt2, childSize.y * sqrt2)
+      ..lineTo(0, childSize.y / sqrt2)
+      ..close();
+    final yStart = determinePrefferedSize(bounds).y / 2;
+    childrenBuild.asMap().forEach((index, row) {
       canvas.save();
-      canvas.translate(0, dy);
+      canvas.translate(index * (childSize.x / sqrt2 - 0.5), yStart + (index + 1) * (childSize.y / sqrt2 - 0.5));
       row.forEach((child) {
         if (clipChildBorder) {
           canvas.save();
-          canvas.clipRect(clipRect);
+          canvas.clipPath(clipPath);
         }
         child.render(canvas, context);
         if (clipChildBorder) canvas.restore();
-        canvas.translate(childSize.x, 0);
+        canvas.translate(childSize.x / sqrt2 - 0.5, -childSize.y / sqrt2 + 0.5);
       });
       canvas.restore();
-      dy += childSize.y;
     });
   }
 
@@ -45,7 +51,7 @@ class FlameGridView extends FlameRenderWidget {
   }
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => Vector2(childSize.x * children.length, childSize.y * children.first.length);
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => Vector2(childSize.x * children.first.length / sqrt2 * 2, childSize.y * children.length / sqrt2 * 2);
 
   void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;

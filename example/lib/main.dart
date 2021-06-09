@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:example/helper.dart';
 import 'package:example/menu.dart';
-import 'package:example/navigator_helper.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 void main() {
   final gameManager = SimpleGameManager(
     initialRoute: Menu.routeName,
-    onGenerateRoute: NavigatorHelper.onGenerateRoute,
+    onGenerateRoute: Menu.onGenerateRoute,
   );
   runApp(
     MaterialApp(
