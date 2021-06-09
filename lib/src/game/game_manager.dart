@@ -34,6 +34,12 @@ abstract class GameManager extends Game with MultiTouchDragDetector, MultiTouchT
   /// Implement this function to use the navigator, ignore it to use a custom implementation inside the home widget
   FlameWidget? onGenerateRoute(RouteSettings settings) {}
 
+  void push(FlameWidget screen) {
+    currentScreen = screen;
+    stack.add(FlameRoute(routeSettings: RouteSettings(name: 'dialog'), widget: currentScreen));
+    build();
+  }
+
   void pushNamed(String route, {dynamic arguments}) {
     final routeSettings = RouteSettings(name: route, arguments: arguments);
     final screen = onGenerateRoute(routeSettings);

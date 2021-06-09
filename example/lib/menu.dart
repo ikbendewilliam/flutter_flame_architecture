@@ -43,6 +43,30 @@ class Menu extends FlameWidget {
           text: 'pong',
           onTap: () => FlameNavigator.pushNamed(Pong.routeName),
         ),
+        FlameButton(
+          text: 'Dialog',
+          onTap: () => FlameNavigator.showDialog(
+            FlameContainer(
+              height: 200,
+              width: 256 + 16,
+              padding: EdgeInsets.all(8),
+              color: Colors.white,
+              child: FlameColumn(
+                children: [
+                  FlameText(
+                    'This is a dialog',
+                    color: Colors.black,
+                  ),
+                  FlameSpacer(),
+                  FlameButton(
+                    text: 'close',
+                    onTap: () => FlameNavigator.pop(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

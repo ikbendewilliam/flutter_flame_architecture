@@ -18,6 +18,8 @@ class FlameNavigator {
 
   static bool get isReady => instance._gameManager != null;
 
+  static void push(FlameWidget screen) => instance._gameManager!.push(screen);
+
   static void pushNamed(String route, {dynamic arguments}) => instance._gameManager!.pushNamed(route, arguments: arguments);
 
   static void popAndPushNamed(String route, {dynamic arguments}) => instance._gameManager!.popAndPushNamed(route, arguments: arguments);
@@ -25,6 +27,8 @@ class FlameNavigator {
   static void pop() => instance._gameManager!.pop();
 
   static FlameRoute get currentRoute => instance._gameManager!.getCurrentRoute();
+
+  static void showDialog(FlameWidget child) => instance._gameManager!.push(FlameDialog(child: child));
 }
 
 class FlameRoute {
