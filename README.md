@@ -57,12 +57,13 @@ Documentation
 Examples
 - [ ] Build and put on GitHub pages?
 - [x] Basic example (pong)
-- [ ] Canvas widget (draw on the canvas)
-- [ ] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [x] Navigation
 - [x] SingleChildScrollView
 - [x] GridView
 - [x] IsometricGridView
+- [ ] Column
+- [ ] GestureDetector
+- [ ] Canvas widget (draw on the canvas)
 - [ ] Dialogs
 
 ## Basics
