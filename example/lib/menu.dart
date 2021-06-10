@@ -54,18 +54,20 @@ class Menu extends FlameWidget {
         FlameButton(
           text: 'Dialog',
           onTap: () => FlameNavigator.showDialog(
-            FlameColumn(
-              children: [
-                FlameText(
-                  'This is a dialog',
-                  color: Colors.black,
-                ),
-                FlameSpacer(),
-                FlameButton(
-                  text: 'close',
-                  onTap: () => FlameNavigator.pop(),
-                ),
-              ],
+            FlameDialog(
+              child: FlameColumn(
+                children: [
+                  FlameText(
+                    'This is a dialog',
+                    color: Colors.black,
+                  ),
+                  FlameSpacer(),
+                  FlameButton(
+                    text: 'close',
+                    onTap: () => FlameNavigator.pop(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

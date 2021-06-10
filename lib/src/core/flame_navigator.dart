@@ -28,7 +28,7 @@ class FlameNavigator {
 
   static FlameRoute get currentRoute => instance._gameManager!.getCurrentRoute();
 
-  static void showDialog(FlameWidget child) => instance._gameManager!.push(FlameDialog(child: child));
+  static void showDialog(FlameWidget dialog) => instance._gameManager!.showDialog(dialog);
 }
 
 class FlameRoute {

@@ -31,6 +31,10 @@ class SimpleGameManager extends GameManager {
   void build({BuildContext? testContext}) {
     final context = testContext ?? buildContext;
     if (context == null) return;
+    if (currentDialog != null) {
+      currentDialog!.reBuildChild(context, size);
+      return;
+    }
     currentScreen.reBuildChild(context, size);
   }
 
@@ -43,12 +47,17 @@ class SimpleGameManager extends GameManager {
   void render(Canvas canvas) {
     if (buildContext != null) {
       currentScreen.render(canvas, buildContext!);
+      currentDialog?.render(canvas, buildContext!);
     }
   }
 
   @override
   void update(double deltaTime) {
-    currentScreen.update(deltaTime);
+    if (currentDialog != null) {
+      currentDialog!.update(deltaTime);
+    } else {
+      currentScreen.update(deltaTime);
+    }
   }
 
   @override
@@ -59,27 +68,47 @@ class SimpleGameManager extends GameManager {
 
   @override
   void onTapDown(int pointerId, TapDownInfo event) {
-    currentScreen.onTapDown(event.eventPosition.widget);
+    if (currentDialog != null) {
+      currentDialog!.onTapDown(event.eventPosition.widget);
+    } else {
+      currentScreen.onTapDown(event.eventPosition.widget);
+    }
   }
 
   @override
   void onTapUp(int pointerId, TapUpInfo event) {
-    currentScreen.onTapUp(event.eventPosition.widget);
+    if (currentDialog != null) {
+      currentDialog!.onTapUp(event.eventPosition.widget);
+    } else {
+      currentScreen.onTapUp(event.eventPosition.widget);
+    }
   }
 
   @override
   void onDragStart(int pointerId, DragStartInfo event) {
-    currentScreen.onDragStart(pointerId, event.eventPosition.widget);
+    if (currentDialog != null) {
+      currentDialog!.onDragStart(pointerId, event.eventPosition.widget);
+    } else {
+      currentScreen.onDragStart(pointerId, event.eventPosition.widget);
+    }
   }
 
   @override
   void onDragUpdate(int pointerId, DragUpdateInfo event) {
     lastDragPosition = event.eventPosition.widget;
-    currentScreen.onDragUpdate(pointerId, event.eventPosition.widget);
+    if (currentDialog != null) {
+      currentDialog!.onDragUpdate(pointerId, event.eventPosition.widget);
+    } else {
+      currentScreen.onDragUpdate(pointerId, event.eventPosition.widget);
+    }
   }
 
   @override
   void onDragEnd(int pointerId, DragEndInfo event) {
-    currentScreen.onDragEnd(pointerId, lastDragPosition);
+    if (currentDialog != null) {
+      currentDialog!.onDragEnd(pointerId, lastDragPosition);
+    } else {
+      currentScreen.onDragEnd(pointerId, lastDragPosition);
+    }
   }
 }

@@ -16,9 +16,6 @@ class FlameSafeArea extends FlameWidget {
     this.bottom = true,
   });
 
-  // TODO: Fix child not updating
-  // TODO: Fix dialog not showing on top of other screen
-
   @override
   FlameWidget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);

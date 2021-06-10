@@ -14,8 +14,14 @@ void main() {
   );
   runApp(
     MaterialApp(
-      home: GameWidget(
-        game: gameManager,
+      home: WillPopScope(
+        onWillPop: () async {
+          FlameNavigator.pop();
+          return false;
+        },
+        child: GameWidget(
+          game: gameManager,
+        ),
       ),
     ),
   );

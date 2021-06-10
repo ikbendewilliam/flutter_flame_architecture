@@ -51,7 +51,21 @@ Extend Flame functionality with quality of life improvements
 - [x] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [x] Navigation
 - [x] Dialogs
-- [ ] BackPress for navigator
+
+BackPress for navigator:
+```
+MaterialApp(
+  home: WillPopScope(
+    onWillPop: () async {
+      FlameNavigator.pop();
+      return false;
+    },
+    child: GameWidget(
+      game: gameManager,
+    ),
+  ),
+),
+```
 
 Examples
 - [x] Build and put on GitHub pages
@@ -83,6 +97,7 @@ Code documentation
 - [ ] Navigation
 - [ ] SingleChildScrollView
 - [ ] Dialogs
+- [ ] BackPress
 
 WikiDocs
 - [ ] Center

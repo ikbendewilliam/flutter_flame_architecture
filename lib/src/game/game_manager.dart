@@ -7,6 +7,7 @@ import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 
 abstract class GameManager extends Game with MultiTouchDragDetector, MultiTouchTapDetector {
   late FlameWidget currentScreen;
+  FlameWidget? currentDialog;
   @protected
   List<FlameRoute> stack = [];
 
@@ -34,9 +35,15 @@ abstract class GameManager extends Game with MultiTouchDragDetector, MultiTouchT
   /// Implement this function to use the navigator, ignore it to use a custom implementation inside the home widget
   FlameWidget? onGenerateRoute(RouteSettings settings) {}
 
+  void showDialog(FlameWidget dialog) {
+    currentDialog = dialog;
+    build();
+  }
+
   void push(FlameWidget screen) {
+    currentDialog = null;
     currentScreen = screen;
-    stack.add(FlameRoute(routeSettings: RouteSettings(name: 'dialog'), widget: currentScreen));
+    stack.add(FlameRoute(routeSettings: RouteSettings(), widget: currentScreen));
     build();
   }
 
@@ -47,6 +54,7 @@ abstract class GameManager extends Game with MultiTouchDragDetector, MultiTouchT
       print('WARNING: Cannot navigate to null widget');
       return;
     }
+    currentDialog = null;
     currentScreen = screen;
     stack.add(FlameRoute(routeSettings: routeSettings, widget: currentScreen));
     build();
@@ -59,12 +67,17 @@ abstract class GameManager extends Game with MultiTouchDragDetector, MultiTouchT
       print('WARNING: Cannot navigate to null widget');
       return;
     }
+    currentDialog = null;
     currentScreen = screen;
     stack.last = FlameRoute(routeSettings: routeSettings, widget: currentScreen);
     build();
   }
 
   void pop() {
+    if (currentDialog != null) {
+      currentDialog = null;
+      return;
+    }
     stack.removeLast();
     if (stack.isEmpty) return;
     currentScreen = stack.last.widget;
