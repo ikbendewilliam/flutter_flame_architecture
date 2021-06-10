@@ -98,7 +98,7 @@ class FlamePositioned extends SingleChildFlameWidget {
   }
 
   @override
-  Vector2 transformPoint(Vector2 point) => point + Vector2(padding.left, padding.top);
+  Vector2 transformPoint(Vector2 point) => point - Vector2(padding.left, padding.top);
 
   @override
   bool isInsideBounds(Vector2 point) => point >= 0 && point < bounds - Vector2(padding.horizontal, padding.vertical);
