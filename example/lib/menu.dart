@@ -9,6 +9,14 @@ class Menu extends FlameWidget {
   static const routeName = 'Menu';
 
   static FlameWidget? onGenerateRoute(RouteSettings settings) {
+    final child = _onGenerateRouteChild(settings);
+    if (child == null) return null;
+    return FlameSafeArea(
+      child: child,
+    );
+  }
+
+  static FlameWidget? _onGenerateRouteChild(RouteSettings settings) {
     switch (settings.name) {
       case Menu.routeName:
         return Menu();

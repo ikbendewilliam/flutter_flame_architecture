@@ -28,6 +28,7 @@ export './src/widgets/flame_isometric_grid_view.dart';
 export './src/widgets/flame_padding.dart';
 export './src/widgets/flame_positioned.dart';
 export './src/widgets/flame_row.dart';
+export './src/widgets/flame_safe_area.dart';
 export './src/widgets/flame_single_child_scroll_view.dart';
 export './src/widgets/flame_sized_box.dart';
 export './src/widgets/flame_spacer.dart';

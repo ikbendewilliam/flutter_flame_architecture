@@ -108,17 +108,9 @@ class PongManager {
 
 class Pong extends FlameWidget {
   static const routeName = 'pong';
-  final manager = PongManager();
-
-  @override
-  void update(double delta) {
-    super.update(delta);
-    manager.update(delta);
-  }
 
   @override
   FlameWidget build(BuildContext context) {
-    manager.init(bounds);
     return FlameContainer(
       color: Colors.black,
       child: FlameColumn(
@@ -128,16 +120,31 @@ class Pong extends FlameWidget {
             onTap: FlameNavigator.pop,
           ),
           FlameExpanded(
-            child: FlameStack(
-              children: [
-                Borders(),
-                Ball(manager: manager),
-                Paddle(manager: manager, isPlayer: true),
-                Paddle(manager: manager, isPlayer: false),
-                Score(manager: manager),
-              ],
-            ),
+            child: PongChild(),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+// This is in a seperate widget so we can use the bounds in the init of the PongManager
+class PongChild extends FlameWidget {
+  final manager = PongManager();
+
+  @override
+  FlameWidget build(BuildContext context) {
+    manager.init(bounds);
+    return FlameCanvas(
+      draw: (_, __, ___) {},
+      onUpdate: (delta) => manager.update(delta),
+      child: FlameStack(
+        children: [
+          Borders(),
+          Ball(manager: manager),
+          Paddle(manager: manager, isPlayer: true),
+          Paddle(manager: manager, isPlayer: false),
+          Score(manager: manager),
         ],
       ),
     );
