@@ -28,11 +28,13 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] Button (For now a simplistic implementation is added)
 - [x] GridView
 - [x] IsometricGridView
+- [ ] SafeArea? (if possible)
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
 - [x] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [x] Navigation
+- [ ] BackPress for navigator
 - [ ] Dialogs
 
 Documentation
