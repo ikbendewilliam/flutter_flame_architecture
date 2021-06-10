@@ -28,10 +28,10 @@ class FlameGridView extends FlameRenderWidget {
         }
         child.render(canvas, context);
         if (clipChildBorder) canvas.restore();
-        canvas.translate(childSize.x, 0);
+        canvas.translate(childSize.x - 1, 0);
       });
       canvas.restore();
-      dy += childSize.y;
+      dy += childSize.y - 1;
     });
   }
 
@@ -45,7 +45,7 @@ class FlameGridView extends FlameRenderWidget {
   }
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => Vector2(childSize.x * children.length, childSize.y * children.first.length);
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => Vector2(childSize.x * children.first.length, childSize.y * children.length);
 
   void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;

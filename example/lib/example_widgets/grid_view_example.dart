@@ -33,7 +33,9 @@ class GridViewExample extends FlameWidget {
           onTap: FlameNavigator.pop,
         ),
         FlameExpanded(
-          child: FlameGridView(children: _buildMap(), childSize: Vector2(100, 100)),
+          child: FlameSingleChildScrollView(
+            child: FlameGridView(children: _buildMap(), childSize: Vector2(100, 100)),
+          ),
         ),
       ],
     );

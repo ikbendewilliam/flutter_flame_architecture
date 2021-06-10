@@ -37,9 +37,11 @@ class IsometricGridViewExample extends FlameWidget {
           onTap: FlameNavigator.pop,
         ),
         FlameExpanded(
-          child: FlameIsometricGridView(
-            children: _buildMap(),
-            childSize: Vector2(100, 100 / sqrt2),
+          child: FlameSingleChildScrollView(
+            child: FlameIsometricGridView(
+              children: _buildMap(),
+              childSize: Vector2(100, 100 / sqrt2),
+            ),
           ),
         ),
       ],
