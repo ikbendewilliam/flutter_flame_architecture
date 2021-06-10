@@ -34,8 +34,8 @@ Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
 - [x] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [x] Navigation
+- [x] Dialogs
 - [ ] BackPress for navigator
-- [ ] Dialogs
 
 Documentation
 - [ ] Center
@@ -59,16 +59,14 @@ Documentation
 - [ ] Dialogs
 
 Examples
-- [ ] Build and put on GitHub pages?
+- [x] Build and put on GitHub pages
 - [x] Basic example (pong)
 - [x] Navigation
 - [x] SingleChildScrollView
 - [x] GridView
 - [x] IsometricGridView
-- [ ] Column
-- [ ] GestureDetector
-- [ ] Canvas widget (draw on the canvas)
-- [ ] Dialogs
+- [x] Button
+- [x] Dialogs
 
 ## Basics
 
