@@ -2,8 +2,9 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_child_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
+import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.dart';
 
-class FlameSingleChildScrollView extends SingleChildFlameWidget {
+class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChildUpdateMixin {
   final bool horizontalScrollEnabled;
   final bool verticalScrollEnabled;
   var _scroll = Vector2.zero();

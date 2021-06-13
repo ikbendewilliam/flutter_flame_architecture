@@ -15,6 +15,12 @@ class FlameGridView extends FlameRenderWidget {
   });
 
   @override
+  void update(double delta) {
+    super.update(delta);
+    childrenBuild.forEach((row) => row.forEach((child) => child.update(delta)));
+  }
+
+  @override
   void render(Canvas canvas, BuildContext context) {
     var dy = 0.0;
     final clipRect = Rect.fromLTWH(0, 0, childSize.x, childSize.y);

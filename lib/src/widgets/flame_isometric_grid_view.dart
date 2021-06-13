@@ -17,6 +17,12 @@ class FlameIsometricGridView extends FlameRenderWidget {
   });
 
   @override
+  void update(double delta) {
+    super.update(delta);
+    childrenBuild.forEach((row) => row.forEach((child) => child.update(delta)));
+  }
+
+  @override
   void render(Canvas canvas, BuildContext context) {
     final clipPath = Path()
       ..moveTo(childSize.x / sqrt2, 0)
