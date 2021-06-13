@@ -73,7 +73,7 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
   }
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => childrenPreBuild.map((e) => e.determinePrefferedSize(parentBounds)).reduce(
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => childrenBuild.map((e) => e.determinePrefferedSize(parentBounds)).reduce(
         (value, element) => Vector2(max(value.x, element.x), max(value.y, element.y)),
       );
 
