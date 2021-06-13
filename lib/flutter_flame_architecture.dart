@@ -16,6 +16,7 @@ export './src/extensions/vector2_extension.dart';
 export './src/game/game_manager.dart';
 export './src/game/simple_game_manager.dart';
 export './src/screen/menu_screen.dart';
+export './src/widgets/flame_builder.dart';
 export './src/widgets/flame_button.dart';
 export './src/widgets/flame_canvas.dart';
 export './src/widgets/flame_center.dart';

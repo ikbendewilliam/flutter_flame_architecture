@@ -45,6 +45,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] GridView
 - [x] IsometricGridView
 - [x] SafeArea
+- [x] Builder
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
