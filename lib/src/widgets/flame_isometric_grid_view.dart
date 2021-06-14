@@ -49,9 +49,9 @@ class FlameIsometricGridView extends FlameRenderWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     childrenBuild.clear();
-    children.forEach((row) => row.forEach((child) => child.updateBounds(childSize)));
+    children.forEach((row) => row.forEach((child) => child.updateData(childSize, context, this)));
     childrenBuild.addAll(children.map((row) => row.map((child) => child.build(context)).toList()));
     childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize)));
   }

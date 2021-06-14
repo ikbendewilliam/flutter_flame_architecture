@@ -45,7 +45,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   void reBuildChild(BuildContext context, Vector2 bounds) {
     childrenBuild.clear();
     childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     childrenBuild.forEach((child) => child.reBuildChild(context, childrenBounds[child]!));
   }
 
@@ -66,10 +66,12 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   }
 
   @override
-  void updateBounds(newBounds) {
-    super.updateBounds(newBounds);
+  void updateData(Vector2 newBounds, BuildContext context, FlameWidget? parent) {
+    super.updateData(newBounds, context, parent);
     _totalChildSize = 0.0;
     var totalFlex = 0;
+    // This is done so these children can mark for rebuild
+    childrenPreBuild.forEach((element) => element.updateData(newBounds, context, parent));
     childrenBounds.clear();
     childrenBuild.forEach((child) {
       if (child is FlameFlexibleChild) {
@@ -116,7 +118,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
         final childSize = child.determinePrefferedSize(bounds);
         childNewBounds = childSize;
       }
-      child.updateBounds(childNewBounds);
+      child.updateData(childNewBounds, context, this);
       childrenBounds[child] = childNewBounds;
     });
   }

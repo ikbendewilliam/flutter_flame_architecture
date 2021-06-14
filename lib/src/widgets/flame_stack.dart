@@ -14,9 +14,9 @@ class FlameStack extends MultipleChildrenFlameWidget with MultipleChildrenUpdate
 
   @override
   void reBuildChild(context, bounds) {
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     childrenBuild.clear();
-    childrenPreBuild.forEach((child) => child.updateBounds(bounds));
+    childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
   }

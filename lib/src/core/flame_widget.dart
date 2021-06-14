@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 abstract class FlameWidget {
   FlameWidget? childBuild;
+  BuildContext? _context;
+  FlameWidget? _parent;
 
   /// The bounds of this widget, you cannot draw outside of these
   /// This variable is initially set to 1, 1 only after being added
@@ -15,13 +17,23 @@ abstract class FlameWidget {
   /// Must call super first when overriding this
   /// Note that your child(ren) should be updated during build
   @mustCallSuper
-  void updateBounds(Vector2 newBounds) {
+  void updateData(Vector2 newBounds, BuildContext context, FlameWidget? parent) {
     bounds = newBounds;
+    _context = context;
+    if (parent != null) {
+      _parent = parent;
+    }
+  }
+
+  /// Marks for rebuild, similar to setState in Flutter
+  void markForRebuild() {
+    if (_context != null && _parent != null) _parent!.reBuildChild(_context!, _parent!.bounds);
   }
 
   /// You must call super if you override this *and* override build
   /// Don't call super if you use this widget as a renderingWidget
   void render(Canvas canvas, BuildContext context) {
+    _context = context;
     childBuild?.render(canvas, context);
   }
 
@@ -54,7 +66,7 @@ abstract class FlameWidget {
 
   /// Used to build this child, override to disable if you don't require (re)build
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     childBuild = build(context);
     childBuild?.reBuildChild(context, bounds);
   }

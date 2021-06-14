@@ -32,9 +32,9 @@ class FlameCenter extends SingleChildFlameWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     final childBounds = _determineChildPrefferedSize(bounds);
-    childPreBuild?.updateBounds(childBounds);
+    childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }

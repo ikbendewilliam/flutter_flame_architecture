@@ -90,9 +90,9 @@ class FlamePositioned extends SingleChildFlameWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
-    childPreBuild?.updateBounds(childBounds);
+    childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }

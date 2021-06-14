@@ -12,8 +12,8 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
-    childPreBuild?.updateBounds(bounds);
+    updateData(bounds, context, null);
+    childPreBuild?.updateData(bounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, bounds);
   }
@@ -65,9 +65,9 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
+    updateData(bounds, context, null);
     childrenBuild.clear();
-    childrenPreBuild.forEach((child) => child.updateBounds(bounds));
+    childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
   }

@@ -24,15 +24,15 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateBounds(bounds);
-    childPreBuild!.updateBounds(bounds);
+    updateData(bounds, context, null);
+    childPreBuild!.updateData(bounds, context, this);
     childBuild = childPreBuild!.build(context);
     childBuild!.reBuildChild(context, bounds);
     // We first build the child, then we know for sure that the child is ready to determine its size.
     // For now I don't see a better way, this is ofcourse not preferable if we want many rebuilds a second
     // but a flex only knows its renderable children after a build.
     _childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
-    childBuild!.updateBounds(_childPrefferedSize);
+    childBuild!.updateData(_childPrefferedSize, context, this);
     childBuild = childPreBuild!.build(context);
     childBuild!.reBuildChild(context, _childPrefferedSize);
     _childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
