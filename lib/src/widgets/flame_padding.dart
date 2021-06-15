@@ -17,7 +17,8 @@ class FlamePadding extends SingleChildFlameWidget with SingleChildUpdateMixin {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    return childBuild!.determinePrefferedSize(parentBounds) + Vector2(padding.horizontal, padding.vertical);
+    final childMaxBounds = parentBounds - Vector2(padding.horizontal, padding.vertical);
+    return childPreBuild!.determinePrefferedSize(childMaxBounds) + Vector2(padding.horizontal, padding.vertical);
   }
 
   @override

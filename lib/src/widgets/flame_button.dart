@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 class FlameButton extends FlameWidget {
-  final String text;
+  final String? text;
+  final FlameWidget? child;
   final VoidCallback onTap;
   final Color borderColor;
   final Color backgroundColor;
+  final double width;
+  final double height;
 
   FlameButton({
-    required this.text,
     required this.onTap,
+    this.text,
+    this.child,
     this.borderColor = Colors.white,
     this.backgroundColor = Colors.black,
-  });
+    this.width = 256,
+    this.height = 32,
+  }) : assert(text != null || child != null);
 
   @override
   FlameWidget build(BuildContext context) {
     return FlameContainer(
-      width: 256,
-      height: 32,
+      width: width,
+      height: height,
       padding: const EdgeInsets.all(2),
       child: FlameGestureDetector(
         onTapUp: (_) => onTap(),
@@ -30,10 +36,12 @@ class FlameButton extends FlameWidget {
             child: FlameColumn(
               children: [
                 FlameSpacer(),
-                FlameText(
-                  text,
-                  color: Colors.white,
-                ),
+                if (child != null) child!,
+                if (text != null)
+                  FlameText(
+                    text!,
+                    color: Colors.white,
+                  ),
                 FlameSpacer(),
               ],
             ),

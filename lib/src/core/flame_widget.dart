@@ -68,6 +68,7 @@ abstract class FlameWidget {
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
     childBuild = build(context);
+    childBuild?.updateData(bounds, context, this);
     childBuild?.reBuildChild(context, bounds);
   }
 }
