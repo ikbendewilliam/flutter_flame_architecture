@@ -49,7 +49,7 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
 
   @override
   Vector2 transformPoint(Vector2 point) {
-    return point + Vector2(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
+    return point - Vector2(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
   }
 
   @override

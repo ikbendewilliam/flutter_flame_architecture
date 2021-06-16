@@ -55,9 +55,9 @@ class FlameGridView extends FlameRenderWidget {
 
   void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
-    var transformedPosition = position;
+    final transformedPosition = Vector2(position.x, position.y);
     childrenBuild.forEach((row) {
-      transformedPosition.x = 0;
+      transformedPosition.x = position.x.toDouble();
       if (transformedPosition < 0) return; // Skip
       row.forEach((child) {
         if (transformedPosition < 0) return; // Skip
