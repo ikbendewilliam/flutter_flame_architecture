@@ -95,19 +95,19 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     childrenBuild.forEach((child) {
       Vector2 childNewBounds;
       if (child is FlameFlexibleChild) {
-        childNewBounds = childBounds(child.flex * _flexSize);
+        childNewBounds = _childBounds(child.flex * _flexSize);
       } else if (child is FlameSizedChild) {
         if (child.width == null && child.height == null) {
-          childNewBounds = childBounds(_flexSize);
+          childNewBounds = _childBounds(_flexSize);
         } else if (child.width == null) {
           if (isHorizontal) {
             childNewBounds = Vector2(_flexSize, child.height!);
           } else {
-            childNewBounds = childBounds(child.height!);
+            childNewBounds = _childBounds(child.height!);
           }
         } else if (child.height == null) {
           if (isHorizontal) {
-            childNewBounds = childBounds(child.width!);
+            childNewBounds = _childBounds(child.width!);
           } else {
             childNewBounds = Vector2(child.width!, _flexSize);
           }
@@ -137,7 +137,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     }
   }
 
-  Vector2 childBounds(double size) {
+  Vector2 _childBounds(double size) {
     switch (direction) {
       case Axis.horizontal:
         return Vector2(size, bounds.y);
@@ -166,13 +166,27 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     });
   }
 
+  @override
   void onTapDown(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapDown(transformedPosition));
 
+  @override
   void onTapUp(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapUp(transformedPosition));
 
-  void onDragStart(int pointerId, Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragStart(pointerId, transformedPosition));
+  @override
+  void onDragStart(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragStart(transformedPosition));
 
-  void onDragUpdate(int pointerId, Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragUpdate(pointerId, transformedPosition));
+  @override
+  void onDragUpdate(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragUpdate(transformedPosition));
 
-  void onDragEnd(int pointerId, Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragEnd(pointerId, transformedPosition));
+  @override
+  void onDragEnd(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragEnd(transformedPosition));
+
+  @override
+  void onScaleStart(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onScaleStart(transformedPosition));
+
+  @override
+  void onScaleUpdate(Vector2 position, double scale) => _onAction(position, (child, transformedPosition) => child.onScaleUpdate(transformedPosition, scale));
+
+  @override
+  void onScaleEnd(Vector2 position, double scale) => _onAction(position, (child, transformedPosition) => child.onScaleEnd(transformedPosition, scale));
 }

@@ -5,24 +5,33 @@ import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.d
 class FlameGestureDetector extends SingleChildFlameWidget with SingleChildRenderMixin, SingleChildUpdateMixin {
   final Function(Vector2 tapPosition)? _onTapDown;
   final Function(Vector2 tapPosition)? _onTapUp;
-  final Function(int pointerId, Vector2 position)? _onDragStart;
-  final Function(int pointerId, Vector2 position)? _onDragUpdate;
-  final Function(int pointerId, Vector2 position)? _onDragEnd;
+  final Function(Vector2 position)? _onDragStart;
+  final Function(Vector2 position)? _onDragUpdate;
+  final Function(Vector2 position)? _onDragEnd;
+  final Function(Vector2 position)? _onScaleStart;
+  final Function(Vector2 position, double scale)? _onScaleUpdate;
+  final Function(Vector2 position, double scale)? _onScaleEnd;
   final bool passThrough;
 
   FlameGestureDetector({
     FlameWidget? child,
     Function(Vector2 tapPosition)? onTapDown,
     Function(Vector2 tapPosition)? onTapUp,
-    Function(int pointerId, Vector2 position)? onDragStart,
-    Function(int pointerId, Vector2 position)? onDragUpdate,
-    Function(int pointerId, Vector2 position)? onDragEnd,
+    Function(Vector2 position)? onDragStart,
+    Function(Vector2 position)? onDragUpdate,
+    Function(Vector2 position)? onDragEnd,
+    Function(Vector2 position)? onScaleStart,
+    Function(Vector2 position, double scale)? onScaleUpdate,
+    Function(Vector2 position, double scale)? onScaleEnd,
     this.passThrough = false,
   })  : _onTapDown = onTapDown,
         _onTapUp = onTapUp,
         _onDragStart = onDragStart,
         _onDragUpdate = onDragUpdate,
         _onDragEnd = onDragEnd,
+        _onScaleStart = onScaleStart,
+        _onScaleUpdate = onScaleUpdate,
+        _onScaleEnd = onScaleEnd,
         super(child);
 
   @override
@@ -38,20 +47,38 @@ class FlameGestureDetector extends SingleChildFlameWidget with SingleChildRender
   }
 
   @override
-  void onDragStart(int pointerId, Vector2 position) {
-    _onDragStart?.call(pointerId, position);
-    if (passThrough) super.onDragStart(pointerId, position);
+  void onDragStart(Vector2 position) {
+    _onDragStart?.call(position);
+    if (passThrough) super.onDragStart(position);
   }
 
   @override
-  void onDragUpdate(int pointerId, Vector2 position) {
-    _onDragUpdate?.call(pointerId, position);
-    if (passThrough) super.onDragUpdate(pointerId, position);
+  void onDragUpdate(Vector2 position) {
+    _onDragUpdate?.call(position);
+    if (passThrough) super.onDragUpdate(position);
   }
 
   @override
-  void onDragEnd(int pointerId, Vector2 position) {
-    _onDragEnd?.call(pointerId, position);
-    if (passThrough) super.onDragEnd(pointerId, position);
+  void onDragEnd(Vector2 position) {
+    _onDragEnd?.call(position);
+    if (passThrough) super.onDragEnd(position);
+  }
+
+  @override
+  void onScaleStart(Vector2 position) {
+    _onScaleStart?.call(position);
+    if (passThrough) super.onScaleStart(position);
+  }
+
+  @override
+  void onScaleUpdate(Vector2 position, double scale) {
+    _onScaleUpdate?.call(position, scale);
+    if (passThrough) super.onScaleUpdate(position, scale);
+  }
+
+  @override
+  void onScaleEnd(Vector2 position, double scale) {
+    _onScaleEnd?.call(position, scale);
+    if (passThrough) super.onScaleEnd(position, scale);
   }
 }

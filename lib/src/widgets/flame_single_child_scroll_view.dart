@@ -10,7 +10,8 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   var _scroll = Vector2.zero();
   var _dragStartPosition = Vector2.zero();
   var _scrollStart = Vector2.zero();
-  var _childPrefferedSize = Vector2.zero();
+  @protected
+  var childPrefferedSize = Vector2.zero();
   var _isScrolling = false;
 
   FlameSingleChildScrollView({
@@ -31,17 +32,16 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
     // We first build the child, then we know for sure that the child is ready to determine its size.
     // For now I don't see a better way, this is ofcourse not preferable if we want many rebuilds a second
     // but a flex only knows its renderable children after a build.
-    _childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
-    childBuild!.updateData(_childPrefferedSize, context, this);
+    childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
+    childBuild!.updateData(childPrefferedSize, context, this);
     childBuild = childPreBuild!.build(context);
-    childBuild!.reBuildChild(context, _childPrefferedSize);
-    _childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
+    childBuild!.reBuildChild(context, childPrefferedSize);
+    childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
   }
 
   @override
   void render(Canvas canvas, BuildContext context) {
     canvas.save();
-    canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x, bounds.y));
     canvas.translate(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
     childBuild?.render(canvas, context);
     canvas.restore();
@@ -53,16 +53,16 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   }
 
   @override
-  void onDragStart(int pointerId, Vector2 position) {
+  void onDragStart(Vector2 position) {
     if (!isInsideBounds(position)) return;
     _isScrolling = true;
     _scrollStart = _scroll;
     _dragStartPosition = position;
-    super.onDragStart(pointerId, position);
+    super.onDragStart(position);
   }
 
   @override
-  void onDragUpdate(int pointerId, Vector2 position) {
+  void onDragUpdate(Vector2 position) {
     if (!_isScrolling || !isInsideBounds(position)) {
       _isScrolling = false;
       return;
@@ -74,11 +74,11 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   }
 
   void _checkBounds() {
-    if (_scroll.x < -_childPrefferedSize.x + bounds.x) {
-      _scroll.x = -_childPrefferedSize.x + bounds.x;
+    if (_scroll.x < -childPrefferedSize.x + bounds.x) {
+      _scroll.x = -childPrefferedSize.x + bounds.x;
     }
-    if (_scroll.y < -_childPrefferedSize.y + bounds.y) {
-      _scroll.y = -_childPrefferedSize.y + bounds.y;
+    if (_scroll.y < -childPrefferedSize.y + bounds.y) {
+      _scroll.y = -childPrefferedSize.y + bounds.y;
     }
     if (_scroll.x > 0) {
       _scroll.x = 0;
@@ -89,7 +89,7 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   }
 
   @override
-  void onDragEnd(int pointerId, Vector2 position) {
+  void onDragEnd(Vector2 position) {
     _isScrolling = false;
   }
 }

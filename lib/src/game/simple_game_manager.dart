@@ -7,8 +7,10 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/game/game_manager.dart';
 
-class SimpleGameManager extends GameManager {
-  var lastDragPosition = Vector2.all(0);
+class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
+  var lastDragPosition = Vector2.zero();
+  var lastScalePosition = Vector2.zero();
+  var lastScale = 0.0;
   final FlameWidget? Function(RouteSettings settings)? _onGenerateRoute;
 
   /// Creates a basic game manager, should be enough for most use cases
@@ -67,7 +69,7 @@ class SimpleGameManager extends GameManager {
   }
 
   @override
-  void onTapDown(int pointerId, TapDownInfo event) {
+  void onTapDown(TapDownInfo event) {
     if (currentDialog != null) {
       currentDialog!.onTapDown(event.eventPosition.widget);
     } else {
@@ -76,7 +78,7 @@ class SimpleGameManager extends GameManager {
   }
 
   @override
-  void onTapUp(int pointerId, TapUpInfo event) {
+  void onTapUp(TapUpInfo event) {
     if (currentDialog != null) {
       currentDialog!.onTapUp(event.eventPosition.widget);
     } else {
@@ -85,30 +87,37 @@ class SimpleGameManager extends GameManager {
   }
 
   @override
-  void onDragStart(int pointerId, DragStartInfo event) {
+  void onScaleStart(ScaleStartInfo event) {
     if (currentDialog != null) {
-      currentDialog!.onDragStart(pointerId, event.eventPosition.widget);
+      currentDialog!.onDragStart(event.eventPosition.widget);
+      currentDialog!.onScaleStart(event.eventPosition.widget);
     } else {
-      currentScreen.onDragStart(pointerId, event.eventPosition.widget);
+      currentScreen.onScaleStart(event.eventPosition.widget);
+      currentScreen.onDragStart(event.eventPosition.widget);
     }
   }
 
   @override
-  void onDragUpdate(int pointerId, DragUpdateInfo event) {
-    lastDragPosition = event.eventPosition.widget;
+  void onScaleUpdate(ScaleUpdateInfo event) {
+    lastScalePosition = event.eventPosition.widget;
+    lastScale = event.raw.scale;
     if (currentDialog != null) {
-      currentDialog!.onDragUpdate(pointerId, event.eventPosition.widget);
+      currentDialog!.onDragUpdate(event.eventPosition.widget);
+      currentDialog!.onScaleUpdate(event.eventPosition.widget, event.raw.scale);
     } else {
-      currentScreen.onDragUpdate(pointerId, event.eventPosition.widget);
+      currentScreen.onDragUpdate(event.eventPosition.widget);
+      currentScreen.onScaleUpdate(event.eventPosition.widget, event.raw.scale);
     }
   }
 
   @override
-  void onDragEnd(int pointerId, DragEndInfo event) {
+  void onScaleEnd(ScaleEndInfo event) {
     if (currentDialog != null) {
-      currentDialog!.onDragEnd(pointerId, lastDragPosition);
+      currentDialog!.onDragEnd(lastScalePosition);
+      currentDialog!.onScaleEnd(lastScalePosition, lastScale);
     } else {
-      currentScreen.onDragEnd(pointerId, lastDragPosition);
+      currentScreen.onDragEnd(lastScalePosition);
+      currentScreen.onScaleEnd(lastScalePosition, lastScale);
     }
   }
 }

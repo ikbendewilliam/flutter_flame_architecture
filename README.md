@@ -49,6 +49,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
+- [x] Zoom widget (child is zoomable using gestures or programmatically)
 - [x] Automate SpriteManager (Use the FlameSprite Widget with fileName)
 - [x] Navigation
 - [x] Dialogs
@@ -77,6 +78,7 @@ Examples
 - [x] IsometricGridView
 - [x] Button
 - [x] Dialogs
+- [x] Zoom
 
 Code documentation
 - [ ] Center

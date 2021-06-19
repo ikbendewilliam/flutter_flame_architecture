@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 abstract class FlameWidget {
   FlameWidget? childBuild;
-  BuildContext? _context;
+  @protected
+  BuildContext? context;
   FlameWidget? _parent;
 
   /// The bounds of this widget, you cannot draw outside of these
@@ -19,7 +20,7 @@ abstract class FlameWidget {
   @mustCallSuper
   void updateData(Vector2 newBounds, BuildContext context, FlameWidget? parent) {
     bounds = newBounds;
-    _context = context;
+    this.context = context;
     if (parent != null) {
       _parent = parent;
     }
@@ -27,13 +28,13 @@ abstract class FlameWidget {
 
   /// Marks for rebuild, similar to setState in Flutter
   void markForRebuild() {
-    if (_context != null && _parent != null) _parent!.reBuildChild(_context!, _parent!.bounds);
+    if (context != null && _parent != null) _parent!.reBuildChild(context!, _parent!.bounds);
   }
 
   /// You must call super if you override this *and* override build
   /// Don't call super if you use this widget as a renderingWidget
   void render(Canvas canvas, BuildContext context) {
-    _context = context;
+    this.context = context;
     childBuild?.render(canvas, context);
   }
 
@@ -52,11 +53,17 @@ abstract class FlameWidget {
 
   void onTapUp(Vector2 tapPosition) => childBuild?.onTapUp(tapPosition);
 
-  void onDragStart(int pointerId, Vector2 position) => childBuild?.onDragStart(pointerId, position);
+  void onDragStart(Vector2 position) => childBuild?.onDragStart(position);
 
-  void onDragUpdate(int pointerId, Vector2 position) => childBuild?.onDragUpdate(pointerId, position);
+  void onDragUpdate(Vector2 position) => childBuild?.onDragUpdate(position);
 
-  void onDragEnd(int pointerId, Vector2 position) => childBuild?.onDragEnd(pointerId, position);
+  void onDragEnd(Vector2 position) => childBuild?.onDragEnd(position);
+
+  void onScaleStart(Vector2 position) => childBuild?.onScaleStart(position);
+
+  void onScaleUpdate(Vector2 position, double scale) => childBuild?.onScaleUpdate(position, scale);
+
+  void onScaleEnd(Vector2 position, double scale) => childBuild?.onScaleEnd(position, scale);
 
   /// Only used in [FlameRenderWidgets] for now, FlameWidgets are not
   /// being updated correctly. If you want to update your state, use

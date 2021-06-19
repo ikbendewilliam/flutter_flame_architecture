@@ -1,11 +1,10 @@
 import 'package:flame/game.dart';
-import 'package:flame/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_navigator.dart';
 
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 
-abstract class GameManager extends Game with MultiTouchDragDetector, MultiTouchTapDetector {
+abstract class GameManager extends Game {
   late FlameWidget currentScreen;
   FlameWidget? currentDialog;
   @protected

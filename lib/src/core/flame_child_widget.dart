@@ -27,6 +27,7 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) => childPreBuild?.determinePrefferedSize(parentBounds) ?? parentBounds;
 
+  @override
   void onTapDown(Vector2 tapPosition) {
     final transformedPoint = transformPoint(tapPosition);
     if (isInsideBounds(transformedPoint)) {
@@ -34,6 +35,7 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
     }
   }
 
+  @override
   void onTapUp(Vector2 tapPosition) {
     final transformedPoint = transformPoint(tapPosition);
     if (isInsideBounds(transformedPoint)) {
@@ -41,24 +43,51 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
     }
   }
 
-  void onDragStart(int pointerId, Vector2 position) {
+  @override
+  void onDragStart(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
-      childBuild?.onDragStart(pointerId, transformedPoint);
+      childBuild?.onDragStart(transformedPoint);
     }
   }
 
-  void onDragUpdate(int pointerId, Vector2 position) {
+  @override
+  void onDragUpdate(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
-      childBuild?.onDragUpdate(pointerId, transformedPoint);
+      childBuild?.onDragUpdate(transformedPoint);
     }
   }
 
-  void onDragEnd(int pointerId, Vector2 position) {
+  @override
+  void onDragEnd(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
-      childBuild?.onDragEnd(pointerId, transformedPoint);
+      childBuild?.onDragEnd(transformedPoint);
+    }
+  }
+
+  @override
+  void onScaleStart(Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onScaleStart(transformedPoint);
+    }
+  }
+
+  @override
+  void onScaleUpdate(Vector2 position, double scale) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onScaleUpdate(transformedPoint, scale);
+    }
+  }
+
+  @override
+  void onScaleEnd(Vector2 position, double scale) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childBuild?.onScaleEnd(transformedPoint, scale);
     }
   }
 }
@@ -105,24 +134,24 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     }
   }
 
-  void onDragStart(int pointerId, Vector2 position) {
+  void onDragStart(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
-      childrenBuild.forEach((child) => child.onDragStart(pointerId, transformedPoint));
+      childrenBuild.forEach((child) => child.onDragStart(transformedPoint));
     }
   }
 
-  void onDragUpdate(int pointerId, Vector2 position) {
+  void onDragUpdate(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
-      childrenBuild.forEach((child) => child.onDragUpdate(pointerId, transformedPoint));
+      childrenBuild.forEach((child) => child.onDragUpdate(transformedPoint));
     }
   }
 
-  void onDragEnd(int pointerId, Vector2 position) {
+  void onDragEnd(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
-      childrenBuild.forEach((child) => child.onDragEnd(pointerId, transformedPoint));
+      childrenBuild.forEach((child) => child.onDragEnd(transformedPoint));
     }
   }
 }
