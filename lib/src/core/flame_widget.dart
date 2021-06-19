@@ -37,6 +37,12 @@ abstract class FlameWidget {
     childBuild?.render(canvas, context);
   }
 
+  /// Called to dispose the widget
+  @mustCallSuper
+  void dispose() {
+    childBuild?.dispose();
+  }
+
   /// Determine how large this widget wants to be, based on constraints
   /// like child, width, height, fontSize, ...
   /// use parentBounds for unpreffered sizes

@@ -17,6 +17,13 @@ class FlameIsometricGridView extends FlameRenderWidget {
   });
 
   @override
+  void dispose() {
+    children.forEach((row) => row.forEach((child) => child.dispose()));
+    childrenBuild.forEach((row) => row.forEach((child) => child.dispose()));
+    super.dispose();
+  }
+
+  @override
   void update(double delta) {
     super.update(delta);
     childrenBuild.forEach((row) => row.forEach((child) => child.update(delta)));
