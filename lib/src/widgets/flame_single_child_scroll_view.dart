@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_child_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.dart';
+import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart';
 
 class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChildUpdateMixin {
   final bool horizontalScrollEnabled;
@@ -51,6 +52,8 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   Vector2 transformPoint(Vector2 point) {
     return point - Vector2(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
   }
+
+  bool isInsideBounds(Vector2 point) => !(point < 0) && point << transformPoint(bounds);
 
   @override
   void onDragStart(Vector2 position) {
