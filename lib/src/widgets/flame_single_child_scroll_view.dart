@@ -22,7 +22,7 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   }) : super(child);
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => parentBounds;
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => childPrefferedSize;
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {

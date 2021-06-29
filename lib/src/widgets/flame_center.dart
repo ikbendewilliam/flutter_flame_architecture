@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
-class FlameCenter extends SingleChildFlameWidget {
+class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
   Vector2 _childDeterminedPrefferedSize = Vector2.zero();
 
   FlameCenter({

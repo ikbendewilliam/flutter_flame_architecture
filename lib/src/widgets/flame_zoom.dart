@@ -9,8 +9,10 @@ class FlameZoom extends SingleChildFlameWidget {
   final double Function()? setZoom;
   final double maxZoom;
   final double minZoom;
+  final ZoomAlignment zoomAlignment;
   double zoom;
   double? _zoomStart;
+  Vector2 _childDeterminedPrefferedSize = Vector2.zero();
 
   FlameZoom({
     required FlameWidget child,
@@ -18,16 +20,31 @@ class FlameZoom extends SingleChildFlameWidget {
     this.setZoom,
     this.minZoom = 0.5,
     this.maxZoom = 2,
+    this.zoomAlignment = ZoomAlignment.center,
   })  : zoom = initialZoom,
         super(child);
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) => parentBounds;
 
+  Vector2 _determineChildPrefferedSize(Vector2 parentBounds) {
+    _childDeterminedPrefferedSize = childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
+    return _childDeterminedPrefferedSize;
+  }
+
   @override
   void render(canvas, context) {
     canvas.save();
     canvas.scale(zoom, zoom);
+    if (zoomAlignment == ZoomAlignment.center) {
+      if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
+      if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
+        canvas.translate(bounds.x - _childDeterminedPrefferedSize.x * zoom, 0);
+      }
+      if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
+        canvas.translate(0, bounds.y - _childDeterminedPrefferedSize.y * zoom);
+      }
+    }
     childBuild?.render(canvas, context);
     canvas.restore();
   }
@@ -71,4 +88,9 @@ class FlameZoom extends SingleChildFlameWidget {
       childPreBuild?.updateData(bounds / zoom, context!, this);
     }
   }
+}
+
+enum ZoomAlignment {
+  center,
+  topLeft,
 }
