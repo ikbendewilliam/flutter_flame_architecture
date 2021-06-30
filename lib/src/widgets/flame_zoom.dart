@@ -39,10 +39,10 @@ class FlameZoom extends SingleChildFlameWidget {
     if (zoomAlignment == ZoomAlignment.center) {
       if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
       if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
-        canvas.translate(bounds.x - _childDeterminedPrefferedSize.x * zoom, 0);
+        canvas.translate((bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
       }
       if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
-        canvas.translate(0, bounds.y - _childDeterminedPrefferedSize.y * zoom);
+        canvas.translate(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
       }
     }
     childBuild?.render(canvas, context);
