@@ -59,7 +59,20 @@ class FlameZoom extends SingleChildFlameWidget {
   }
 
   @override
-  Vector2 transformPoint(Vector2 point) => point / zoom;
+  Vector2 transformPoint(Vector2 point) {
+    final transformedPoint = point / zoom;
+    if (zoomAlignment == ZoomAlignment.center) {
+      if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
+      if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
+        transformedPoint.x -= (bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2;
+      }
+      if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
+        transformedPoint.y -= (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2;
+      }
+    }
+
+    return transformedPoint;
+  }
 
   @override
   bool isInsideBounds(Vector2 point) => point >= 0 && point < bounds / zoom;
