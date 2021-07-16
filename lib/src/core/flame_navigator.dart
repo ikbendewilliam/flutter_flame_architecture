@@ -26,9 +26,11 @@ class FlameNavigator {
 
   static void pop() => instance._gameManager!.pop();
 
+  static void popUntil(bool Function(FlameRoute route) check) => instance._gameManager!.popUntil(check);
+
   static FlameRoute get currentRoute => instance._gameManager!.getCurrentRoute();
 
-  static void showDialog(FlameWidget dialog) => instance._gameManager!.showDialog(dialog);
+  static Future<void> showDialog(FlameWidget dialog) => instance._gameManager!.showDialog(dialog);
 }
 
 class FlameRoute {

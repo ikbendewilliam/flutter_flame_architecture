@@ -23,9 +23,9 @@ class FlameDialog extends FlameWidget {
   @override
   FlameWidget build(BuildContext context) {
     var hasPressedInside = false;
-    if (closeOnPressOutside) {
-      return FlameStack(
-        children: [
+    return FlameStack(
+      children: [
+        if (closeOnPressOutside) ...[
           FlameGestureDetector(
             child: FlameContainer(color: background),
             onTapUp: (tapPosition) {
@@ -33,27 +33,21 @@ class FlameDialog extends FlameWidget {
               hasPressedInside = false;
             },
           ),
-          FlameCenter(
-            child: FlameContainer(
-              height: height,
-              width: width + padding.horizontal,
-              padding: padding,
-              color: dialogBackground,
-              child: FlameGestureDetector(
-                child: child,
-                onTapDown: (tapPosition) => hasPressedInside = true,
-                passThrough: true,
-              ),
+        ] else ...[
+          FlameContainer(color: background),
+        ],
+        FlameCenter(
+          child: FlameContainer(
+            height: height,
+            width: width + padding.horizontal,
+            padding: padding,
+            color: dialogBackground,
+            child: FlameGestureDetector(
+              child: child,
+              onTapDown: (tapPosition) => hasPressedInside = true,
+              passThrough: true,
             ),
           ),
-        ],
-      );
-    }
-    return FlameStack(
-      children: [
-        FlameContainer(color: background),
-        FlameCenter(
-          child: child,
         ),
       ],
     );
