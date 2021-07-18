@@ -96,6 +96,7 @@ class FlameZoom extends SingleChildFlameWidget {
   @override
   void onScaleUpdate(Vector2 position, double scale) {
     if (setZoom == null && isInsideBounds(position)) {
+      if (_zoomStart == null) onScaleStart(position);
       zoom = _zoomStart! * scale;
       zoom = zoom.clamp(minZoom, maxZoom);
       childPreBuild?.updateData(bounds / zoom, context!, this);
