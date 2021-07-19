@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
@@ -17,6 +19,12 @@ class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
 
   Vector2 _determineChildPrefferedSize(Vector2 parentBounds) {
     _childDeterminedPrefferedSize = childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
+    if (_childDeterminedPrefferedSize > bounds) {
+      _childDeterminedPrefferedSize = Vector2(
+        min(_childDeterminedPrefferedSize.x, bounds.x),
+        min(_childDeterminedPrefferedSize.y, bounds.y),
+      );
+    }
     return _childDeterminedPrefferedSize;
   }
 
@@ -33,7 +41,10 @@ class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
-    final childBounds = _determineChildPrefferedSize(bounds);
+    var childBounds = _determineChildPrefferedSize(bounds);
+    if (childBounds == Vector2.zero()) {
+      childBounds = bounds;
+    }
     childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);

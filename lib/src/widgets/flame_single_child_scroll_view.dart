@@ -25,19 +25,19 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   Vector2 determinePrefferedSize(Vector2 parentBounds) => childPrefferedSize;
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
-    updateData(bounds, context, null);
-    childPreBuild!.updateData(bounds, context, this);
+  void reBuildChild(BuildContext context, Vector2 newBounds) {
+    updateData(newBounds, context, null);
+    childPreBuild!.updateData(newBounds, context, this);
     childBuild = childPreBuild!.build(context);
-    childBuild!.reBuildChild(context, bounds);
+    childBuild!.reBuildChild(context, newBounds);
     // We first build the child, then we know for sure that the child is ready to determine its size.
     // For now I don't see a better way, this is ofcourse not preferable if we want many rebuilds a second
     // but a flex only knows its renderable children after a build.
-    childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
+    childPrefferedSize = childBuild!.determinePrefferedSize(newBounds);
     childBuild!.updateData(childPrefferedSize, context, this);
     childBuild = childPreBuild!.build(context);
     childBuild!.reBuildChild(context, childPrefferedSize);
-    childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
+    childPrefferedSize = childBuild!.determinePrefferedSize(newBounds);
   }
 
   @override
@@ -53,7 +53,7 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
     return point - Vector2(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
   }
 
-  bool isInsideBounds(Vector2 point) => !(point < 0) && point << transformPoint(bounds);
+  bool isInsideBounds(Vector2 point) => !(point < 0) && point << childPrefferedSize;
 
   @override
   void onDragStart(Vector2 position) {
