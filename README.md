@@ -46,6 +46,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] IsometricGridView
 - [x] SafeArea
 - [x] Builder
+- [x] ValueListenableBuilder
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
@@ -79,6 +80,8 @@ Examples
 - [x] Button
 - [x] Dialogs
 - [x] Zoom
+- [ ] FlameValueListenableBuilder
+- [ ] FlameCanvas(that updates)
 
 Code documentation
 - [ ] Center
@@ -100,7 +103,7 @@ Code documentation
 - [ ] Navigation
 - [ ] SingleChildScrollView
 - [ ] Dialogs
-- [ ] BackPress
+- [ ] ValueListenableBuilder
 
 WikiDocs
 - [ ] Center
@@ -122,3 +125,4 @@ WikiDocs
 - [ ] Navigation
 - [ ] SingleChildScrollView
 - [ ] Dialogs
+- [ ] FlameValueListenableBuilder
