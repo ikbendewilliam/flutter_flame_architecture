@@ -84,8 +84,8 @@ abstract class GameManager extends Game {
       currentDialogCompleter = null;
       return;
     }
+    if (stack.length <= 1) return;
     stack.removeLast();
-    if (stack.isEmpty) return;
     currentScreen = stack.last.widget;
   }
 
