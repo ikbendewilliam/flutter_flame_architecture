@@ -10,19 +10,20 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
   FlameText(
     String text, {
     TextStyle? textStyle,
-    Color color = Colors.black,
+    Color? color,
     this.textAlign = TextAlign.center,
-  }) : textPainter = TextPainter(
+  })  : textPainter = TextPainter(
           text: TextSpan(
             text: text,
             style: textStyle ??
                 TextStyle(
-                  color: color,
+                  color: color ?? Colors.black,
                 ),
           ),
           textDirection: TextDirection.ltr,
           textAlign: textAlign,
-        );
+        ),
+        assert(textStyle == null || color == null);
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
