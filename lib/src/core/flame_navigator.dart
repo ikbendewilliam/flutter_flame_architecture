@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
@@ -18,11 +20,11 @@ class FlameNavigator {
 
   static bool get isReady => instance._gameManager != null;
 
-  static void push(FlameWidget screen) => instance._gameManager!.push(screen);
+  static Future<dynamic> push(FlameWidget screen) => instance._gameManager!.push(screen);
 
-  static void pushNamed(String route, {dynamic arguments}) => instance._gameManager!.pushNamed(route, arguments: arguments);
+  static Future<dynamic> pushNamed(String route, {dynamic arguments}) => instance._gameManager!.pushNamed(route, arguments: arguments);
 
-  static void popAndPushNamed(String route, {dynamic arguments}) => instance._gameManager!.popAndPushNamed(route, arguments: arguments);
+  static Future<dynamic> popAndPushNamed(String route, {dynamic arguments}) => instance._gameManager!.popAndPushNamed(route, arguments: arguments);
 
   static void pop() => instance._gameManager!.pop();
 
@@ -36,9 +38,12 @@ class FlameNavigator {
 class FlameRoute {
   final FlameWidget widget;
   final RouteSettings routeSettings;
+  late final Completer currentDialogCompleter;
 
   FlameRoute({
     required this.widget,
     required this.routeSettings,
-  });
+  }) {
+    this.currentDialogCompleter = Completer();
+  }
 }

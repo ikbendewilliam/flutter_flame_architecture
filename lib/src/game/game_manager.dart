@@ -24,7 +24,10 @@ abstract class GameManager extends Game {
     final firstScreen = home ?? onGenerateRoute(routeSettings);
     if (firstScreen == null) throw Exception('Initial route doesn\'t generate a valid Widget, this is invalid!');
     currentScreen = firstScreen;
-    stack.add(FlameRoute(routeSettings: routeSettings, widget: firstScreen));
+    stack.add(FlameRoute(
+      routeSettings: routeSettings,
+      widget: firstScreen,
+    ));
   }
 
   @override
@@ -46,30 +49,34 @@ abstract class GameManager extends Game {
     return currentDialogCompleter!.future;
   }
 
-  void push(FlameWidget screen, {RouteSettings? routeSettings}) {
+  Future<dynamic> push(FlameWidget screen, {RouteSettings? routeSettings}) {
     currentScreen = screen;
     if (currentDialog != null) {
       currentDialog = null;
       currentDialogCompleter?.complete();
       dialogRoute = null;
     }
-    stack.add(FlameRoute(routeSettings: routeSettings ?? RouteSettings(), widget: currentScreen));
+    stack.add(FlameRoute(
+      routeSettings: routeSettings ?? RouteSettings(),
+      widget: currentScreen,
+    ));
     build();
+    return stack.last.currentDialogCompleter.future;
   }
 
-  void pushNamed(String route, {dynamic arguments}) {
+  Future<dynamic> pushNamed(String route, {dynamic arguments}) async {
     final routeSettings = RouteSettings(name: route, arguments: arguments);
     final screen = onGenerateRoute(routeSettings);
     if (screen == null) {
       print('WARNING: Cannot navigate to null widget');
       return;
     }
-    push(screen, routeSettings: routeSettings);
+    return push(screen, routeSettings: routeSettings);
   }
 
-  void popAndPushNamed(String route, {dynamic arguments}) {
+  Future<dynamic> popAndPushNamed(String route, {dynamic arguments}) async {
     pop();
-    pushNamed(route);
+    return pushNamed(route);
   }
 
   void popUntil(bool Function(FlameRoute route) check) {
@@ -85,6 +92,7 @@ abstract class GameManager extends Game {
       return;
     }
     if (stack.length <= 1) return;
+    stack.last.currentDialogCompleter.complete();
     stack.removeLast();
     currentScreen = stack.last.widget;
   }
