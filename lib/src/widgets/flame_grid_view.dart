@@ -41,10 +41,10 @@ class FlameGridView extends FlameRenderWidget {
         }
         child.render(canvas, context);
         if (clipChildBorder) canvas.restore();
-        canvas.translate(childSize.x - 1, 0);
+        canvas.translate(childSize.x, 0);
       });
       canvas.restore();
-      dy += childSize.y - 1;
+      dy += childSize.y;
     });
   }
 
