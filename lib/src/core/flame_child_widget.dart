@@ -6,13 +6,14 @@ import 'package:flutter_flame_architecture/src/core/flame_render_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 
 abstract class SingleChildFlameWidget extends FlameRenderWidget {
-  final FlameWidget? childPreBuild;
+  FlameWidget? childPreBuild;
 
   SingleChildFlameWidget(this.childPreBuild);
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
+    childBuild?.dispose();
     childPreBuild?.updateData(bounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, bounds);
@@ -21,6 +22,7 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
   @override
   void dispose() {
     childPreBuild?.dispose();
+    childPreBuild = null;
     super.dispose();
   }
 
@@ -100,8 +102,12 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
 
   @override
   void dispose() {
-    childrenBuild.forEach((child) => child.dispose());
-    childrenPreBuild.forEach((child) => child.dispose());
+    childrenPreBuild
+      ..forEach((child) => child.dispose())
+      ..clear();
+    childrenBuild
+      ..forEach((child) => child.dispose())
+      ..clear();
     super.dispose();
   }
 
@@ -109,7 +115,9 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
     childrenBuild.forEach((child) => child.dispose());
-    childrenBuild.clear();
+    childrenBuild
+      ..forEach((child) => child.dispose())
+      ..clear();
     childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));

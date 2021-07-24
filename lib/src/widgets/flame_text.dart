@@ -4,8 +4,9 @@ import 'package:flutter_flame_architecture/src/core/flame_render_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/no_child_mixins.dart';
 
 class FlameText extends FlameRenderWidget with NoChildMixin {
-  TextPainter textPainter;
+  TextPainter? textPainter;
   TextAlign textAlign;
+  bool hasLayout = false;
 
   FlameText(
     String text, {
@@ -26,13 +27,26 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
         assert(textStyle == null || color == null);
 
   @override
+  void dispose() {
+    textPainter = null;
+    super.dispose();
+  }
+
+  @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    return Vector2(parentBounds.x, textPainter.preferredLineHeight);
+    if (!hasLayout) {
+      hasLayout = true;
+      textPainter?.layout(minWidth: parentBounds.x, maxWidth: parentBounds.x);
+    }
+    return Vector2(parentBounds.x, textPainter?.height ?? 0);
   }
 
   @override
   void render(Canvas canvas, BuildContext context) {
-    textPainter.layout(minWidth: bounds.x, maxWidth: bounds.x);
-    textPainter.paint(canvas, Offset(0, 0));
+    if (!hasLayout) {
+      hasLayout = true;
+      textPainter?.layout(minWidth: bounds.x, maxWidth: bounds.x);
+    }
+    textPainter?.paint(canvas, Offset(0, 0));
   }
 }

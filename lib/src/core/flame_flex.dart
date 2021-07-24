@@ -28,6 +28,13 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   }) : super(children);
 
   @override
+  void dispose() {
+    childrenBounds.keys.forEach((element) => element.dispose());
+    childrenBounds.clear();
+    super.dispose();
+  }
+
+  @override
   void render(canvas, context) {
     canvas.save();
     childrenBuild.forEach((child) {
@@ -43,7 +50,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    childrenBuild.clear();
+    childrenBuild
+      ..forEach((element) => element.dispose())
+      ..clear();
     childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateData(bounds, context, null);
     childrenBuild.forEach((child) => child.reBuildChild(context, childrenBounds[child]!));

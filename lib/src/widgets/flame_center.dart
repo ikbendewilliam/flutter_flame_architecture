@@ -45,6 +45,7 @@ class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
     if (childBounds == Vector2.zero()) {
       childBounds = bounds;
     }
+    childBuild?.dispose();
     childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);

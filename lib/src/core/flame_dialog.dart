@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 class FlameDialog extends FlameWidget {
-  final FlameWidget child;
+  FlameWidget? child;
   final Color background;
   final Color dialogBackground;
   final bool closeOnPressOutside;
@@ -19,6 +19,13 @@ class FlameDialog extends FlameWidget {
     this.width = 256,
     this.height = 160,
   });
+
+  @override
+  void dispose() {
+    child?.dispose();
+    child = null;
+    super.dispose();
+  }
 
   @override
   FlameWidget build(BuildContext context) {

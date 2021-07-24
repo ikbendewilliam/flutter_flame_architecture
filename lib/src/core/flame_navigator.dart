@@ -26,13 +26,13 @@ class FlameNavigator {
 
   static Future<dynamic> popAndPushNamed(String route, {dynamic arguments}) => instance._gameManager!.popAndPushNamed(route, arguments: arguments);
 
-  static void pop() => instance._gameManager!.pop();
+  static void pop({dynamic result}) => instance._gameManager!.pop(result: result);
 
   static void popUntil(bool Function(FlameRoute route) check) => instance._gameManager!.popUntil(check);
 
   static FlameRoute get currentRoute => instance._gameManager!.getCurrentRoute();
 
-  static Future<void> showDialog(FlameWidget dialog) => instance._gameManager!.showDialog(dialog);
+  static Future<dynamic> showDialog(FlameWidget dialog) => instance._gameManager!.showDialog(dialog);
 }
 
 class FlameRoute {

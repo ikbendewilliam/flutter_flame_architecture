@@ -17,6 +17,12 @@ class FlameSafeArea extends FlameWidget {
   });
 
   @override
+  void dispose() {
+    child.dispose();
+    super.dispose();
+  }
+
+  @override
   FlameWidget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return FlamePadding(

@@ -16,8 +16,16 @@ class FlameGridView extends FlameRenderWidget {
 
   @override
   void dispose() {
-    children.forEach((row) => row.forEach((child) => child.dispose()));
-    childrenBuild.forEach((row) => row.forEach((child) => child.dispose()));
+    children
+      ..forEach((row) => row
+        ..forEach((child) => child.dispose())
+        ..clear())
+      ..clear();
+    childrenBuild
+      ..forEach((row) => row
+        ..forEach((child) => child.dispose())
+        ..clear())
+      ..clear();
     super.dispose();
   }
 
@@ -51,7 +59,11 @@ class FlameGridView extends FlameRenderWidget {
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
-    childrenBuild.clear();
+    childrenBuild
+      ..forEach((row) => row
+        ..forEach((child) => child.dispose())
+        ..clear())
+      ..clear();
     children.forEach((row) => row.forEach((child) => child.updateData(childSize, context, this)));
     childrenBuild.addAll(children.map((row) => row.map((child) => child.build(context)).toList()));
     childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize)));

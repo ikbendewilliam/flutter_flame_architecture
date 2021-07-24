@@ -3,12 +3,12 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 class FlameButton extends FlameWidget {
   final String? text;
-  final FlameWidget? child;
   final VoidCallback onTap;
   final Color borderColor;
   final Color backgroundColor;
   final double width;
   final double height;
+  FlameWidget? child;
 
   FlameButton({
     required this.onTap,
@@ -19,6 +19,13 @@ class FlameButton extends FlameWidget {
     this.width = 256,
     this.height = 32,
   }) : assert(text != null || child != null);
+
+  @override
+  void dispose() {
+    child?.dispose();
+    child = null;
+    super.dispose();
+  }
 
   @override
   FlameWidget build(BuildContext context) {

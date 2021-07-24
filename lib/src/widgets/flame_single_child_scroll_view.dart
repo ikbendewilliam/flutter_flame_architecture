@@ -28,6 +28,7 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   void reBuildChild(BuildContext context, Vector2 newBounds) {
     updateData(newBounds, context, null);
     childPreBuild!.updateData(newBounds, context, this);
+    childBuild?.dispose();
     childBuild = childPreBuild!.build(context);
     childBuild!.reBuildChild(context, newBounds);
     // We first build the child, then we know for sure that the child is ready to determine its size.
