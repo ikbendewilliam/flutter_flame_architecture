@@ -27,12 +27,6 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
         assert(textStyle == null || color == null);
 
   @override
-  void dispose() {
-    textPainter = null;
-    super.dispose();
-  }
-
-  @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
     if (!hasLayout) {
       hasLayout = true;

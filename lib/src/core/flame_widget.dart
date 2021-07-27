@@ -38,15 +38,6 @@ abstract class FlameWidget {
     childBuild?.render(canvas, context);
   }
 
-  /// Called to dispose the widget
-  @mustCallSuper
-  void dispose() {
-    childBuild?.dispose();
-    childBuild = null;
-    context = null;
-    _parent = null;
-  }
-
   /// Determine how large this widget wants to be, based on constraints
   /// like child, width, height, fontSize, ...
   /// use parentBounds for unpreffered sizes
@@ -82,7 +73,6 @@ abstract class FlameWidget {
 
   /// Used to build this child, override to disable if you don't require (re)build
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    childBuild?.dispose();
     updateData(bounds, context, null);
     childBuild = build(context);
     childBuild?.updateData(bounds, context, this);

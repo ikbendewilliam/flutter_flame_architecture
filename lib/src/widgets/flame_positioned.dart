@@ -92,7 +92,6 @@ class FlamePositioned extends SingleChildFlameWidget {
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
-    childBuild?.dispose();
     childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);

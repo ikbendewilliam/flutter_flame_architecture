@@ -27,12 +27,6 @@ class FlameSprite extends FlameRenderWidget with NoChildMixin {
     if (sprite == null && spriteFileName != null) _loadSprite();
   }
 
-  @override
-  void dispose() {
-    sprite = null;
-    super.dispose();
-  }
-
   Future<void> _loadSprite() async {
     sprite = await FlameSpriteCollector.instance.getSprite(spriteFileName!);
   }

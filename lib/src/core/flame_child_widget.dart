@@ -13,17 +13,9 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
-    childBuild?.dispose();
     childPreBuild?.updateData(bounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, bounds);
-  }
-
-  @override
-  void dispose() {
-    childPreBuild?.dispose();
-    childPreBuild = null;
-    super.dispose();
   }
 
   @override
@@ -101,23 +93,9 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
   MultipleChildrenFlameWidget(this.childrenPreBuild);
 
   @override
-  void dispose() {
-    childrenPreBuild
-      ..forEach((child) => child.dispose())
-      ..clear();
-    childrenBuild
-      ..forEach((child) => child.dispose())
-      ..clear();
-    super.dispose();
-  }
-
-  @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
-    childrenBuild.forEach((child) => child.dispose());
-    childrenBuild
-      ..forEach((child) => child.dispose())
-      ..clear();
+    childrenBuild.clear();
     childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
