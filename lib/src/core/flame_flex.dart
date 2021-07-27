@@ -29,7 +29,6 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
 
   @override
   void dispose() {
-    childrenBounds.keys.forEach((element) => element.dispose());
     childrenBounds.clear();
     super.dispose();
   }
@@ -49,11 +48,10 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     childrenBuild
-      ..forEach((element) => element.dispose())
-      ..clear();
-    childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
+      ..clear()
+      ..addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateData(bounds, context, null);
     childrenBuild.forEach((child) => child.reBuildChild(context, childrenBounds[child]!));
   }
@@ -158,11 +156,12 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
     var transformedPosition = position;
-    childrenBuild.forEach((child) {
+    for (var child in childrenBuild) {
       final childToBounds = childrenBounds[child];
-      if (childToBounds == null || transformedPosition < 0) return; // Skip
+      if (childToBounds == null || transformedPosition < 0) continue;
       if (transformedPosition << childToBounds) {
         childMethod(child, transformedPosition);
+        return;
       }
       switch (direction) {
         case Axis.horizontal:
@@ -172,7 +171,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
           transformedPosition -= Vector2(0, childToBounds.y);
           break;
       }
-    });
+    }
   }
 
   @override

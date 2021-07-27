@@ -78,6 +78,20 @@ class Menu extends FlameWidget {
             ),
           ),
         ),
+        FlameButton(
+          child: FlameRow(
+            children: [
+              FlameExpanded(
+                child: FlameText('button', color: Colors.white),
+              ),
+              FlameSpacer(),
+              FlameExpanded(
+                child: FlameText('with child', color: Colors.white),
+              ),
+            ],
+          ),
+          onTap: () {},
+        ),
       ],
     );
   }

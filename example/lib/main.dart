@@ -8,10 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 void main() {
-  final gameManager = SimpleGameManager(
-    initialRoute: Menu.routeName,
-    onGenerateRoute: Menu.onGenerateRoute,
-  );
   runApp(
     MaterialApp(
       home: WillPopScope(
@@ -20,7 +16,10 @@ void main() {
           return false;
         },
         child: GameWidget(
-          game: gameManager,
+          game: SimpleGameManager(
+            initialRoute: Menu.routeName,
+            onGenerateRoute: Menu.onGenerateRoute,
+          ),
         ),
       ),
     ),

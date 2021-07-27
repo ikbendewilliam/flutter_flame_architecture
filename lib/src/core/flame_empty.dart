@@ -7,5 +7,5 @@ class FlameEmpty extends FlameWidget with NoChildMixin {
   FlameWidget build(BuildContext context) => this;
 
   @override
-  void reBuildChild(_, __) {}
+  void reBuildChild(_, __, {bool disposeUnusedWidgets = false}) {}
 }

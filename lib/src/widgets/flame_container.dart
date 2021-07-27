@@ -10,10 +10,10 @@ import 'package:flutter_flame_architecture/src/widgets/flame_sized_box.dart';
 class FlameContainer extends FlameWidget {
   final Color? color;
   final EdgeInsets? padding;
-  final FlameWidget? child;
   final double? width;
   final double? height;
   final void Function(double delta)? onUpdate;
+  FlameWidget? child;
 
   FlameContainer({
     this.color,

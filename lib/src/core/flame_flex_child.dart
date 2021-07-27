@@ -23,6 +23,12 @@ abstract class FlameSizedChild extends SingleChildFlameWidget {
   }) : super(child);
 
   @override
+  void dispose() {
+    childPreBuild = null;
+    super.dispose();
+  }
+
+  @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
     return Vector2(width ?? parentBounds.x, height ?? parentBounds.y);
   }
@@ -36,12 +42,12 @@ abstract class FlameSizedChild extends SingleChildFlameWidget {
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     final newBounds = Vector2(width ?? bounds.x, height ?? bounds.y);
-    childBuild?.dispose();
-    updateData(newBounds, context, this);
+    updateData(newBounds, context, null);
     childPreBuild?.updateData(newBounds, context, this);
-    childBuild = childPreBuild?.build(context);
+    final newBuild = childPreBuild?.build(context);
+    childBuild = newBuild;
     childBuild?.reBuildChild(context, newBounds);
   }
 }

@@ -5,7 +5,7 @@ mixin NoChildMixin on FlameWidget {
   void render(_, __) {}
 
   @override
-  void reBuildChild(context, bounds) {
+  void reBuildChild(context, bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
   }
 }

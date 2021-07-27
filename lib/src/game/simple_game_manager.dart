@@ -34,10 +34,10 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
     final context = testContext ?? buildContext;
     if (context == null) return;
     if (currentDialog != null) {
-      currentDialog!.reBuildChild(context, size);
+      currentDialog!.onReBuildChild(context, size, disposeUnusedWidgets: true);
       return;
     }
-    currentScreen.reBuildChild(context, size);
+    currentScreen.onReBuildChild(context, size, disposeUnusedWidgets: true);
   }
 
   @override

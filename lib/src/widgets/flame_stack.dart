@@ -9,12 +9,8 @@ class FlameStack extends MultipleChildrenFlameWidget with MultipleChildrenUpdate
 
   @override
   void dispose() {
-    childrenPreBuild
-      ..forEach((element) => element.dispose())
-      ..clear();
-    childrenBuild
-      ..forEach((element) => element.dispose())
-      ..clear();
+    childrenPreBuild.clear();
+    childrenBuild.clear();
     super.dispose();
   }
 
@@ -24,11 +20,9 @@ class FlameStack extends MultipleChildrenFlameWidget with MultipleChildrenUpdate
   }
 
   @override
-  void reBuildChild(context, bounds) {
+  void reBuildChild(context, bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
-    childrenBuild
-      ..forEach((element) => element.dispose())
-      ..clear();
+    childrenBuild.clear();
     childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));

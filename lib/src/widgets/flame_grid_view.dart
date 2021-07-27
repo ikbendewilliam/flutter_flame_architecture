@@ -17,14 +17,10 @@ class FlameGridView extends FlameRenderWidget {
   @override
   void dispose() {
     children
-      ..forEach((row) => row
-        ..forEach((child) => child.dispose())
-        ..clear())
+      ..forEach((row) => row.clear())
       ..clear();
     childrenBuild
-      ..forEach((row) => row
-        ..forEach((child) => child.dispose())
-        ..clear())
+      ..forEach((row) => row.clear())
       ..clear();
     super.dispose();
   }
@@ -57,16 +53,23 @@ class FlameGridView extends FlameRenderWidget {
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
-    childrenBuild
-      ..forEach((row) => row
-        ..forEach((child) => child.dispose())
-        ..clear())
-      ..clear();
     children.forEach((row) => row.forEach((child) => child.updateData(childSize, context, this)));
-    childrenBuild.addAll(children.map((row) => row.map((child) => child.build(context)).toList()));
-    childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize)));
+    childrenBuild
+      ..forEach((row) => row.clear())
+      ..clear()
+      ..addAll(children.map((row) => row.map((child) => child.build(context)).toList()))
+      ..forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize)));
+  }
+
+  @override
+  Set<FlameWidget> getChildrenTree() {
+    return {
+      this,
+      ...childrenBuild.map((row) => row.map((e) => e.getChildrenTree()).reduce((value, element) => value..addAll(element))).reduce((value, element) => value..addAll(element)),
+      ...children.map((row) => row.map((e) => e.getChildrenTree()).reduce((value, element) => value..addAll(element))).reduce((value, element) => value..addAll(element)),
+    };
   }
 
   @override
@@ -75,18 +78,19 @@ class FlameGridView extends FlameRenderWidget {
   void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
     final transformedPosition = Vector2(position.x, position.y);
-    childrenBuild.forEach((row) {
+    for (var row in childrenBuild) {
       transformedPosition.x = position.x.toDouble();
-      if (transformedPosition < 0) return; // Skip
-      row.forEach((child) {
-        if (transformedPosition < 0) return; // Skip
+      if (transformedPosition < 0) continue;
+      for (var child in row) {
+        if (transformedPosition < 0) continue;
         if (transformedPosition << childSize) {
           childMethod(child, transformedPosition);
+          return;
         }
         transformedPosition.x -= childSize.x;
-      });
+      }
       transformedPosition.y -= childSize.y;
-    });
+    }
   }
 
   @override

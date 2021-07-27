@@ -17,11 +17,8 @@ class FlameCanvas extends SingleChildFlameWidget {
 
   @override
   void render(canvas, context) {
-    canvas.save();
-    canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x, bounds.y));
     draw(canvas, bounds, context);
     childBuild?.render(canvas, context);
-    canvas.restore();
   }
 
   @override

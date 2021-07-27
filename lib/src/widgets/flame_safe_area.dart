@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 class FlameSafeArea extends FlameWidget {
-  final FlameWidget child;
+  FlameWidget? _child;
   final bool top;
   final bool left;
   final bool right;
   final bool bottom;
 
   FlameSafeArea({
-    required this.child,
+    required FlameWidget child,
     this.top = true,
     this.left = true,
     this.right = true,
     this.bottom = true,
-  });
+  }) : _child = child;
 
   @override
   void dispose() {
-    child.dispose();
+    _child = null;
     super.dispose();
   }
 
@@ -26,7 +26,7 @@ class FlameSafeArea extends FlameWidget {
   FlameWidget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return FlamePadding(
-      child: child,
+      child: _child ?? FlameEmpty(),
       padding: EdgeInsets.only(
         top: top ? mediaQuery.padding.top : 0,
         left: left ? mediaQuery.padding.left : 0,

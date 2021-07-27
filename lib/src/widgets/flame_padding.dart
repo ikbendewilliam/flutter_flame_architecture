@@ -16,6 +16,12 @@ class FlamePadding extends SingleChildFlameWidget with SingleChildUpdateMixin {
   }) : super(child);
 
   @override
+  void dispose() {
+    childPreBuild = null;
+    super.dispose();
+  }
+
+  @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
     final childMaxBounds = parentBounds - Vector2(padding.horizontal, padding.vertical);
     return childPreBuild!.determinePrefferedSize(childMaxBounds) + Vector2(padding.horizontal, padding.vertical);
@@ -31,12 +37,12 @@ class FlamePadding extends SingleChildFlameWidget with SingleChildUpdateMixin {
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
-    childBuild?.dispose();
     childPreBuild?.updateData(childBounds, context, this);
-    childBuild = childPreBuild?.build(context);
+    final newBuild = childPreBuild?.build(context);
+    childBuild = newBuild;
     childBuild?.reBuildChild(context, childBounds);
   }
 

@@ -21,13 +21,6 @@ class FlameButton extends FlameWidget {
   }) : assert(text != null || child != null);
 
   @override
-  void dispose() {
-    child?.dispose();
-    child = null;
-    super.dispose();
-  }
-
-  @override
   FlameWidget build(BuildContext context) {
     return FlameContainer(
       width: width,
@@ -40,18 +33,19 @@ class FlameButton extends FlameWidget {
           color: borderColor,
           child: FlameContainer(
             color: backgroundColor,
-            child: FlameColumn(
-              children: [
-                FlameSpacer(),
-                if (child != null) child!,
-                if (text != null)
-                  FlameText(
-                    text!,
-                    color: Colors.white,
+            child: (child != null)
+                ? child
+                : FlameColumn(
+                    children: [
+                      FlameSpacer(),
+                      if (text != null)
+                        FlameText(
+                          text!,
+                          color: Colors.white,
+                        ),
+                      FlameSpacer(),
+                    ],
                   ),
-                FlameSpacer(),
-              ],
-            ),
           ),
         ),
       ),

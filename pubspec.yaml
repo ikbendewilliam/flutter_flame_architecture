@@ -12,7 +12,6 @@ dependencies:
   flame: ^1.0.0-releasecandidate.11
   flutter:
     sdk: flutter
-    
 
 dev_dependencies:
   flutter_test:

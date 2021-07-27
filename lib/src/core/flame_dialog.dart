@@ -22,7 +22,6 @@ class FlameDialog extends FlameWidget {
 
   @override
   void dispose() {
-    child?.dispose();
     child = null;
     super.dispose();
   }

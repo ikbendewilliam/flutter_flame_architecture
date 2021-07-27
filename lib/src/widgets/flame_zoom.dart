@@ -25,6 +25,12 @@ class FlameZoom extends SingleChildFlameWidget {
         super(child);
 
   @override
+  void dispose() {
+    childPreBuild = null;
+    super.dispose();
+  }
+
+  @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) => parentBounds;
 
   Vector2 _determineChildPrefferedSize(Vector2 parentBounds) {
@@ -50,10 +56,9 @@ class FlameZoom extends SingleChildFlameWidget {
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
     final childBounds = bounds / zoom;
-    childBuild?.dispose();
     childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);

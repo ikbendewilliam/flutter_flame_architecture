@@ -1,11 +1,27 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 abstract class FlameWidget {
+  final _oldTreeChildren = <FlameWidget>{};
+
   FlameWidget? childBuild;
   @protected
   BuildContext? context;
   FlameWidget? _parent;
+  @protected
+  bool mounted = true;
+
+  String? _identifier;
+
+  /// A key to identify this widget. It is used to determine during rebuild
+  /// whether the widget should be disposed or not. If two widgets have the
+  /// same key, they are equal.
+  String get identifier {
+    _identifier ??= Random.secure().nextDouble().toString().replaceFirst('0.', '');
+    return _identifier!;
+  }
 
   /// The bounds of this widget, you cannot draw outside of these
   /// This variable is initially set to 1, 1 only after being added
@@ -28,7 +44,7 @@ abstract class FlameWidget {
 
   /// Marks for rebuild, similar to setState in Flutter
   void markForRebuild() {
-    if (context != null && _parent != null) _parent!.reBuildChild(context!, _parent!.bounds);
+    if (context != null && _parent != null) _parent!.onReBuildChild(context!, _parent!.bounds, disposeUnusedWidgets: true);
   }
 
   /// You must call super if you override this *and* override build
@@ -41,7 +57,7 @@ abstract class FlameWidget {
   /// Called to dispose the widget
   @mustCallSuper
   void dispose() {
-    childBuild?.dispose();
+    mounted = false;
     childBuild = null;
     context = null;
     _parent = null;
@@ -74,18 +90,47 @@ abstract class FlameWidget {
   /// Don't call super if you use this widget as a renderingWidget
   void update(double delta) {
     childBuild?.update(delta);
+    if (_oldTreeChildren.isNotEmpty) garbageCollect();
   }
 
   /// Return widgets here that should be drawn as child(ren) of this widget
   /// You should also update the child(ren) and call the render of the child(ren)
   FlameWidget build(BuildContext context);
 
+  /// Used to trigger a rebuild for this child.
+  /// Calling this function with [disposeUnusedWidgets] = true will result in
+  /// the widgets in the old tree that are not used anymore to be garbageCollected
+  /// using the dispose function.
+  void onReBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = true}) {
+    if (disposeUnusedWidgets) registerOldBuildTreeForGarbageCollecting();
+    reBuildChild(context, bounds);
+  }
+
   /// Used to build this child, override to disable if you don't require (re)build
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    childBuild?.dispose();
     updateData(bounds, context, null);
     childBuild = build(context);
     childBuild?.updateData(bounds, context, this);
     childBuild?.reBuildChild(context, bounds);
+  }
+
+  void registerOldBuildTreeForGarbageCollecting() {
+    _oldTreeChildren..addAll(getChildrenTree());
+  }
+
+  void garbageCollect() {
+    final newTree = getChildrenTree().map((e) => e.identifier).toList();
+    final oldWidgets = _oldTreeChildren.length;
+    _oldTreeChildren..removeWhere((element) => newTree.contains(element.identifier));
+    final x = _oldTreeChildren.toList();
+    print('Removing ${_oldTreeChildren.length}/$oldWidgets flameWidgets ');
+    _oldTreeChildren
+      ..forEach((e) => e.dispose())
+      ..clear();
+  }
+
+  @protected
+  Set<FlameWidget> getChildrenTree() {
+    return {this, ...childBuild?.getChildrenTree() ?? {}};
   }
 }

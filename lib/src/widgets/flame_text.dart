@@ -34,19 +34,12 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    if (!hasLayout) {
-      hasLayout = true;
-      textPainter?.layout(minWidth: parentBounds.x, maxWidth: parentBounds.x);
-    }
-    return Vector2(parentBounds.x, textPainter?.height ?? 0);
+    return Vector2(parentBounds.x, textPainter?.preferredLineHeight ?? 0);
   }
 
   @override
   void render(Canvas canvas, BuildContext context) {
-    if (!hasLayout) {
-      hasLayout = true;
-      textPainter?.layout(minWidth: bounds.x, maxWidth: bounds.x);
-    }
+    textPainter?.layout(minWidth: bounds.x, maxWidth: bounds.x);
     textPainter?.paint(canvas, Offset(0, 0));
   }
 }

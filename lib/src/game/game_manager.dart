@@ -41,7 +41,10 @@ abstract class GameManager extends Game {
   /// Implement this function to use the navigator, ignore it to use a custom implementation inside the home widget
   FlameWidget? onGenerateRoute(RouteSettings settings) {}
 
-  Future<dynamic> showDialog(FlameWidget dialog) {
+  Future<dynamic> showDialog(FlameWidget dialog) async {
+    if (currentDialog == dialog) return;
+    currentDialog?.registerOldBuildTreeForGarbageCollecting();
+    currentDialog?.garbageCollect();
     currentDialog = dialog;
     currentDialogCompleter = Completer();
     dialogRoute = FlameRoute(routeSettings: RouteSettings(), widget: dialog);
@@ -49,9 +52,14 @@ abstract class GameManager extends Game {
     return currentDialogCompleter!.future;
   }
 
-  Future<dynamic> push(FlameWidget screen, {RouteSettings? routeSettings}) {
+  Future<dynamic> push(FlameWidget screen, {RouteSettings? routeSettings}) async {
+    if (currentScreen == screen) return;
+    currentScreen.registerOldBuildTreeForGarbageCollecting();
+    currentScreen.garbageCollect();
     currentScreen = screen;
     if (currentDialog != null) {
+      currentDialog!.registerOldBuildTreeForGarbageCollecting();
+      currentDialog!.garbageCollect();
       currentDialog = null;
       currentDialogCompleter?.complete();
       dialogRoute = null;
@@ -85,6 +93,8 @@ abstract class GameManager extends Game {
 
   void pop({dynamic result}) {
     if (currentDialog != null) {
+      currentDialog!.registerOldBuildTreeForGarbageCollecting();
+      currentDialog!.garbageCollect();
       currentDialog = null;
       dialogRoute = null;
       currentDialogCompleter?.complete(result);

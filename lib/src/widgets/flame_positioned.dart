@@ -46,6 +46,12 @@ class FlamePositioned extends SingleChildFlameWidget {
   }
 
   @override
+  void dispose() {
+    childPreBuild = null;
+    super.dispose();
+  }
+
+  @override
   void update(double delta) {
     super.update(delta);
     calculatePadding();
@@ -89,10 +95,9 @@ class FlamePositioned extends SingleChildFlameWidget {
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
-    childBuild?.dispose();
     childPreBuild?.updateData(childBounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);

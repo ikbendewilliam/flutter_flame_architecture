@@ -11,9 +11,8 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
   SingleChildFlameWidget(this.childPreBuild);
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
-    childBuild?.dispose();
     childPreBuild?.updateData(bounds, context, this);
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, bounds);
@@ -21,13 +20,17 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
 
   @override
   void dispose() {
-    childPreBuild?.dispose();
     childPreBuild = null;
     super.dispose();
   }
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) => childPreBuild?.determinePrefferedSize(parentBounds) ?? parentBounds;
+
+  @override
+  Set<FlameWidget> getChildrenTree() {
+    return {this, ...childPreBuild?.getChildrenTree() ?? {}, ...childBuild?.getChildrenTree() ?? {}};
+  }
 
   @override
   void onTapDown(Vector2 tapPosition) {
@@ -102,25 +105,28 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
 
   @override
   void dispose() {
-    childrenPreBuild
-      ..forEach((child) => child.dispose())
-      ..clear();
-    childrenBuild
-      ..forEach((child) => child.dispose())
-      ..clear();
+    childrenPreBuild.clear();
+    childrenBuild.clear();
     super.dispose();
   }
 
   @override
-  void reBuildChild(BuildContext context, Vector2 bounds) {
+  void reBuildChild(BuildContext context, Vector2 bounds, {bool disposeUnusedWidgets = false}) {
     updateData(bounds, context, null);
-    childrenBuild.forEach((child) => child.dispose());
-    childrenBuild
-      ..forEach((child) => child.dispose())
-      ..clear();
     childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
-    childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
-    childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
+    childrenBuild
+      ..clear()
+      ..addAll(childrenPreBuild.map((child) => child.build(context)))
+      ..forEach((child) => child.reBuildChild(context, bounds));
+  }
+
+  @override
+  Set<FlameWidget> getChildrenTree() {
+    return {
+      this,
+      ...childrenBuild.map((e) => e.getChildrenTree()).reduce((value, element) => value..addAll(element)),
+      ...childrenPreBuild.map((e) => e.getChildrenTree()).reduce((value, element) => value..addAll(element))
+    };
   }
 
   @override
