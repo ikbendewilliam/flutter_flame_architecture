@@ -1,5 +1,7 @@
 # flutter_flame_architecture
 
+Use flutter(like) widgets inside Flame
+
 [Examples](https://ikbendewilliam.github.io/flutter_flame_architecture/example/build/web/#/)
 
 ## Basics

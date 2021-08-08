@@ -1,15 +1,14 @@
 name: flutter_flame_architecture
-description: A new Flutter package project.
-version: 0.0.1
-author: William Verhaeghe
-homepage: google.com
+description: Use flutter(like) widgets inside Flame
+version: 0.0.1-prerelease.1
+homepage: https://github.com/ikbendewilliam/flutter_flame_architecture
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"
 
 dependencies:
-  flame: ^1.0.0-releasecandidate.11
+  flame: ^1.0.0-releasecandidate.13
   flutter:
     sdk: flutter
     
