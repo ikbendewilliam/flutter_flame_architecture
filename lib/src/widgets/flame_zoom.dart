@@ -35,7 +35,6 @@ class FlameZoom extends SingleChildFlameWidget {
   @override
   void render(canvas, context) {
     canvas.save();
-    canvas.scale(zoom, zoom);
     if (zoomAlignment == ZoomAlignment.center) {
       if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
       if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
@@ -45,6 +44,7 @@ class FlameZoom extends SingleChildFlameWidget {
         canvas.translate(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
       }
     }
+    canvas.scale(zoom, zoom);
     childBuild?.render(canvas, context);
     canvas.restore();
   }
