@@ -37,4 +37,5 @@ export './src/widgets/flame_sprite.dart';
 export './src/widgets/flame_stack.dart';
 export './src/widgets/flame_text.dart';
 export './src/widgets/flame_value_listenable_builder.dart';
+export './src/widgets/flame_wrap.dart';
 export './src/widgets/flame_zoom.dart';

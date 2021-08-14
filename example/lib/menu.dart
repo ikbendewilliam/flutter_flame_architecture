@@ -1,6 +1,7 @@
 import 'package:example/example_widgets/grid_view_example.dart';
 import 'package:example/example_widgets/isometric_grid_view_example.dart';
 import 'package:example/example_widgets/single_child_scroll_view_example.dart';
+import 'package:example/example_widgets/wrap_example.dart';
 import 'package:example/example_widgets/zoom_example.dart';
 import 'package:example/main.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class Menu extends FlameWidget {
         return Menu();
       case GridViewExample.routeName:
         return GridViewExample();
+      case WrapExample.routeName:
+        return WrapExample();
       case IsometricGridViewExample.routeName:
         return IsometricGridViewExample();
       case Pong.routeName:
@@ -49,6 +52,10 @@ class Menu extends FlameWidget {
         FlameButton(
           text: 'GridView',
           onTap: () => FlameNavigator.pushNamed(GridViewExample.routeName),
+        ),
+        FlameButton(
+          text: 'Wrap + FlameValueListenableBuilder',
+          onTap: () => FlameNavigator.pushNamed(WrapExample.routeName),
         ),
         FlameButton(
           text: 'IsometricGridView',

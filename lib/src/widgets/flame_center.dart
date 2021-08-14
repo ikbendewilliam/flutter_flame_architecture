@@ -13,18 +13,12 @@ class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    _determineChildPrefferedSize(parentBounds);
-    return parentBounds;
+    final childSize = _determineChildPrefferedSize(parentBounds);
+    return Vector2(max(childSize.x, parentBounds.x), max(childSize.y, parentBounds.y));
   }
 
   Vector2 _determineChildPrefferedSize(Vector2 parentBounds) {
     _childDeterminedPrefferedSize = childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
-    if (_childDeterminedPrefferedSize > bounds) {
-      _childDeterminedPrefferedSize = Vector2(
-        min(_childDeterminedPrefferedSize.x, bounds.x),
-        min(_childDeterminedPrefferedSize.y, bounds.y),
-      );
-    }
     return _childDeterminedPrefferedSize;
   }
 

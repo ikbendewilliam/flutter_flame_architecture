@@ -49,6 +49,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] SafeArea
 - [x] Builder
 - [x] ValueListenableBuilder
+- [x] Wrap
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
@@ -82,7 +83,8 @@ Examples
 - [x] Button
 - [x] Dialogs
 - [x] Zoom
-- [ ] FlameValueListenableBuilder
+- [x] Wrap
+- [x] FlameValueListenableBuilder
 - [ ] FlameCanvas(that updates)
 
 Code documentation
@@ -106,6 +108,7 @@ Code documentation
 - [ ] SingleChildScrollView
 - [ ] Dialogs
 - [ ] ValueListenableBuilder
+- [ ] Wrap
 
 WikiDocs
 - [ ] Center
@@ -128,3 +131,4 @@ WikiDocs
 - [ ] SingleChildScrollView
 - [ ] Dialogs
 - [ ] FlameValueListenableBuilder
+- [ ] Wrap

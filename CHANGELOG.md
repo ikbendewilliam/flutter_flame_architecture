@@ -1,3 +1,6 @@
+## [0.0.1-prerelease.4] - 14/08/2021
+* Added FlameWrap
+
 ## [0.0.1-prerelease.3] - 14/08/2021
 * Fixed zoom tap not always correct
 * Fixed grid border artifacts
