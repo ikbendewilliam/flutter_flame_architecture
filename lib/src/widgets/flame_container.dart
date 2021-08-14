@@ -36,7 +36,7 @@ class FlameContainer extends FlameWidget {
         ? paddingChild
         : FlameCanvas(
             child: paddingChild,
-            onUpdate: onUpdate != null ? onUpdate : null,
+            onUpdate: onUpdate,
             draw: (canvas, bounds, _) {
               if (color != null) {
                 final colorPaint = Paint()

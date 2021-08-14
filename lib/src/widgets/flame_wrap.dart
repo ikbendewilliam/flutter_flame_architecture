@@ -17,7 +17,7 @@ class FlameWrap extends FlameWidget {
 
   @override
   FlameWidget build(BuildContext context) {
-    List<List<FlameWidget>> childrenGrid = [];
+    final List<List<FlameWidget>> childrenGrid = [];
     int fitOnWidth;
     if (direction == Axis.horizontal) {
       fitOnWidth = (bounds.x / childSize.x).floor();

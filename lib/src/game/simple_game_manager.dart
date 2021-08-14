@@ -54,6 +54,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   void update(double deltaTime) {
     if (currentDialog != null) {
       currentDialog!.update(deltaTime);
@@ -69,6 +70,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   void onTapDown(TapDownInfo event) {
     if (currentDialog != null) {
       currentDialog!.onTapDown(event.eventPosition.widget);
@@ -78,6 +80,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   void onTapUp(TapUpInfo event) {
     if (currentDialog != null) {
       currentDialog!.onTapUp(event.eventPosition.widget);
@@ -87,6 +90,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   void onScaleStart(ScaleStartInfo event) {
     if (currentDialog != null) {
       currentDialog!.onDragStart(event.eventPosition.widget);
@@ -98,6 +102,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   void onScaleUpdate(ScaleUpdateInfo event) {
     lastScalePosition = event.eventPosition.widget;
     lastScale = event.raw.scale;
@@ -111,6 +116,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   void onScaleEnd(ScaleEndInfo event) {
     if (currentDialog != null) {
       currentDialog!.onDragEnd(lastScalePosition);

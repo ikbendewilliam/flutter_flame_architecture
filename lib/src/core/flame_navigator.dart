@@ -44,6 +44,6 @@ class FlameRoute {
     required this.widget,
     required this.routeSettings,
   }) {
-    this.currentDialogCompleter = Completer();
+    currentDialogCompleter = Completer<dynamic>();
   }
 }

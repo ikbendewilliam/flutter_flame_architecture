@@ -219,7 +219,7 @@ class DottedLine extends FlameWidget {
           ..color = Colors.white
           ..style = PaintingStyle.fill;
         var y = 0.0;
-        final dy = 10.0;
+        const dy = 10.0;
         while (y < bounds.y) {
           canvas.drawRect(Rect.fromLTWH(0, y, bounds.x, dy), paint);
           y += dy * 2;

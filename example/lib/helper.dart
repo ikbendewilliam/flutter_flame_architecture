@@ -120,28 +120,28 @@ class HelperExample {
     drawTopLeft(canvas);
   }
 
-  static void drawTopCenter(Canvas canvas) => drawLine(canvas, Offset(0, 0), Offset(1, 0));
-  static void drawTopRight(Canvas canvas) => drawLine(canvas, Offset(1, 0), Offset(1, 1));
-  static void drawBottomRight(Canvas canvas) => drawLine(canvas, Offset(1, 1), Offset(1, 2));
-  static void drawCenter(Canvas canvas) => drawLine(canvas, Offset(0, 1), Offset(1, 1));
-  static void drawBottomCenter(Canvas canvas) => drawLine(canvas, Offset(0, 2), Offset(1, 2));
-  static void drawBottomLeft(Canvas canvas) => drawLine(canvas, Offset(0, 1), Offset(0, 2));
-  static void drawTopLeft(Canvas canvas) => drawLine(canvas, Offset(0, 0), Offset(0, 1));
+  static void drawTopCenter(Canvas canvas) => drawLine(canvas, Offset.zero, const Offset(1, 0));
+  static void drawTopRight(Canvas canvas) => drawLine(canvas, const Offset(1, 0), const Offset(1, 1));
+  static void drawBottomRight(Canvas canvas) => drawLine(canvas, const Offset(1, 1), const Offset(1, 2));
+  static void drawCenter(Canvas canvas) => drawLine(canvas, const Offset(0, 1), const Offset(1, 1));
+  static void drawBottomCenter(Canvas canvas) => drawLine(canvas, const Offset(0, 2), const Offset(1, 2));
+  static void drawBottomLeft(Canvas canvas) => drawLine(canvas, const Offset(0, 1), const Offset(0, 2));
+  static void drawTopLeft(Canvas canvas) => drawLine(canvas, Offset.zero, const Offset(0, 1));
 
   static void drawLine(Canvas canvas, Offset p1, Offset p2) {
     final paint = Paint()
       ..color = Colors.white
       ..strokeWidth = SCORE_STROKE;
-    var stroke;
+    Offset stroke;
     if (isHorizontal(p1, p2)) {
-      stroke = Offset(1, 0) * SCORE_STROKE / 2;
+      stroke = const Offset(1, 0) * SCORE_STROKE / 2;
     } else {
-      stroke = Offset(0, 1) * SCORE_STROKE / 2;
+      stroke = const Offset(0, 1) * SCORE_STROKE / 2;
     }
     canvas.drawLine(p1 * SCORE_HEIGHT / 2 - stroke, p2 * SCORE_HEIGHT / 2 + stroke, paint);
   }
 
   static bool isHorizontal(Offset p1, Offset p2) {
-    return (p1.dx < p2.dx);
+    return p1.dx < p2.dx;
   }
 }

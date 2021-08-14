@@ -13,6 +13,7 @@ abstract class FlameRenderWidget extends FlameWidget {
   @override
   void update(double delta) {}
 
+  @override
   FlameWidget build(BuildContext context) => this;
 
   /// transform a point for child tap/drag

@@ -13,7 +13,7 @@ class FlamePositioned extends SingleChildFlameWidget {
   final double? Function()? heightFunction;
   // Wheter the given x and y are at the center of the child
   final bool isCentered;
-  EdgeInsets padding = EdgeInsets.all(0);
+  EdgeInsets padding = EdgeInsets.zero;
 
   FlamePositioned({
     required FlameWidget child,

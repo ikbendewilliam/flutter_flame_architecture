@@ -65,7 +65,7 @@ class FlameIsometricGridView extends FlameRenderWidget {
 
   void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
-    var transformedPosition = position;
+    final transformedPosition = position;
     childrenBuild.forEach((row) {
       transformedPosition.x = 0;
       if (transformedPosition < 0) return; // Skip

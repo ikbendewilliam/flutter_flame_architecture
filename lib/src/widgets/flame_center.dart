@@ -7,6 +7,7 @@ import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
   Vector2 _childDeterminedPrefferedSize = Vector2.zero();
 
+  /// Centers the child FlameWidget
   FlameCenter({
     required FlameWidget child,
   }) : super(child);

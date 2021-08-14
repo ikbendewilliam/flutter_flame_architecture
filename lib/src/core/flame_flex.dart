@@ -77,7 +77,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
       if (child is FlameFlexibleChild) {
         totalFlex += child.flex;
       } else if (child is FlameSizedChild) {
-        final size = (isHorizontal) ? child.width : child.height;
+        final size = isHorizontal ? child.width : child.height;
         if (size == null) {
           totalFlex += 1;
         } else {
@@ -85,11 +85,11 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
         }
       } else {
         final childSize = child.determinePrefferedSize(bounds);
-        final size = (isHorizontal) ? childSize.x : childSize.y;
+        final size = isHorizontal ? childSize.x : childSize.y;
         _totalChildSize += size;
       }
     });
-    final availableSize = (isHorizontal) ? bounds.x : bounds.y;
+    final availableSize = isHorizontal ? bounds.x : bounds.y;
     final flexibleSize = max(availableSize - _totalChildSize, 0.0);
     _flexSize = totalFlex > 0 ? flexibleSize / totalFlex : 0.0;
     childrenBuild.forEach((child) {

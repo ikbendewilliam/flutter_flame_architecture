@@ -24,7 +24,7 @@ void main() {
 }
 
 class CustomWidget extends FlameWidget {
-  FlameWidget _child;
+  final FlameWidget _child;
 
   CustomWidget(this._child);
 

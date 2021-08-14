@@ -41,6 +41,6 @@ class FlameText extends FlameRenderWidget with NoChildMixin {
       hasLayout = true;
       textPainter?.layout(minWidth: bounds.x, maxWidth: bounds.x);
     }
-    textPainter?.paint(canvas, Offset(0, 0));
+    textPainter?.paint(canvas, Offset.zero);
   }
 }

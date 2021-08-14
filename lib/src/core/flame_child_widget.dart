@@ -106,6 +106,7 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
         (value, element) => Vector2(max(value.x, element.x), max(value.y, element.y)),
       );
 
+  @override
   void onTapDown(Vector2 tapPosition) {
     final transformedPoint = transformPoint(tapPosition);
     if (isInsideBounds(transformedPoint)) {
@@ -113,6 +114,7 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     }
   }
 
+  @override
   void onTapUp(Vector2 tapPosition) {
     final transformedPoint = transformPoint(tapPosition);
     if (isInsideBounds(transformedPoint)) {
@@ -120,6 +122,7 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     }
   }
 
+  @override
   void onDragStart(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
@@ -127,6 +130,7 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     }
   }
 
+  @override
   void onDragUpdate(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
@@ -134,6 +138,7 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
     }
   }
 
+  @override
   void onDragEnd(Vector2 position) {
     final transformedPoint = transformPoint(position);
     if (isInsideBounds(transformedPoint)) {
