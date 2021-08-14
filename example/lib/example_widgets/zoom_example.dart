@@ -35,7 +35,7 @@ class ZoomExample extends FlameWidget {
         FlameExpanded(
           child: FlameZoom(
             child: FlameSingleChildScrollView(
-              child: FlameGridView(children: _buildMap(), childSize: Vector2(50, 50)),
+              child: FlameGridView(children: _buildMap(), childSize: Vector2(5, 5)),
             ),
           ),
         ),

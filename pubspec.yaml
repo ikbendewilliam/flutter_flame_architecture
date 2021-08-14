@@ -1,6 +1,6 @@
 name: flutter_flame_architecture
 description: Use flutter(like) widgets inside Flame
-version: 0.0.1-prerelease.2
+version: 0.0.1-prerelease.3
 homepage: https://github.com/ikbendewilliam/flutter_flame_architecture
 
 environment:

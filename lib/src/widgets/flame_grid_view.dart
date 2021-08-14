@@ -23,7 +23,7 @@ class FlameGridView extends FlameRenderWidget {
   @override
   void render(Canvas canvas, BuildContext context) {
     var dy = 0.0;
-    final clipRect = Rect.fromLTWH(0, 0, childSize.x, childSize.y);
+    final clipRect = Rect.fromLTWH(0, 0, childSize.x + 0.2, childSize.y + 0.2);
     childrenBuild.forEach((row) {
       canvas.save();
       canvas.translate(0, dy);
@@ -47,9 +47,9 @@ class FlameGridView extends FlameRenderWidget {
     childrenBuild
       ..forEach((row) => row.clear())
       ..clear();
-    children.forEach((row) => row.forEach((child) => child.updateData(childSize, context, this)));
+    children.forEach((row) => row.forEach((child) => child.updateData(childSize + Vector2.all(0.2), context, this)));
     childrenBuild.addAll(children.map((row) => row.map((child) => child.build(context)).toList()));
-    childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize)));
+    childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize + Vector2.all(0.2))));
   }
 
   @override

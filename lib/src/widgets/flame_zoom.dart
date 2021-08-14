@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_child_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart';
@@ -60,18 +61,17 @@ class FlameZoom extends SingleChildFlameWidget {
 
   @override
   Vector2 transformPoint(Vector2 point) {
-    final transformedPoint = point / zoom;
+    var transformedPoint = point;
     if (zoomAlignment == ZoomAlignment.center) {
       if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
       if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
-        transformedPoint.x -= (bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2;
+        transformedPoint -= Vector2((bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
       }
       if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
-        transformedPoint.y -= (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2;
+        transformedPoint -= Vector2(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
       }
     }
-
-    return transformedPoint;
+    return transformedPoint / zoom;
   }
 
   @override
