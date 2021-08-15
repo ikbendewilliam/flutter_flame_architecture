@@ -1,3 +1,7 @@
+## [0.0.1-prerelease.5] - 15/08/2021
+* Added dispose
+* Cap deltatime to 0.1 so moving game to background pauses it
+
 ## [0.0.1-prerelease.4] - 14/08/2021
 * Added FlameWrap
 
