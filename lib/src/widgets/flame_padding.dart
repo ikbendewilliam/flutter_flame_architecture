@@ -35,6 +35,7 @@ class FlamePadding extends SingleChildFlameWidget with SingleChildUpdateMixin {
     updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
     childPreBuild?.updateData(childBounds, context, this);
+    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }

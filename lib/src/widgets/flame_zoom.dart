@@ -55,6 +55,7 @@ class FlameZoom extends SingleChildFlameWidget {
     updateData(bounds, context, null);
     final childBounds = bounds / zoom;
     childPreBuild?.updateData(childBounds, context, this);
+    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }

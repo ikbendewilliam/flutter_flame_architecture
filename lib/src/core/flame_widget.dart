@@ -6,6 +6,8 @@ abstract class FlameWidget {
   @protected
   BuildContext? context;
   FlameWidget? _parent;
+  bool _disposed = false;
+  bool get disposed => _disposed;
 
   /// The bounds of this widget, you cannot draw outside of these
   /// This variable is initially set to 1, 1 only after being added
@@ -36,6 +38,16 @@ abstract class FlameWidget {
   void render(Canvas canvas, BuildContext context) {
     this.context = context;
     childBuild?.render(canvas, context);
+  }
+
+  /// Overwrite to dispose when this object is removed from the tree
+  @mustCallSuper
+  void dispose() {
+    if (childBuild != this) childBuild?.dispose();
+    childBuild = null;
+    context = null;
+    _parent = null;
+    _disposed = true;
   }
 
   /// Determine how large this widget wants to be, based on constraints
@@ -73,6 +85,7 @@ abstract class FlameWidget {
 
   /// Used to build this child, override to disable if you don't require (re)build
   void reBuildChild(BuildContext context, Vector2 bounds) {
+    if (childBuild != this) childBuild?.dispose();
     updateData(bounds, context, null);
     childBuild = build(context);
     childBuild?.updateData(bounds, context, this);

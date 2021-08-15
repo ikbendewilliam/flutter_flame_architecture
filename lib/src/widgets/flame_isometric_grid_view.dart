@@ -23,6 +23,29 @@ class FlameIsometricGridView extends FlameRenderWidget {
   }
 
   @override
+  void dispose() {
+    children
+      ..forEach((row) {
+        row
+          ..forEach((element) {
+            if (element != this) element.dispose();
+          })
+          ..clear();
+      })
+      ..clear();
+    childrenBuild
+      ..forEach((row) {
+        row
+          ..forEach((element) {
+            if (element != this) element.dispose();
+          })
+          ..clear();
+      })
+      ..clear();
+    super.dispose();
+  }
+
+  @override
   void render(Canvas canvas, BuildContext context) {
     final clipPath = Path()
       ..moveTo(childSize.x / sqrt2, 0)
@@ -50,7 +73,11 @@ class FlameIsometricGridView extends FlameRenderWidget {
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
-    childrenBuild.clear();
+    childrenBuild
+      ..forEach((row) => row
+        ..forEach((element) => element.dispose())
+        ..clear())
+      ..clear();
     children.forEach((row) => row.forEach((child) => child.updateData(childSize, context, this)));
     childrenBuild.addAll(children.map((row) => row.map((child) => child.build(context)).toList()));
     childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize)));

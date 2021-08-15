@@ -15,6 +15,12 @@ class FlameValueListenableBuilder<T> extends FlameWidget {
   }
 
   @override
+  void dispose() {
+    valueListenable?.addListener(markForRebuild);
+    super.dispose();
+  }
+
+  @override
   FlameWidget build(BuildContext context) {
     if (valueListenable == null) return FlameEmpty();
     return builder(context, valueListenable!.value, child);

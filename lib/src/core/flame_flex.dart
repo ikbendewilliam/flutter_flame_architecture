@@ -43,7 +43,11 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    childrenBuild.clear();
+    childrenBuild
+      ..forEach((element) {
+        // if (element != this && !childrenPreBuild.contains(element)) element.dispose();
+      })
+      ..clear();
     childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateData(bounds, context, null);
     childrenBuild.forEach((child) => child.reBuildChild(context, childrenBounds[child]!));

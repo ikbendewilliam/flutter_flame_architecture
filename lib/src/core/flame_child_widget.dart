@@ -12,6 +12,7 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
+    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
     updateData(bounds, context, null);
     childPreBuild?.updateData(bounds, context, this);
     childBuild = childPreBuild?.build(context);
@@ -20,6 +21,13 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) => childPreBuild?.determinePrefferedSize(parentBounds) ?? parentBounds;
+
+  @override
+  void dispose() {
+    if (childPreBuild != this) childPreBuild?.dispose();
+    childPreBuild = null;
+    super.dispose();
+  }
 
   @override
   void onTapDown(Vector2 tapPosition) {
@@ -94,11 +102,30 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
+    childrenBuild
+      ..forEach((element) {
+        if (element != this) element.dispose();
+      })
+      ..clear();
     updateData(bounds, context, null);
-    childrenBuild.clear();
     childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
+  }
+
+  @override
+  void dispose() {
+    childrenPreBuild
+      ..forEach((element) {
+        if (element != this) element.dispose();
+      })
+      ..clear();
+    childrenBuild
+      ..forEach((element) {
+        if (element != this) element.dispose();
+      })
+      ..clear();
+    super.dispose();
   }
 
   @override

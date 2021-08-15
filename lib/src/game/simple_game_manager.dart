@@ -56,6 +56,7 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   @override
   // ignore: avoid_renaming_method_parameters
   void update(double deltaTime) {
+    if (deltaTime > 0.1) deltaTime = 0.1;
     if (currentDialog != null) {
       currentDialog!.update(deltaTime);
     } else {
