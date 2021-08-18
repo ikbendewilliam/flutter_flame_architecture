@@ -5,7 +5,8 @@ import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.dart';
 import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart';
 
-class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChildUpdateMixin {
+class FlameSingleChildScrollView extends SingleChildFlameWidget
+    with SingleChildUpdateMixin {
   final bool horizontalScrollEnabled;
   final bool verticalScrollEnabled;
   var _scroll = Vector2.zero();
@@ -44,18 +45,22 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChild
   @override
   void render(Canvas canvas, BuildContext context) {
     canvas.save();
-    canvas.translate(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
+    canvas.translate(horizontalScrollEnabled ? _scroll.x : 0,
+        verticalScrollEnabled ? _scroll.y : 0);
     childBuild?.render(canvas, context);
     canvas.restore();
   }
 
   @override
   Vector2 transformPoint(Vector2 point) {
-    return point - Vector2(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
+    return point -
+        Vector2(horizontalScrollEnabled ? _scroll.x : 0,
+            verticalScrollEnabled ? _scroll.y : 0);
   }
 
   @override
-  bool isInsideBounds(Vector2 point) => !(point < 0) && point << childPrefferedSize;
+  bool isInsideBounds(Vector2 point) =>
+      !(point < 0) && point << childPrefferedSize;
 
   @override
   void onDragStart(Vector2 position) {

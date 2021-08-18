@@ -15,20 +15,25 @@ class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
     final childSize = _determineChildPrefferedSize(parentBounds);
-    return Vector2(max(childSize.x, parentBounds.x), max(childSize.y, parentBounds.y));
+    return Vector2(
+        max(childSize.x, parentBounds.x), max(childSize.y, parentBounds.y));
   }
 
   Vector2 _determineChildPrefferedSize(Vector2 parentBounds) {
-    _childDeterminedPrefferedSize = childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
+    _childDeterminedPrefferedSize =
+        childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
     return _childDeterminedPrefferedSize;
   }
 
   @override
   void render(canvas, context) {
     canvas.save();
-    if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
-    canvas.translate(bounds.x / 2 - _childDeterminedPrefferedSize.x / 2, bounds.y / 2 - _childDeterminedPrefferedSize.y / 2);
-    canvas.clipRect(Rect.fromLTWH(0, 0, _childDeterminedPrefferedSize.x, _childDeterminedPrefferedSize.y));
+    if (_childDeterminedPrefferedSize == Vector2.zero())
+      _determineChildPrefferedSize(bounds);
+    canvas.translate(bounds.x / 2 - _childDeterminedPrefferedSize.x / 2,
+        bounds.y / 2 - _childDeterminedPrefferedSize.y / 2);
+    canvas.clipRect(Rect.fromLTWH(0, 0, _childDeterminedPrefferedSize.x,
+        _childDeterminedPrefferedSize.y));
     childBuild?.render(canvas, context);
     canvas.restore();
   }
@@ -41,14 +46,17 @@ class FlameCenter extends SingleChildFlameWidget with SingleChildUpdateMixin {
       childBounds = bounds;
     }
     childPreBuild?.updateData(childBounds, context, this);
-    if (childPreBuild != this && childPreBuild != childBuild) childBuild?.dispose();
+    if (childPreBuild != this && childPreBuild != childBuild)
+      childBuild?.dispose();
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }
 
   @override
-  Vector2 transformPoint(Vector2 point) => point - (bounds - _childDeterminedPrefferedSize) / 2;
+  Vector2 transformPoint(Vector2 point) =>
+      point - (bounds - _childDeterminedPrefferedSize) / 2;
 
   @override
-  bool isInsideBounds(Vector2 point) => point >= 0 && point < _childDeterminedPrefferedSize;
+  bool isInsideBounds(Vector2 point) =>
+      point >= 0 && point < _childDeterminedPrefferedSize;
 }

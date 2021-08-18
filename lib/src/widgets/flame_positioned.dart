@@ -55,8 +55,10 @@ class FlamePositioned extends SingleChildFlameWidget {
   void calculatePadding() {
     final actualX = x ?? xFunction?.call() ?? 0;
     final actualY = y ?? yFunction?.call() ?? 0;
-    final actualWidth = width ?? widthFunction?.call() ?? childBuild?.bounds.x ?? 0;
-    final actualHeight = height ?? heightFunction?.call() ?? childBuild?.bounds.y ?? 0;
+    final actualWidth =
+        width ?? widthFunction?.call() ?? childBuild?.bounds.x ?? 0;
+    final actualHeight =
+        height ?? heightFunction?.call() ?? childBuild?.bounds.y ?? 0;
     if (isCentered) {
       padding = EdgeInsets.fromLTRB(
         actualX - actualWidth / 2,
@@ -76,14 +78,16 @@ class FlamePositioned extends SingleChildFlameWidget {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    return childBuild!.determinePrefferedSize(parentBounds) + Vector2(padding.horizontal, padding.vertical);
+    return childBuild!.determinePrefferedSize(parentBounds) +
+        Vector2(padding.horizontal, padding.vertical);
   }
 
   @override
   void render(canvas, context) {
     canvas.save();
     canvas.translate(padding.left, padding.top);
-    canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x - padding.horizontal, bounds.y - padding.vertical));
+    canvas.clipRect(Rect.fromLTWH(
+        0, 0, bounds.x - padding.horizontal, bounds.y - padding.vertical));
     childBuild?.render(canvas, context);
     canvas.restore();
   }
@@ -93,14 +97,18 @@ class FlamePositioned extends SingleChildFlameWidget {
     updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
     childPreBuild?.updateData(childBounds, context, this);
-    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
+    if (childBuild != this && childBuild != childPreBuild)
+      childBuild?.dispose();
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }
 
   @override
-  Vector2 transformPoint(Vector2 point) => point - Vector2(padding.left, padding.top);
+  Vector2 transformPoint(Vector2 point) =>
+      point - Vector2(padding.left, padding.top);
 
   @override
-  bool isInsideBounds(Vector2 point) => point >= 0 && point < bounds - Vector2(padding.horizontal, padding.vertical);
+  bool isInsideBounds(Vector2 point) =>
+      point >= 0 &&
+      point < bounds - Vector2(padding.horizontal, padding.vertical);
 }

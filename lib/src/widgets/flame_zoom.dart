@@ -29,7 +29,8 @@ class FlameZoom extends SingleChildFlameWidget {
   Vector2 determinePrefferedSize(Vector2 parentBounds) => parentBounds;
 
   Vector2 _determineChildPrefferedSize(Vector2 parentBounds) {
-    _childDeterminedPrefferedSize = childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
+    _childDeterminedPrefferedSize =
+        childBuild?.determinePrefferedSize(parentBounds) ?? Vector2.zero();
     return _childDeterminedPrefferedSize;
   }
 
@@ -37,12 +38,15 @@ class FlameZoom extends SingleChildFlameWidget {
   void render(canvas, context) {
     canvas.save();
     if (zoomAlignment == ZoomAlignment.center) {
-      if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
+      if (_childDeterminedPrefferedSize == Vector2.zero())
+        _determineChildPrefferedSize(bounds);
       if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
-        canvas.translate((bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
+        canvas.translate(
+            (bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
       }
       if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
-        canvas.translate(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
+        canvas.translate(
+            0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
       }
     }
     canvas.scale(zoom, zoom);
@@ -55,7 +59,8 @@ class FlameZoom extends SingleChildFlameWidget {
     updateData(bounds, context, null);
     final childBounds = bounds / zoom;
     childPreBuild?.updateData(childBounds, context, this);
-    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
+    if (childBuild != this && childBuild != childPreBuild)
+      childBuild?.dispose();
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }
@@ -64,12 +69,15 @@ class FlameZoom extends SingleChildFlameWidget {
   Vector2 transformPoint(Vector2 point) {
     var transformedPoint = point;
     if (zoomAlignment == ZoomAlignment.center) {
-      if (_childDeterminedPrefferedSize == Vector2.zero()) _determineChildPrefferedSize(bounds);
+      if (_childDeterminedPrefferedSize == Vector2.zero())
+        _determineChildPrefferedSize(bounds);
       if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
-        transformedPoint -= Vector2((bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
+        transformedPoint -=
+            Vector2((bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
       }
       if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
-        transformedPoint -= Vector2(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
+        transformedPoint -=
+            Vector2(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
       }
     }
     return transformedPoint / zoom;

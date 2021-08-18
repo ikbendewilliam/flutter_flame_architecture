@@ -42,7 +42,8 @@ class FlameContainer extends FlameWidget {
                 final colorPaint = Paint()
                   ..color = color!
                   ..style = PaintingStyle.fill;
-                canvas.drawRect(Rect.fromLTWH(0, 0, bounds.x, bounds.y), colorPaint);
+                canvas.drawRect(
+                    Rect.fromLTWH(0, 0, bounds.x, bounds.y), colorPaint);
               }
             },
           );

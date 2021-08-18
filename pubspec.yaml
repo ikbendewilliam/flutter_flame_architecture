@@ -1,6 +1,6 @@
 name: flutter_flame_architecture
-description: Use flutter(like) widgets inside Flame
-version: 0.0.1-prerelease.5
+description: Use flutter(like) widgets inside Flame. Zoom, Scroll, Wrap, Grid, SafeArea, ... You can use them all in combination with flame thanks to this intuitive package!
+version: 0.0.1-prerelease.6
 homepage: https://github.com/ikbendewilliam/flutter_flame_architecture
 
 environment:

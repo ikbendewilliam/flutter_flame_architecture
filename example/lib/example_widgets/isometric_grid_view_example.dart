@@ -22,7 +22,9 @@ class IsometricGridViewExample extends FlameWidget {
             .map((i) => FlameContainer(
                   height: 100,
                   width: 100 * sqrt2,
-                  color: i == 0 ? Colors.blue : (i == 1 ? Colors.green : Colors.grey),
+                  color: i == 0
+                      ? Colors.blue
+                      : (i == 1 ? Colors.green : Colors.grey),
                 ))
             .toList())
         .toList();

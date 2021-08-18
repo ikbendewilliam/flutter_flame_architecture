@@ -20,7 +20,8 @@ abstract class FlameWidget {
   /// Must call super first when overriding this
   /// Note that your child(ren) should be updated during build
   @mustCallSuper
-  void updateData(Vector2 newBounds, BuildContext context, FlameWidget? parent) {
+  void updateData(
+      Vector2 newBounds, BuildContext context, FlameWidget? parent) {
     bounds = newBounds;
     this.context = context;
     if (parent != null) {
@@ -30,7 +31,8 @@ abstract class FlameWidget {
 
   /// Marks for rebuild, similar to setState in Flutter
   void markForRebuild() {
-    if (context != null && _parent != null) _parent!.reBuildChild(context!, _parent!.bounds);
+    if (context != null && _parent != null)
+      _parent!.reBuildChild(context!, _parent!.bounds);
   }
 
   /// You must call super if you override this *and* override build
@@ -67,9 +69,11 @@ abstract class FlameWidget {
 
   void onScaleStart(Vector2 position) => childBuild?.onScaleStart(position);
 
-  void onScaleUpdate(Vector2 position, double scale) => childBuild?.onScaleUpdate(position, scale);
+  void onScaleUpdate(Vector2 position, double scale) =>
+      childBuild?.onScaleUpdate(position, scale);
 
-  void onScaleEnd(Vector2 position, double scale) => childBuild?.onScaleEnd(position, scale);
+  void onScaleEnd(Vector2 position, double scale) =>
+      childBuild?.onScaleEnd(position, scale);
 
   /// Only used in [FlameRenderWidgets] for now, FlameWidgets are not
   /// being updated correctly. If you want to update your state, use

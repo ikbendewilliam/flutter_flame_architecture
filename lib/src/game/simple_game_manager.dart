@@ -27,7 +27,8 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
         );
 
   @override
-  FlameWidget? onGenerateRoute(RouteSettings settings) => _onGenerateRoute?.call(settings);
+  FlameWidget? onGenerateRoute(RouteSettings settings) =>
+      _onGenerateRoute?.call(settings);
 
   @override
   void build({BuildContext? testContext}) {

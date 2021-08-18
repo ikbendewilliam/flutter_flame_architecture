@@ -7,7 +7,8 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x <= other || y <= other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 
   bool operator <(dynamic other) {
@@ -16,7 +17,8 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x < other || y < other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 
   bool operator <<(dynamic other) {
@@ -25,7 +27,8 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x < other && y < other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 
   bool operator >(dynamic other) {
@@ -34,7 +37,8 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x > other || y > other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 
   bool operator >=(dynamic other) {
@@ -43,7 +47,8 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x >= other || y >= other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 
   bool operator >>(dynamic other) {
@@ -52,7 +57,8 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x > other && y > other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 
   bool equals(dynamic other) {
@@ -61,6 +67,7 @@ extension Vector2Extension on Vector2 {
     } else if (other is double || other is int) {
       return x == other && y == other;
     }
-    throw Exception('Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
+    throw Exception(
+        'Cannot compare vector2 to unknown type, only int, double and Vector2 are accepted');
   }
 }

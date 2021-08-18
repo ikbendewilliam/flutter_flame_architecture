@@ -1,6 +1,9 @@
 # flutter_flame_architecture
 
-Use flutter(like) widgets inside Flame
+[![pub package](https://img.shields.io/pub/v/flutter_flame_architecture.svg)](https://pub.dartlang.org/packages/flutter_flame_architecture)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
+
+Use flutter(like) widgets inside Flame. Zoom, Scroll, Wrap, Grid, SafeArea, ... You can use them all in combination with flame thanks to this intuitive package! 
 
 [Examples](https://ikbendewilliam.github.io/flutter_flame_architecture/example/build/web/#/)
 

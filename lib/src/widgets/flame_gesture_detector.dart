@@ -2,7 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.dart';
 
-class FlameGestureDetector extends SingleChildFlameWidget with SingleChildRenderMixin, SingleChildUpdateMixin {
+class FlameGestureDetector extends SingleChildFlameWidget
+    with SingleChildRenderMixin, SingleChildUpdateMixin {
   final Function(Vector2 tapPosition)? _onTapDown;
   final Function(Vector2 tapPosition)? _onTapUp;
   final Function(Vector2 position)? _onDragStart;

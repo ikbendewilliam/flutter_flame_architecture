@@ -67,21 +67,28 @@ class FlameGridView extends FlameRenderWidget {
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     updateData(bounds, context, null);
-    final List<FlameWidget> flatChildren = children.expand((element) => element).toList();
+    final List<FlameWidget> flatChildren =
+        children.expand((element) => element).toList();
     childrenBuild
       ..forEach((row) => row
-        ..forEach((element) => flatChildren.contains(element) ? null : element.dispose())
+        ..forEach((element) =>
+            flatChildren.contains(element) ? null : element.dispose())
         ..clear())
       ..clear();
-    children.forEach((row) => row.forEach((child) => child.updateData(childSize + Vector2.all(0.2), context, this)));
-    childrenBuild.addAll(children.map((row) => row.map((child) => child.build(context)).toList()));
-    childrenBuild.forEach((row) => row.forEach((child) => child.reBuildChild(context, childSize + Vector2.all(0.2))));
+    children.forEach((row) => row.forEach((child) =>
+        child.updateData(childSize + Vector2.all(0.2), context, this)));
+    childrenBuild.addAll(children
+        .map((row) => row.map((child) => child.build(context)).toList()));
+    childrenBuild.forEach((row) => row.forEach(
+        (child) => child.reBuildChild(context, childSize + Vector2.all(0.2))));
   }
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => Vector2(childSize.x * children.first.length, childSize.y * children.length);
+  Vector2 determinePrefferedSize(Vector2 parentBounds) => Vector2(
+      childSize.x * children.first.length, childSize.y * children.length);
 
-  void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
+  void _onAction(Vector2 position,
+      Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
     final transformedPosition = Vector2(position.x, position.y);
     for (final row in childrenBuild) {
@@ -100,26 +107,38 @@ class FlameGridView extends FlameRenderWidget {
   }
 
   @override
-  void onTapDown(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapDown(transformedPosition));
+  void onTapDown(Vector2 tapPosition) => _onAction(tapPosition,
+      (child, transformedPosition) => child.onTapDown(transformedPosition));
 
   @override
-  void onTapUp(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapUp(transformedPosition));
+  void onTapUp(Vector2 tapPosition) => _onAction(tapPosition,
+      (child, transformedPosition) => child.onTapUp(transformedPosition));
 
   @override
-  void onDragStart(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragStart(transformedPosition));
+  void onDragStart(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onDragStart(transformedPosition));
 
   @override
-  void onDragUpdate(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragUpdate(transformedPosition));
+  void onDragUpdate(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onDragUpdate(transformedPosition));
 
   @override
-  void onDragEnd(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragEnd(transformedPosition));
+  void onDragEnd(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onDragEnd(transformedPosition));
 
   @override
-  void onScaleStart(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onScaleStart(transformedPosition));
+  void onScaleStart(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onScaleStart(transformedPosition));
 
   @override
-  void onScaleUpdate(Vector2 position, double scale) => _onAction(position, (child, transformedPosition) => child.onScaleUpdate(transformedPosition, scale));
+  void onScaleUpdate(Vector2 position, double scale) => _onAction(
+      position,
+      (child, transformedPosition) =>
+          child.onScaleUpdate(transformedPosition, scale));
 
   @override
-  void onScaleEnd(Vector2 position, double scale) => _onAction(position, (child, transformedPosition) => child.onScaleEnd(transformedPosition, scale));
+  void onScaleEnd(Vector2 position, double scale) => _onAction(
+      position,
+      (child, transformedPosition) =>
+          child.onScaleEnd(transformedPosition, scale));
 }

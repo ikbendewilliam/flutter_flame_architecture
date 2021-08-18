@@ -18,7 +18,9 @@ class ZoomExample extends FlameWidget {
     )
         .map((row) => row
             .map((i) => FlameContainer(
-                  color: i() == 0 ? Colors.blue : (i() == 1 ? Colors.grey : Colors.green),
+                  color: i() == 0
+                      ? Colors.blue
+                      : (i() == 1 ? Colors.grey : Colors.green),
                 ))
             .toList())
         .toList();
@@ -35,7 +37,8 @@ class ZoomExample extends FlameWidget {
         FlameExpanded(
           child: FlameZoom(
             child: FlameSingleChildScrollView(
-              child: FlameGridView(children: _buildMap(), childSize: Vector2(5, 5)),
+              child: FlameGridView(
+                  children: _buildMap(), childSize: Vector2(5, 5)),
             ),
           ),
         ),

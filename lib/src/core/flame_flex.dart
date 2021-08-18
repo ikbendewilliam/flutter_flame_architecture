@@ -10,7 +10,8 @@ import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/multiple_children_mixins.dart';
 import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart';
 
-abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildrenUpdateMixin {
+abstract class FlameFlex extends MultipleChildrenFlameWidget
+    with MultipleChildrenUpdateMixin {
   final Axis direction;
   final childrenBounds = <FlameWidget, Vector2>{};
   var _totalChildSize = 0.0;
@@ -20,7 +21,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
 
   double get _maxChildSize => childrenBounds.values.isEmpty
       ? 0
-      : childrenBounds.values.map((element) => isHorizontal ? element.y : element.x).reduce((value, element) => value > element ? value : element);
+      : childrenBounds.values
+          .map((element) => isHorizontal ? element.y : element.x)
+          .reduce((value, element) => value > element ? value : element);
 
   FlameFlex({
     required List<FlameWidget> children,
@@ -48,12 +51,15 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
         // if (element != this && !childrenPreBuild.contains(element)) element.dispose();
       })
       ..clear();
-    childrenBuild.addAll(childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
+    childrenBuild.addAll(
+        childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateData(bounds, context, null);
-    childrenBuild.forEach((child) => child.reBuildChild(context, childrenBounds[child]!));
+    childrenBuild.forEach(
+        (child) => child.reBuildChild(context, childrenBounds[child]!));
   }
 
-  FlameWidget _buildFlameWidget(FlameWidget prebuildWidget, BuildContext context) {
+  FlameWidget _buildFlameWidget(
+      FlameWidget prebuildWidget, BuildContext context) {
     var buildWidget = prebuildWidget;
     var c = 0;
     while (c++ < 1000) {
@@ -70,12 +76,14 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   }
 
   @override
-  void updateData(Vector2 newBounds, BuildContext context, FlameWidget? parent) {
+  void updateData(
+      Vector2 newBounds, BuildContext context, FlameWidget? parent) {
     super.updateData(newBounds, context, parent);
     _totalChildSize = 0.0;
     var totalFlex = 0;
     // This is done so these children can mark for rebuild
-    childrenPreBuild.forEach((element) => element.updateData(newBounds, context, parent));
+    childrenPreBuild
+        .forEach((element) => element.updateData(newBounds, context, parent));
     childrenBounds.clear();
     childrenBuild.forEach((child) {
       if (child is FlameFlexibleChild) {
@@ -150,7 +158,8 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
     }
   }
 
-  void _onAction(Vector2 position, Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
+  void _onAction(Vector2 position,
+      Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
     var transformedPosition = position;
     childrenBuild.forEach((child) {
@@ -171,26 +180,38 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget with MultipleChildr
   }
 
   @override
-  void onTapDown(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapDown(transformedPosition));
+  void onTapDown(Vector2 tapPosition) => _onAction(tapPosition,
+      (child, transformedPosition) => child.onTapDown(transformedPosition));
 
   @override
-  void onTapUp(Vector2 tapPosition) => _onAction(tapPosition, (child, transformedPosition) => child.onTapUp(transformedPosition));
+  void onTapUp(Vector2 tapPosition) => _onAction(tapPosition,
+      (child, transformedPosition) => child.onTapUp(transformedPosition));
 
   @override
-  void onDragStart(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragStart(transformedPosition));
+  void onDragStart(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onDragStart(transformedPosition));
 
   @override
-  void onDragUpdate(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragUpdate(transformedPosition));
+  void onDragUpdate(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onDragUpdate(transformedPosition));
 
   @override
-  void onDragEnd(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onDragEnd(transformedPosition));
+  void onDragEnd(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onDragEnd(transformedPosition));
 
   @override
-  void onScaleStart(Vector2 position) => _onAction(position, (child, transformedPosition) => child.onScaleStart(transformedPosition));
+  void onScaleStart(Vector2 position) => _onAction(position,
+      (child, transformedPosition) => child.onScaleStart(transformedPosition));
 
   @override
-  void onScaleUpdate(Vector2 position, double scale) => _onAction(position, (child, transformedPosition) => child.onScaleUpdate(transformedPosition, scale));
+  void onScaleUpdate(Vector2 position, double scale) => _onAction(
+      position,
+      (child, transformedPosition) =>
+          child.onScaleUpdate(transformedPosition, scale));
 
   @override
-  void onScaleEnd(Vector2 position, double scale) => _onAction(position, (child, transformedPosition) => child.onScaleEnd(transformedPosition, scale));
+  void onScaleEnd(Vector2 position, double scale) => _onAction(
+      position,
+      (child, transformedPosition) =>
+          child.onScaleEnd(transformedPosition, scale));
 }

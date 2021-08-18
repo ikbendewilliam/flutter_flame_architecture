@@ -18,7 +18,9 @@ class SingleChildScrollViewExample extends FlameWidget {
     rainbow.addAll(rainbow.toList());
     rainbow = rainbow.getRange(startIndex, startIndex + 7).toList();
     return FlameRow(
-      children: rainbow.map((color) => FlameContainer(color: color, width: 150, height: 150)).toList(),
+      children: rainbow
+          .map((color) => FlameContainer(color: color, width: 150, height: 150))
+          .toList(),
     );
   }
 

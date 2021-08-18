@@ -20,5 +20,8 @@ abstract class FlameRenderWidget extends FlameWidget {
   Vector2 transformPoint(Vector2 point) => point;
 
   /// Check if a transformed point is inside your bounds (for child tap/drag)
-  bool isInsideBounds(Vector2 point) => !(point < 0) && point << bounds; // Note: !< is not the same as >> or >=, but is >>= which is not a valid operator unfortunately
+  bool isInsideBounds(Vector2 point) =>
+      !(point < 0) &&
+      point <<
+          bounds; // Note: !< is not the same as >> or >=, but is >>= which is not a valid operator unfortunately
 }

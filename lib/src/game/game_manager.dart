@@ -22,7 +22,9 @@ abstract class GameManager extends Game {
     FlameNavigator.instance.setGameManager(this);
     final routeSettings = RouteSettings(name: initialRoute);
     final firstScreen = home ?? onGenerateRoute(routeSettings);
-    if (firstScreen == null) throw Exception("Initial route doesn't generate a valid Widget, this is invalid!");
+    if (firstScreen == null)
+      throw Exception(
+          "Initial route doesn't generate a valid Widget, this is invalid!");
     currentScreen = firstScreen;
     stack.add(FlameRoute(
       routeSettings: routeSettings,
@@ -44,7 +46,8 @@ abstract class GameManager extends Game {
   Future<dynamic> showDialog(FlameWidget dialog) {
     currentDialog = dialog;
     currentDialogCompleter = Completer<dynamic>();
-    dialogRoute = FlameRoute(routeSettings: const RouteSettings(), widget: dialog);
+    dialogRoute =
+        FlameRoute(routeSettings: const RouteSettings(), widget: dialog);
     build();
     return currentDialogCompleter!.future;
   }
@@ -79,8 +82,9 @@ abstract class GameManager extends Game {
     return pushNamed(route);
   }
 
-  void popUntil(bool Function(FlameRoute route) check) {
-    while (stack.length > 1 && !check(dialogRoute ?? stack.last)) pop();
+  void popUntil(bool Function(FlameRoute route) check, {dynamic result}) {
+    while (stack.length > 1 && !check(dialogRoute ?? stack.last))
+      pop(result: result);
   }
 
   void pop({dynamic result}) {

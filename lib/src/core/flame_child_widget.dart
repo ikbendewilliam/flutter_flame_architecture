@@ -12,7 +12,8 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
+    if (childBuild != this && childBuild != childPreBuild)
+      childBuild?.dispose();
     updateData(bounds, context, null);
     childPreBuild?.updateData(bounds, context, this);
     childBuild = childPreBuild?.build(context);
@@ -20,7 +21,8 @@ abstract class SingleChildFlameWidget extends FlameRenderWidget {
   }
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => childPreBuild?.determinePrefferedSize(parentBounds) ?? parentBounds;
+  Vector2 determinePrefferedSize(Vector2 parentBounds) =>
+      childPreBuild?.determinePrefferedSize(parentBounds) ?? parentBounds;
 
   @override
   void dispose() {
@@ -108,7 +110,8 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
       })
       ..clear();
     updateData(bounds, context, null);
-    childrenPreBuild.forEach((child) => child.updateData(bounds, context, this));
+    childrenPreBuild
+        .forEach((child) => child.updateData(bounds, context, this));
     childrenBuild.addAll(childrenPreBuild.map((child) => child.build(context)));
     childrenBuild.forEach((child) => child.reBuildChild(context, bounds));
   }
@@ -129,9 +132,11 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
   }
 
   @override
-  Vector2 determinePrefferedSize(Vector2 parentBounds) => childrenBuild.map((e) => e.determinePrefferedSize(parentBounds)).reduce(
-        (value, element) => Vector2(max(value.x, element.x), max(value.y, element.y)),
-      );
+  Vector2 determinePrefferedSize(Vector2 parentBounds) =>
+      childrenBuild.map((e) => e.determinePrefferedSize(parentBounds)).reduce(
+            (value, element) =>
+                Vector2(max(value.x, element.x), max(value.y, element.y)),
+          );
 
   @override
   void onTapDown(Vector2 tapPosition) {

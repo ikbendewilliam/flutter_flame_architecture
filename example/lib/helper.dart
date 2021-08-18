@@ -120,13 +120,20 @@ class HelperExample {
     drawTopLeft(canvas);
   }
 
-  static void drawTopCenter(Canvas canvas) => drawLine(canvas, Offset.zero, const Offset(1, 0));
-  static void drawTopRight(Canvas canvas) => drawLine(canvas, const Offset(1, 0), const Offset(1, 1));
-  static void drawBottomRight(Canvas canvas) => drawLine(canvas, const Offset(1, 1), const Offset(1, 2));
-  static void drawCenter(Canvas canvas) => drawLine(canvas, const Offset(0, 1), const Offset(1, 1));
-  static void drawBottomCenter(Canvas canvas) => drawLine(canvas, const Offset(0, 2), const Offset(1, 2));
-  static void drawBottomLeft(Canvas canvas) => drawLine(canvas, const Offset(0, 1), const Offset(0, 2));
-  static void drawTopLeft(Canvas canvas) => drawLine(canvas, Offset.zero, const Offset(0, 1));
+  static void drawTopCenter(Canvas canvas) =>
+      drawLine(canvas, Offset.zero, const Offset(1, 0));
+  static void drawTopRight(Canvas canvas) =>
+      drawLine(canvas, const Offset(1, 0), const Offset(1, 1));
+  static void drawBottomRight(Canvas canvas) =>
+      drawLine(canvas, const Offset(1, 1), const Offset(1, 2));
+  static void drawCenter(Canvas canvas) =>
+      drawLine(canvas, const Offset(0, 1), const Offset(1, 1));
+  static void drawBottomCenter(Canvas canvas) =>
+      drawLine(canvas, const Offset(0, 2), const Offset(1, 2));
+  static void drawBottomLeft(Canvas canvas) =>
+      drawLine(canvas, const Offset(0, 1), const Offset(0, 2));
+  static void drawTopLeft(Canvas canvas) =>
+      drawLine(canvas, Offset.zero, const Offset(0, 1));
 
   static void drawLine(Canvas canvas, Offset p1, Offset p2) {
     final paint = Paint()
@@ -138,7 +145,8 @@ class HelperExample {
     } else {
       stroke = const Offset(0, 1) * SCORE_STROKE / 2;
     }
-    canvas.drawLine(p1 * SCORE_HEIGHT / 2 - stroke, p2 * SCORE_HEIGHT / 2 + stroke, paint);
+    canvas.drawLine(
+        p1 * SCORE_HEIGHT / 2 - stroke, p2 * SCORE_HEIGHT / 2 + stroke, paint);
   }
 
   static bool isHorizontal(Offset p1, Offset p2) {

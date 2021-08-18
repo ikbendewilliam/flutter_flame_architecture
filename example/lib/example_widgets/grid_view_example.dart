@@ -18,7 +18,9 @@ class GridViewExample extends FlameWidget {
     ]
         .map((row) => row
             .map((i) => FlameContainer(
-                  color: i == 0 ? Colors.blue : (i == 1 ? Colors.green : Colors.grey),
+                  color: i == 0
+                      ? Colors.blue
+                      : (i == 1 ? Colors.green : Colors.grey),
                 ))
             .toList())
         .toList();
@@ -34,7 +36,8 @@ class GridViewExample extends FlameWidget {
         ),
         FlameExpanded(
           child: FlameSingleChildScrollView(
-            child: FlameGridView(children: _buildMap(), childSize: Vector2(100, 100)),
+            child: FlameGridView(
+                children: _buildMap(), childSize: Vector2(100, 100)),
           ),
         ),
       ],

@@ -1,3 +1,7 @@
+## [0.0.1-prerelease.6] - 18/08/2021
+* Allow popUntill to return a value
+* Added shields and improved dart score
+
 ## [0.0.1-prerelease.5] - 15/08/2021
 * Added dispose
 * Cap deltatime to 0.1 so moving game to background pauses it

@@ -18,14 +18,17 @@ class FlameSpriteCollector {
   }
 
   Future<void> addSprite(String fileName) async {
-    if ((_sprites.containsKey(fileName) && _sprites[fileName] != null) || _gameManager == null) return;
+    if ((_sprites.containsKey(fileName) && _sprites[fileName] != null) ||
+        _gameManager == null) return;
     final image = await _gameManager!.images.load(fileName);
-    if (_sprites.containsKey(fileName) && _sprites[fileName] != null) return; // If aleady registered in the mean time
+    if (_sprites.containsKey(fileName) && _sprites[fileName] != null)
+      return; // If aleady registered in the mean time
     _sprites[fileName] = Sprite(image);
   }
 
   Future<Sprite> getSprite(String fileName) async {
-    if (_sprites.containsKey(fileName) && _sprites[fileName] != null) return _sprites[fileName]!;
+    if (_sprites.containsKey(fileName) && _sprites[fileName] != null)
+      return _sprites[fileName]!;
     await addSprite(fileName);
     return _sprites[fileName]!;
   }

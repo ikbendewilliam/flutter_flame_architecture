@@ -54,7 +54,9 @@ class PongManager {
   }
 
   void update(double delta) {
-    if (delta > 1) delta = 1; // This prevents jumping if the game is offscreen or hanging for some unforseen reason
+    if (delta > 1)
+      delta =
+          1; // This prevents jumping if the game is offscreen or hanging for some unforseen reason
     updateBallPosition(delta);
     updatePaddlePosition(delta);
     updatePlayerPaddlePosition(delta);
@@ -62,10 +64,15 @@ class PongManager {
 
   void updateBallPosition(double delta) {
     ballPosition = ballPosition + ballVelocity * delta * BALL_SPEED;
-    if (ballPosition.dx <= 20 && ballPosition.dy <= playerPaddlePosition.dy + PADDLE_HEIGHT / 2 && ballPosition.dy >= playerPaddlePosition.dy - PADDLE_HEIGHT / 2) {
-      final y = (ballPosition.dy - playerPaddlePosition.dy) / (PADDLE_HEIGHT / 4);
+    if (ballPosition.dx <= 20 &&
+        ballPosition.dy <= playerPaddlePosition.dy + PADDLE_HEIGHT / 2 &&
+        ballPosition.dy >= playerPaddlePosition.dy - PADDLE_HEIGHT / 2) {
+      final y =
+          (ballPosition.dy - playerPaddlePosition.dy) / (PADDLE_HEIGHT / 4);
       ballVelocity = Vector2(1, y).normalized().toOffset() * sqrt2;
-    } else if (ballPosition.dx >= bounds.x - 20 && ballPosition.dy <= pcPaddlePosition.dy + PADDLE_HEIGHT / 2 && ballPosition.dy >= pcPaddlePosition.dy - PADDLE_HEIGHT / 2) {
+    } else if (ballPosition.dx >= bounds.x - 20 &&
+        ballPosition.dy <= pcPaddlePosition.dy + PADDLE_HEIGHT / 2 &&
+        ballPosition.dy >= pcPaddlePosition.dy - PADDLE_HEIGHT / 2) {
       final y = (ballPosition.dy - pcPaddlePosition.dy) / (PADDLE_HEIGHT / 4);
       ballVelocity = Vector2(-1, y).normalized().toOffset() * sqrt2;
     }
@@ -97,7 +104,8 @@ class PongManager {
     } else if (pcPaddlePosition.dy < goal - PADDLE_HEIGHT / 3) {
       velocity = 1;
     }
-    pcPaddlePosition = pcPaddlePosition + Offset(0, velocity) * delta * BALL_SPEED * 0.9;
+    pcPaddlePosition =
+        pcPaddlePosition + Offset(0, velocity) * delta * BALL_SPEED * 0.9;
   }
 
   void updatePlayerPaddlePosition(double delta) {
@@ -108,7 +116,8 @@ class PongManager {
     } else if (playerPaddlePosition.dy < goal - 1) {
       velocity = 1;
     }
-    playerPaddlePosition = playerPaddlePosition + Offset(0, velocity) * delta * BALL_SPEED * 0.9;
+    playerPaddlePosition =
+        playerPaddlePosition + Offset(0, velocity) * delta * BALL_SPEED * 0.9;
   }
 }
 
@@ -199,8 +208,12 @@ class Paddle extends FlameWidget {
   @override
   FlameWidget build(BuildContext context) {
     return FlamePositioned.center(
-      xFunction: () => isPlayer ? manager.playerPaddlePosition.dx : manager.pcPaddlePosition.dx,
-      yFunction: () => isPlayer ? manager.playerPaddlePosition.dy : manager.pcPaddlePosition.dy,
+      xFunction: () => isPlayer
+          ? manager.playerPaddlePosition.dx
+          : manager.pcPaddlePosition.dx,
+      yFunction: () => isPlayer
+          ? manager.playerPaddlePosition.dy
+          : manager.pcPaddlePosition.dy,
       width: 10,
       height: PongManager.PADDLE_HEIGHT,
       child: FlameContainer(
@@ -268,11 +281,13 @@ class Score extends FlameWidget {
     return FlameCanvas(
       draw: (canvas, bounds, context) {
         canvas.save();
-        canvas.translate(bounds.x / 2 - HelperExample.SCORE_HEIGHT, HelperExample.SCORE_HEIGHT / 2);
+        canvas.translate(bounds.x / 2 - HelperExample.SCORE_HEIGHT,
+            HelperExample.SCORE_HEIGHT / 2);
         HelperExample.drawScore(canvas, manager.playerScore);
         canvas.restore();
         canvas.save();
-        canvas.translate(bounds.x / 2 + HelperExample.SCORE_HEIGHT / 2, HelperExample.SCORE_HEIGHT / 2);
+        canvas.translate(bounds.x / 2 + HelperExample.SCORE_HEIGHT / 2,
+            HelperExample.SCORE_HEIGHT / 2);
         HelperExample.drawScore(canvas, manager.pcScore);
         canvas.restore();
       },

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
 class FlameValueListenableBuilder<T> extends FlameWidget {
-  final FlameWidget Function(BuildContext context, T value, FlameWidget? child) builder;
+  final FlameWidget Function(BuildContext context, T value, FlameWidget? child)
+      builder;
   ValueNotifier<T>? valueListenable;
   FlameWidget? child;
 

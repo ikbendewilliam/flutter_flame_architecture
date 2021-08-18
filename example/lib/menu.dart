@@ -47,7 +47,8 @@ class Menu extends FlameWidget {
         ),
         FlameButton(
           text: 'SingleChildScrollView',
-          onTap: () => FlameNavigator.pushNamed(SingleChildScrollViewExample.routeName),
+          onTap: () =>
+              FlameNavigator.pushNamed(SingleChildScrollViewExample.routeName),
         ),
         FlameButton(
           text: 'GridView',
@@ -59,7 +60,8 @@ class Menu extends FlameWidget {
         ),
         FlameButton(
           text: 'IsometricGridView',
-          onTap: () => FlameNavigator.pushNamed(IsometricGridViewExample.routeName),
+          onTap: () =>
+              FlameNavigator.pushNamed(IsometricGridViewExample.routeName),
         ),
         FlameButton(
           text: 'pong',

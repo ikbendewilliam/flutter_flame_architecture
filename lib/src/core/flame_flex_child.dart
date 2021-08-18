@@ -37,7 +37,8 @@ abstract class FlameSizedChild extends SingleChildFlameWidget {
 
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
-    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
+    if (childBuild != this && childBuild != childPreBuild)
+      childBuild?.dispose();
     final newBounds = Vector2(width ?? bounds.x, height ?? bounds.y);
     updateData(newBounds, context, this);
     childPreBuild?.updateData(newBounds, context, this);

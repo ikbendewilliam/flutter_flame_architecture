@@ -17,15 +17,18 @@ class FlamePadding extends SingleChildFlameWidget with SingleChildUpdateMixin {
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) {
-    final childMaxBounds = parentBounds - Vector2(padding.horizontal, padding.vertical);
-    return childPreBuild!.determinePrefferedSize(childMaxBounds) + Vector2(padding.horizontal, padding.vertical);
+    final childMaxBounds =
+        parentBounds - Vector2(padding.horizontal, padding.vertical);
+    return childPreBuild!.determinePrefferedSize(childMaxBounds) +
+        Vector2(padding.horizontal, padding.vertical);
   }
 
   @override
   void render(canvas, context) {
     canvas.save();
     canvas.translate(padding.left, padding.top);
-    canvas.clipRect(Rect.fromLTWH(0, 0, bounds.x - padding.horizontal, bounds.y - padding.vertical));
+    canvas.clipRect(Rect.fromLTWH(
+        0, 0, bounds.x - padding.horizontal, bounds.y - padding.vertical));
     childBuild?.render(canvas, context);
     canvas.restore();
   }
@@ -35,14 +38,18 @@ class FlamePadding extends SingleChildFlameWidget with SingleChildUpdateMixin {
     updateData(bounds, context, null);
     final childBounds = bounds - Vector2(padding.horizontal, padding.vertical);
     childPreBuild?.updateData(childBounds, context, this);
-    if (childBuild != this && childBuild != childPreBuild) childBuild?.dispose();
+    if (childBuild != this && childBuild != childPreBuild)
+      childBuild?.dispose();
     childBuild = childPreBuild?.build(context);
     childBuild?.reBuildChild(context, childBounds);
   }
 
   @override
-  Vector2 transformPoint(Vector2 point) => point - Vector2(padding.left, padding.top);
+  Vector2 transformPoint(Vector2 point) =>
+      point - Vector2(padding.left, padding.top);
 
   @override
-  bool isInsideBounds(Vector2 point) => point >= 0 && point < bounds - Vector2(padding.horizontal, padding.vertical);
+  bool isInsideBounds(Vector2 point) =>
+      point >= 0 &&
+      point < bounds - Vector2(padding.horizontal, padding.vertical);
 }
