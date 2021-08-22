@@ -20,6 +20,7 @@ export 'src/widgets/flame_builder.dart';
 export 'src/widgets/flame_button.dart';
 export 'src/widgets/flame_canvas.dart';
 export 'src/widgets/flame_center.dart';
+export 'src/widgets/flame_change_notifier_provider.dart';
 export 'src/widgets/flame_column.dart';
 export 'src/widgets/flame_container.dart';
 export 'src/widgets/flame_expanded.dart';

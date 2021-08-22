@@ -1,3 +1,6 @@
+## [0.0.1-prerelease.7] - 22/08/2021
+* Added FlameChangeNotifierProvider
+
 ## [0.0.1-prerelease.6] - 18/08/2021
 * Allow popUntill to return a value
 * Added shields and improved dart score
