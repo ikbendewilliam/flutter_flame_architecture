@@ -1,12 +1,12 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flame_architecture/src/controllers/flame_scroll_controller.dart';
 import 'package:flutter_flame_architecture/src/core/flame_child_widget.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.dart';
 import 'package:flutter_flame_architecture/src/extensions/vector2_extension.dart';
 
-class FlameSingleChildScrollView extends SingleChildFlameWidget
-    with SingleChildUpdateMixin {
+class FlameSingleChildScrollView extends SingleChildFlameWidget with SingleChildUpdateMixin, FlameScrollControllerListener {
   final bool horizontalScrollEnabled;
   final bool verticalScrollEnabled;
   var _scroll = Vector2.zero();
@@ -15,12 +15,22 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget
   @protected
   var childPrefferedSize = Vector2.zero();
   var _isScrolling = false;
+  final FlameScrollController? controller;
 
   FlameSingleChildScrollView({
     required FlameWidget child,
     this.horizontalScrollEnabled = true,
     this.verticalScrollEnabled = true,
-  }) : super(child);
+    this.controller,
+  }) : super(child) {
+    controller?.addListener(this);
+  }
+
+  @override
+  void dispose() {
+    controller?.removeListener(this);
+    super.dispose();
+  }
 
   @override
   Vector2 determinePrefferedSize(Vector2 parentBounds) => childPrefferedSize;
@@ -40,27 +50,26 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget
     childBuild = childPreBuild!.build(context);
     childBuild!.reBuildChild(context, childPrefferedSize);
     childPrefferedSize = childBuild!.determinePrefferedSize(bounds);
+    if (controller != null && controller!.lastPosition != Vector2.zero()) {
+      jumpTo(controller!.lastPosition);
+    }
   }
 
   @override
   void render(Canvas canvas, BuildContext context) {
     canvas.save();
-    canvas.translate(horizontalScrollEnabled ? _scroll.x : 0,
-        verticalScrollEnabled ? _scroll.y : 0);
+    canvas.translate(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
     childBuild?.render(canvas, context);
     canvas.restore();
   }
 
   @override
   Vector2 transformPoint(Vector2 point) {
-    return point -
-        Vector2(horizontalScrollEnabled ? _scroll.x : 0,
-            verticalScrollEnabled ? _scroll.y : 0);
+    return point - Vector2(horizontalScrollEnabled ? _scroll.x : 0, verticalScrollEnabled ? _scroll.y : 0);
   }
 
   @override
-  bool isInsideBounds(Vector2 point) =>
-      !(point < 0) && point << childPrefferedSize;
+  bool isInsideBounds(Vector2 point) => !(point < 0) && point << childPrefferedSize;
 
   @override
   void onDragStart(Vector2 position) {
@@ -81,6 +90,7 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget
     if (!horizontalScrollEnabled) _scroll.x = 0;
     if (!verticalScrollEnabled) _scroll.y = 0;
     _checkBounds();
+    controller?.updatePosition(_scroll);
   }
 
   void _checkBounds() {
@@ -101,5 +111,11 @@ class FlameSingleChildScrollView extends SingleChildFlameWidget
   @override
   void onDragEnd(Vector2 position) {
     _isScrolling = false;
+  }
+
+  @override
+  void jumpTo(Vector2 position) {
+    _scroll = position;
+    _checkBounds();
   }
 }

@@ -1,5 +1,6 @@
 library flutter_flame_architecture;
 
+export 'src/controllers/flame_scroll_controller.dart';
 export 'src/core/flame_child_widget.dart';
 export 'src/core/flame_dialog.dart';
 export 'src/core/flame_empty.dart';

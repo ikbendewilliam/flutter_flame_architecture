@@ -54,6 +54,7 @@ Redeveloping default Flutter widgets (with basic functionality) like:
 - [x] ValueListenableBuilder
 - [x] Wrap
 - [x] ChangeNotifierProvider
+- [x] FlameScrollController
 
 Extend Flame functionality with quality of life improvements
 - [x] Canvas widget (draw on the canvas)
@@ -91,6 +92,7 @@ Examples
 - [x] FlameValueListenableBuilder
 - [ ] FlameCanvas(that updates)
 - [ ] FlameChangeNotifierProvider with a viewmodel
+- [ ] FlameScrollController
 
 Code documentation
 - [ ] Center
@@ -115,3 +117,4 @@ Code documentation
 - [ ] ValueListenableBuilder
 - [ ] Wrap
 - [ ] FlameChangeNotifierProvider
+- [ ] FlameScrollController

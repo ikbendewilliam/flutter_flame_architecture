@@ -1,3 +1,6 @@
+## [0.0.1-prerelease.8] - 04/09/2021
+* Added FlameScrollController to keep track of and manipulate the scroll of a FlameSingleChildScrollController 
+
 ## [0.0.1-prerelease.7] - 22/08/2021
 * Added FlameChangeNotifierProvider
 
