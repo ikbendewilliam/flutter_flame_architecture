@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
-import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
-import 'package:flutter_flame_architecture/src/widgets/flame_container.dart';
-import 'package:flutter_flame_architecture/src/widgets/flame_text.dart';
 
 class FlameMenuScreen extends FlameWidget {
   FlameWidget? background;

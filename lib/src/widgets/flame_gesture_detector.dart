@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
-import 'package:flutter_flame_architecture/src/core/mixins/single_child_mixins.dart';
 
 class FlameGestureDetector extends SingleChildFlameWidget
     with SingleChildRenderMixin, SingleChildUpdateMixin {

@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
-import 'package:flutter_flame_architecture/src/game/game_manager.dart';
 
 class FlameNavigator {
   GameManager? _gameManager;

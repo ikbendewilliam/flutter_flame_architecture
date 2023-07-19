@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_navigator.dart';
-
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 
 abstract class GameManager extends Game {
@@ -41,7 +40,9 @@ abstract class GameManager extends Game {
   void build({BuildContext? testContext});
 
   /// Implement this function to use the navigator, ignore it to use a custom implementation inside the home widget
-  FlameWidget? onGenerateRoute(RouteSettings settings) {}
+  FlameWidget? onGenerateRoute(RouteSettings settings) {
+    return null;
+  }
 
   Future<dynamic> showDialog(FlameWidget dialog) {
     currentDialog = dialog;

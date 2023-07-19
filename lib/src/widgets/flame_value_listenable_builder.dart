@@ -17,7 +17,7 @@ class FlameValueListenableBuilder<T> extends FlameWidget {
 
   @override
   void dispose() {
-    valueListenable?.addListener(markForRebuild);
+    valueListenable?.removeListener(markForRebuild);
     super.dispose();
   }
 

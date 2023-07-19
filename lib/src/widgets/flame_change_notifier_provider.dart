@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
 import 'package:flutter_flame_architecture/src/widgets/flame_value_listenable_builder.dart';
 
-class FlameChangeNotifierProvider<T extends ChangeNotifier> extends FlameWidget {
+class FlameChangeNotifierProvider<T extends ChangeNotifier>
+    extends FlameWidget {
   final T Function() create;
   final FlameWidget? child;
   final FlameWidget Function(BuildContext context, T viewModel)? builder;
-  final FlameWidget Function(BuildContext context, T viewModel, FlameWidget? child)? builderWithChild;
+  final FlameWidget Function(
+      BuildContext context, T viewModel, FlameWidget? child)? builderWithChild;
   late final T changeNotifier;
   ValueNotifier<FlameWidget>? valueListenable;
 
@@ -16,8 +18,10 @@ class FlameChangeNotifierProvider<T extends ChangeNotifier> extends FlameWidget 
     this.child,
     this.builder,
     this.builderWithChild,
-  })  : assert(child == null || builder == null, 'either use child or builder, to use both, use builderWithChild'),
-        assert(child != null || builder != null || builderWithChild != null, 'either child, builder or builderWithChild should be provided') {
+  })  : assert(child == null || builder == null,
+            'either use child or builder, to use both, use builderWithChild'),
+        assert(child != null || builder != null || builderWithChild != null,
+            'either child, builder or builderWithChild should be provided') {
     changeNotifier = create();
     changeNotifier.addListener(updateChild);
   }
@@ -37,7 +41,8 @@ class FlameChangeNotifierProvider<T extends ChangeNotifier> extends FlameWidget 
   }
 
   FlameWidget buildChild(BuildContext context) {
-    if (builderWithChild != null) return builderWithChild!(context, changeNotifier, child);
+    if (builderWithChild != null)
+      return builderWithChild!(context, changeNotifier, child);
     if (builder != null) return builder!(context, changeNotifier);
     if (child != null) return child!;
     throw Exception('no builder or child provided');

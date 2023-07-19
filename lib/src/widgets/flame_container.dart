@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_flame_architecture/src/core/flame_empty.dart';
 import 'package:flutter_flame_architecture/src/core/flame_widget.dart';

@@ -35,59 +35,62 @@ class Menu extends FlameWidget {
       case ZoomExample.routeName:
         return ZoomExample();
     }
+    return null;
   }
 
   @override
   FlameWidget build(BuildContext context) {
-    return FlameColumn(
-      children: [
-        FlameButton(
-          text: 'Zoom',
-          onTap: () => FlameNavigator.pushNamed(ZoomExample.routeName),
-        ),
-        FlameButton(
-          text: 'SingleChildScrollView',
-          onTap: () =>
-              FlameNavigator.pushNamed(SingleChildScrollViewExample.routeName),
-        ),
-        FlameButton(
-          text: 'GridView',
-          onTap: () => FlameNavigator.pushNamed(GridViewExample.routeName),
-        ),
-        FlameButton(
-          text: 'Wrap + FlameValueListenableBuilder',
-          onTap: () => FlameNavigator.pushNamed(WrapExample.routeName),
-        ),
-        FlameButton(
-          text: 'IsometricGridView',
-          onTap: () =>
-              FlameNavigator.pushNamed(IsometricGridViewExample.routeName),
-        ),
-        FlameButton(
-          text: 'pong',
-          onTap: () => FlameNavigator.pushNamed(Pong.routeName),
-        ),
-        FlameButton(
-          text: 'Dialog',
-          onTap: () => FlameNavigator.showDialog(
-            FlameDialog(
-              child: FlameColumn(
-                children: [
-                  FlameText(
-                    'This is a dialog',
-                    color: Colors.black,
-                  ),
-                  FlameSpacer(),
-                  FlameButton(
-                    text: 'close',
-                    onTap: () => FlameNavigator.pop(),
-                  ),
-                ],
+    return FlameCenter(
+      child: FlameColumn(
+        children: [
+          FlameButton(
+            text: 'Zoom',
+            onTap: () => FlameNavigator.pushNamed(ZoomExample.routeName),
+          ),
+          FlameButton(
+            text: 'SingleChildScrollView',
+            onTap: () => FlameNavigator.pushNamed(
+                SingleChildScrollViewExample.routeName),
+          ),
+          FlameButton(
+            text: 'GridView',
+            onTap: () => FlameNavigator.pushNamed(GridViewExample.routeName),
+          ),
+          FlameButton(
+            text: 'Wrap + FlameValueListenableBuilder',
+            onTap: () => FlameNavigator.pushNamed(WrapExample.routeName),
+          ),
+          FlameButton(
+            text: 'IsometricGridView',
+            onTap: () =>
+                FlameNavigator.pushNamed(IsometricGridViewExample.routeName),
+          ),
+          FlameButton(
+            text: 'pong',
+            onTap: () => FlameNavigator.pushNamed(Pong.routeName),
+          ),
+          FlameButton(
+            text: 'Dialog',
+            onTap: () => FlameNavigator.showDialog(
+              FlameDialog(
+                child: FlameColumn(
+                  children: [
+                    FlameText(
+                      'This is a dialog',
+                      color: Colors.black,
+                    ),
+                    FlameSpacer(),
+                    FlameButton(
+                      text: 'close',
+                      onTap: () => FlameNavigator.pop(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

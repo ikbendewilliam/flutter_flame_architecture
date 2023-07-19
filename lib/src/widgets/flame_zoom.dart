@@ -10,7 +10,6 @@ class FlameZoom extends SingleChildFlameWidget {
   final double Function()? setZoom;
   final double maxZoom;
   final double minZoom;
-  final ZoomAlignment zoomAlignment;
   double zoom;
   double? _zoomStart;
   Vector2 _childDeterminedPrefferedSize = Vector2.zero();
@@ -21,7 +20,6 @@ class FlameZoom extends SingleChildFlameWidget {
     this.setZoom,
     this.minZoom = 0.5,
     this.maxZoom = 2,
-    this.zoomAlignment = ZoomAlignment.center,
   })  : zoom = initialZoom,
         super(child);
 
@@ -37,18 +35,8 @@ class FlameZoom extends SingleChildFlameWidget {
   @override
   void render(canvas, context) {
     canvas.save();
-    if (zoomAlignment == ZoomAlignment.center) {
-      if (_childDeterminedPrefferedSize == Vector2.zero())
-        _determineChildPrefferedSize(bounds);
-      if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
-        canvas.translate(
-            (bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
-      }
-      if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
-        canvas.translate(
-            0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
-      }
-    }
+    if (_childDeterminedPrefferedSize == Vector2.zero())
+      _determineChildPrefferedSize(bounds);
     canvas.scale(zoom, zoom);
     childBuild?.render(canvas, context);
     canvas.restore();
@@ -66,22 +54,7 @@ class FlameZoom extends SingleChildFlameWidget {
   }
 
   @override
-  Vector2 transformPoint(Vector2 point) {
-    var transformedPoint = point;
-    if (zoomAlignment == ZoomAlignment.center) {
-      if (_childDeterminedPrefferedSize == Vector2.zero())
-        _determineChildPrefferedSize(bounds);
-      if (bounds.x > _childDeterminedPrefferedSize.x * zoom) {
-        transformedPoint -=
-            Vector2((bounds.x - _childDeterminedPrefferedSize.x * zoom) / 2, 0);
-      }
-      if (bounds.y > _childDeterminedPrefferedSize.y * zoom) {
-        transformedPoint -=
-            Vector2(0, (bounds.y - _childDeterminedPrefferedSize.y * zoom) / 2);
-      }
-    }
-    return transformedPoint / zoom;
-  }
+  Vector2 transformPoint(Vector2 point) => point / zoom;
 
   @override
   bool isInsideBounds(Vector2 point) => point >= 0 && point < bounds / zoom;
@@ -111,9 +84,4 @@ class FlameZoom extends SingleChildFlameWidget {
       childPreBuild?.updateData(bounds / zoom, context!, this);
     }
   }
-}
-
-enum ZoomAlignment {
-  center,
-  topLeft,
 }

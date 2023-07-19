@@ -177,4 +177,21 @@ abstract class MultipleChildrenFlameWidget extends FlameRenderWidget {
       childrenBuild.forEach((child) => child.onDragEnd(transformedPoint));
     }
   }
+
+  @override
+  void onScaleStart(Vector2 position) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild.forEach((child) => child.onScaleStart(transformedPoint));
+    }
+  }
+
+  @override
+  void onScaleUpdate(Vector2 position, double scale) {
+    final transformedPoint = transformPoint(position);
+    if (isInsideBounds(transformedPoint)) {
+      childrenBuild
+          .forEach((child) => child.onScaleUpdate(transformedPoint, scale));
+    }
+  }
 }

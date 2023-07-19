@@ -1,3 +1,7 @@
+## [0.0.1] - 19/07/2023
+* Some major performance improvements
+* Updated to Flutter 3.10 and Dart 3
+
 ## [0.0.1-prerelease.8] - 04/09/2021
 * Added FlameScrollController to keep track of and manipulate the scroll of a FlameSingleChildScrollController 
 

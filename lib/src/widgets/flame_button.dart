@@ -33,17 +33,12 @@ class FlameButton extends FlameWidget {
           color: borderColor,
           child: FlameContainer(
             color: backgroundColor,
-            child: FlameColumn(
-              children: [
-                FlameSpacer(),
-                if (child != null) child!,
-                if (text != null)
+            child: FlameCenter(
+              child: child ??
                   FlameText(
                     text!,
                     color: Colors.white,
                   ),
-                FlameSpacer(),
-              ],
             ),
           ),
         ),

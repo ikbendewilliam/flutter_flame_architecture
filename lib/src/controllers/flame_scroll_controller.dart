@@ -7,9 +7,11 @@ class FlameScrollController {
 
   Vector2 get lastPosition => _position;
 
-  void addListener(FlameScrollControllerListener listener) => listeners.add(listener);
+  void addListener(FlameScrollControllerListener listener) =>
+      listeners.add(listener);
 
-  void removeListener(FlameScrollControllerListener listener) => listeners.remove(listener);
+  void removeListener(FlameScrollControllerListener listener) =>
+      listeners.remove(listener);
 
   void updatePosition(Vector2 position) {
     _position = position;

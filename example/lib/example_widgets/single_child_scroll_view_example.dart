@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
 
@@ -33,7 +32,8 @@ class SingleChildScrollViewExample extends FlameWidget {
           text: 'back',
           onTap: FlameNavigator.pop,
         ),
-        FlameSizedBox(
+        FlameContainer(
+          color: Colors.blue,
           width: 100,
           height: 100,
           child: FlameSingleChildScrollView(

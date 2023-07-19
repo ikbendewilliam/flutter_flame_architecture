@@ -47,12 +47,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
   @override
   void reBuildChild(BuildContext context, Vector2 bounds) {
     childrenBuild
-      ..forEach((element) {
-        // if (element != this && !childrenPreBuild.contains(element)) element.dispose();
-      })
-      ..clear();
-    childrenBuild.addAll(
-        childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
+      ..clear()
+      ..addAll(
+          childrenPreBuild.map((child) => _buildFlameWidget(child, context)));
     updateData(bounds, context, null);
     childrenBuild.forEach(
         (child) => child.reBuildChild(context, childrenBounds[child]!));
@@ -83,9 +80,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
     var totalFlex = 0;
     // This is done so these children can mark for rebuild
     childrenPreBuild
-        .forEach((element) => element.updateData(newBounds, context, parent));
+        .forEach((element) => element.updateData(newBounds, context, this));
     childrenBounds.clear();
-    childrenBuild.forEach((child) {
+    for (final child in childrenBuild) {
       if (child is FlameFlexibleChild) {
         totalFlex += child.flex;
       } else if (child is FlameSizedChild) {
@@ -100,11 +97,11 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
         final size = isHorizontal ? childSize.x : childSize.y;
         _totalChildSize += size;
       }
-    });
+    }
     final availableSize = isHorizontal ? bounds.x : bounds.y;
     final flexibleSize = max(availableSize - _totalChildSize, 0.0);
     _flexSize = totalFlex > 0 ? flexibleSize / totalFlex : 0.0;
-    childrenBuild.forEach((child) {
+    for (final child in childrenBuild) {
       Vector2 childNewBounds;
       if (child is FlameFlexibleChild) {
         childNewBounds = _childBounds(child.flex * _flexSize);
@@ -132,7 +129,7 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
       }
       child.updateData(childNewBounds, context, this);
       childrenBounds[child] = childNewBounds;
-    });
+    }
   }
 
   @override
@@ -143,9 +140,9 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
     }
     switch (direction) {
       case Axis.horizontal:
-        return Vector2(max(_totalChildSize, parentBounds.x), _maxChildSize);
+        return Vector2(min(_totalChildSize, parentBounds.x), _maxChildSize);
       case Axis.vertical:
-        return Vector2(_maxChildSize, max(_totalChildSize, parentBounds.y));
+        return Vector2(_maxChildSize, min(_totalChildSize, parentBounds.y));
     }
   }
 
@@ -161,12 +158,22 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
   void _onAction(Vector2 position,
       Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
     if (!isInsideBounds(position)) return;
-    var transformedPosition = position;
-    childrenBuild.forEach((child) {
+    final actions = _childrenToActions(position, childMethod);
+    for (final action in actions) {
+      action();
+    }
+  }
+
+  List<Function()> _childrenToActions(Vector2 transformedPosition,
+      Function(FlameWidget child, Vector2 transformedPosition) childMethod) {
+    final childFunctions = <Function()>[];
+    for (final child in childrenBuild) {
       final childToBounds = childrenBounds[child];
-      if (childToBounds == null || transformedPosition < 0) return; // Skip
+      if (childToBounds == null || transformedPosition < 0)
+        return childFunctions; // Skip
       if (transformedPosition << childToBounds) {
-        childMethod(child, transformedPosition);
+        final tp = Vector2.copy(transformedPosition);
+        childFunctions.add(() => childMethod(child, tp));
       }
       switch (direction) {
         case Axis.horizontal:
@@ -176,7 +183,8 @@ abstract class FlameFlex extends MultipleChildrenFlameWidget
           transformedPosition -= Vector2(0, childToBounds.y);
           break;
       }
-    });
+    }
+    return childFunctions;
   }
 
   @override

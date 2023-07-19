@@ -1,11 +1,6 @@
-import 'dart:ui';
-
-import 'package:flame/game.dart';
-import 'package:flame/gestures.dart';
+import 'package:flame/input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_flame_architecture/flutter_flame_architecture.dart';
-import 'package:flutter_flame_architecture/src/core/flame_widget.dart';
-import 'package:flutter_flame_architecture/src/game/game_manager.dart';
 
 class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   var lastDragPosition = Vector2.zero();
@@ -66,8 +61,8 @@ class SimpleGameManager extends GameManager with ScaleDetector, TapDetector {
   }
 
   @override
-  void onResize(Vector2 size) {
-    super.onResize(size);
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
     build();
   }
 
